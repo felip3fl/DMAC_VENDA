@@ -1,0 +1,1 @@
+select CE_CodigoCliente,COUNT(*) from fin_cliente group by CE_CodigoCliente having COUNT(*) > 1

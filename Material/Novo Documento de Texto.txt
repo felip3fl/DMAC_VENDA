@@ -1,0 +1,3 @@
+SELECT VI_TipoNota,Vc_TipoNota, * FROM capanfvenda,itemnfvenda where VI_TipoNota <> Vc_TipoNota and VC_NotaFiscal = VI_NotaFiscal and vc_serie = vi_serie and VC_LojaOrigem = VI_LojaOrigem AND VC_DataEmissao >= '2015/06/01'
+
+ update itemnfvenda set vi_tiponota = vc_tiponota from capanfvenda,itemnfvenda where VI_TipoNota <> Vc_TipoNota and VC_NotaFiscal = VI_NotaFiscal and vc_serie = vi_serie and VC_LojaOrigem = VI_LojaOrigem AND VC_DataEmissao >= '2015/06/01'
