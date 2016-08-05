@@ -144,3 +144,5 @@ Global imagemLogo As String
 Global pedidoCotacao As String
 
 Global wValor As Double
+
+Global wCodigoCliente As String

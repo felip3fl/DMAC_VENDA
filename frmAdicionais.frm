@@ -340,7 +340,6 @@ Attribute VB_Exposed = False
 Option Explicit
 Dim SQL As String
 Dim wTipoFrete As Integer
-Dim wCodigoCliente As String
 
 Private Sub chkEntrada_Click()
  If chkEntrada.Value = 0 Then
@@ -358,13 +357,13 @@ Private Sub cmdGrava_Click()
         MsgBox "Codigo Invalido", vbCritical, "Atenção"
         Exit Sub
     End If
-    If wValor > 10000 And txtCodigoCliente = "999999" Then
-        MsgBox "Não é permitido cliente consumidor para vendas maiores que R$10.000,00"
-        txtCodigoCliente.Text = ""
-        txtNomeCliente.Text = ""
-        txtCodigoCliente.SetFocus
-        Exit Sub
-    End If
+'    If wValor > 10000 And txtCodigoCliente = "999999" Then
+'        MsgBox "Não é permitido cliente consumidor para vendas maiores que R$10.000,00"
+'        txtCodigoCliente.Text = ""
+'        txtNomeCliente.Text = ""
+'        txtCodigoCliente.SetFocus
+'        Exit Sub
+'    End If
      If txtQtdeVolume.Text = "" Or IsNumeric(txtQtdeVolume.Text) = False Or txtQtdeVolume.Text = "0" Then
             txtQtdeVolume.SelStart = 0
             txtQtdeVolume.SelLength = Len(txtQtdeVolume.Text)
@@ -394,7 +393,7 @@ Private Sub cmdGrava_Click()
             ", cliente = " & txtCodigoCliente.Text & ", tipofrete = " & wTipoFrete & _
             ", pesoLq = " & ConverteVirgula(txtPesoVolume.Text) & ", pesoBr = " & ConverteVirgula(txtPesoVolume.Text) & _
             ", volume = " & ConverteVirgula(txtQtdeVolume.Text) & _
-            " Where Numeroped = " & frmPedido.txtPedido.Text
+            " Where Numeroped = " & frmPedido.txtpedido.Text
       adoCNLoja.Execute (SQL)
 
 Unload Me
@@ -433,7 +432,7 @@ Private Sub Form_Activate()
   
   SQL = ""
   SQL = "select nfcapa.CONDPAG as condpag from nfcapa " & _
-        "where nfcapa.numeroped = " & frmPedido.txtPedido.Text
+        "where nfcapa.numeroped = " & frmPedido.txtpedido.Text
   rsCliente.CursorLocation = adUseClient
   rsCliente.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
 
@@ -452,7 +451,7 @@ Private Sub Form_Activate()
   SQL = "select nfcapa.cliente as Codigo, fin_cliente.ce_razao as Nome, nfcapa.pesolq, nfcapa.volume, nfcapa.pgentra, " & _
         "nfcapa.garantiaEstendida as GE, nfcapa.CONDPAG " & _
         "from fin_cliente, nfcapa " & _
-        "where nfcapa.cliente = fin_cliente.ce_codigocliente and nfcapa.numeroped = " & frmPedido.txtPedido.Text
+        "where nfcapa.cliente = fin_cliente.ce_codigocliente and nfcapa.numeroped = " & frmPedido.txtpedido.Text
         '''AQUI ERRO
             rsCliente.CursorLocation = adUseClient
             rsCliente.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
@@ -492,7 +491,7 @@ Private Sub txtCodigoCliente_KeyDown(KeyCode As Integer, Shift As Integer)
         
           SQL = "select nfcapa.CONDPAG as condpag, " & _
           "nfcapa.garantiaEstendida as garantiaEstendida from nfcapa " & _
-          "where nfcapa.numeroped = " & frmPedido.txtPedido.Text
+          "where nfcapa.numeroped = " & frmPedido.txtpedido.Text
           rsCliente.CursorLocation = adUseClient
           rsCliente.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
     
@@ -543,7 +542,7 @@ Private Sub VerificaCliente()
  
      SQL = ""
   SQL = "select nfcapa.cliente as Codigo, nfcapa.CONDPAG as condpag, fin_cliente.ce_razao as Nome, nfcapa.pgentra as entrada from fin_cliente, nfcapa " & _
-        "where nfcapa.cliente = fin_cliente.ce_codigocliente and nfcapa.numeroped = " & frmPedido.txtPedido.Text
+        "where nfcapa.cliente = fin_cliente.ce_codigocliente and nfcapa.numeroped = " & frmPedido.txtpedido.Text
   rsCliente.CursorLocation = adUseClient
   rsCliente.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
   
@@ -577,7 +576,7 @@ Private Sub VerificaCliente()
          Exit Sub
          
   ElseIf txtCodigoCliente = "999999" Or txtCodigoCliente = "0" Or txtCodigoCliente = "900000" Then
-        If pedidoComGarantia(frmPedido.txtPedido) Then
+        If pedidoComGarantia(frmPedido.txtpedido) Then
             MsgBox "Não é permitido cliente consumidor para Garantia Estendida"
             txtCodigoCliente.Text = ""
             txtNomeCliente.Text = ""

@@ -1,15 +1,15 @@
 VERSION 5.00
-Object = "{D76D7130-4A96-11D3-BD95-D296DC2DD072}#1.0#0"; "Vsflex7d.ocx"
+Object = "{D76D7130-4A96-11D3-BD95-D296DC2DD072}#1.0#0"; "vsflex7d.ocx"
 Object = "{90F3D7B3-92E7-44BA-B444-6A8E2A3BC375}#1.0#0"; "actskin4.ocx"
 Object = "{C932BA88-4374-101B-A56C-00AA003668DC}#1.1#0"; "MSMASK32.OCX"
 Object = "{EAB22AC0-30C1-11CF-A7EB-0000C05BAE0B}#1.1#0"; "ieframe.dll"
-Object = "{D76D7120-4A96-11D3-BD95-D296DC2DD072}#1.0#0"; "Vsflex7u.ocx"
+Object = "{D76D7120-4A96-11D3-BD95-D296DC2DD072}#1.0#0"; "vsflex7u.ocx"
 Begin VB.Form frmPedido 
    BackColor       =   &H80000012&
    BorderStyle     =   0  'None
    Caption         =   "DMAC Venda"
-   ClientHeight    =   11520
-   ClientLeft      =   3510
+   ClientHeight    =   11175
+   ClientLeft      =   2655
    ClientTop       =   165
    ClientWidth     =   15120
    ControlBox      =   0   'False
@@ -21,7 +21,7 @@ Begin VB.Form frmPedido
    MinButton       =   0   'False
    MouseIcon       =   "frmPedido.frx":23FA
    Picture         =   "frmPedido.frx":2CC4
-   ScaleHeight     =   11520
+   ScaleHeight     =   11175
    ScaleWidth      =   15120
    ShowInTaskbar   =   0   'False
    WindowState     =   2  'Maximized
@@ -3734,6 +3734,7 @@ End Sub
  Sub FechaPedido()
 
     Dim rsControle As New ADODB.Recordset
+    Dim rsCotacao As New ADODB.Recordset
     
 
  auxItens = 0
@@ -3754,8 +3755,8 @@ End Sub
      wCodigoCliente = rsCotacao("cliente")
     
       If wValor > 10000 And wCodigoCliente = "999999" Then
-        FrmCotacao.Show 1
-        FrmCotacao.ZOrder
+        MsgBox "Não é permitido cliente consumidor para vendas maiores que R$10.000,00", vbExclamation, "SAT"
+        Screen.MousePointer = vbNormal
         Exit Sub
       End If
       
