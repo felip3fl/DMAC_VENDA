@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{D76D7130-4A96-11D3-BD95-D296DC2DD072}#1.0#0"; "vsflex7d.ocx"
+Object = "{D76D7130-4A96-11D3-BD95-D296DC2DD072}#1.0#0"; "Vsflex7d.ocx"
 Object = "{C932BA88-4374-101B-A56C-00AA003668DC}#1.1#0"; "MSMASK32.OCX"
 Begin VB.Form frmCliente 
    BackColor       =   &H00505050&
@@ -3194,7 +3194,10 @@ Dim adoCodigo As New ADODB.Recordset
     
     adoCNLoja.BeginTrans
     
-    SQL = "SP_FIN_Pesquisa_Municipio_Por_Parametro '" & txtMunicipio.Text & "'"
+    '''SQL = "SP_FIN_Pesquisa_Municipio_Por_Parametro '" & txtMunicipio.Text & "'"
+    
+     'ricardo 09/08/2016
+    SQL = "SP_FIN_Pesquisa_Municipio_Por_Parametro '" & txtMunicipio.Text & "', '" & txtEstadoCobranca.Text & "'"
      
         adoCodigo.CursorLocation = adUseClient
         adoCodigo.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
