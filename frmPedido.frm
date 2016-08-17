@@ -1,9 +1,9 @@
 VERSION 5.00
-Object = "{D76D7130-4A96-11D3-BD95-D296DC2DD072}#1.0#0"; "vsflex7d.ocx"
+Object = "{D76D7130-4A96-11D3-BD95-D296DC2DD072}#1.0#0"; "Vsflex7d.ocx"
 Object = "{90F3D7B3-92E7-44BA-B444-6A8E2A3BC375}#1.0#0"; "actskin4.ocx"
 Object = "{C932BA88-4374-101B-A56C-00AA003668DC}#1.1#0"; "MSMASK32.OCX"
 Object = "{EAB22AC0-30C1-11CF-A7EB-0000C05BAE0B}#1.1#0"; "ieframe.dll"
-Object = "{D76D7120-4A96-11D3-BD95-D296DC2DD072}#1.0#0"; "vsflex7u.ocx"
+Object = "{D76D7120-4A96-11D3-BD95-D296DC2DD072}#1.0#0"; "Vsflex7u.ocx"
 Begin VB.Form frmPedido 
    BackColor       =   &H80000012&
    BorderStyle     =   0  'None
@@ -2207,8 +2207,7 @@ Private Sub grdItensProduto_DblClick()
   PicBanner.Visible = True
   
 
-  
-  
+
 trata_erro:
   
 
@@ -2218,6 +2217,32 @@ trata_erro:
      'MsgBox "Ocorreu o erro : " & Err.Number & " - " & Err.description
   End If
 
+      
+    'ricardo
+    Dim rdoLiberaPedido As New ADODB.Recordset
+    Dim recebe As String
+
+    SQL = ""
+    SQL = "Select * from nfcapa where numeroped = " & txtpedido.Text
+
+    rdoLiberaPedido.CursorLocation = adUseClient
+    rdoLiberaPedido.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+
+  If grdItensProduto.Col = 2 Then
+
+    If rdoLiberaPedido("LiberaBloqueio") = "T" Then
+
+            grdItensProduto.BackColorSel = vbBlue 'Muda a Cor do Fundo
+            'grdItensProduto.CellForeColor = vbBlack 'Muda a Cor da Letra
+            
+            grdItensProduto.Editable = flexEDKbdMouse
+
+            
+    End If
+End If
+    
+    rdoLiberaPedido.Close
+      
       
 '      wbFichaTecnica.Navigate2 wFichaTec & grdItensProduto.TextMatrix(grdItensProduto.Row, 0)
 '      wbFichaTecnica.Visible = True
