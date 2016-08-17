@@ -76,8 +76,8 @@ Begin VB.Form FrmFichaFinanceira
       Left            =   45
       TabIndex        =   3
       Top             =   300
-      Width           =   3570
-      _cx             =   6297
+      Width           =   3810
+      _cx             =   6720
       _cy             =   8599
       _ConvInfo       =   1
       Appearance      =   2
@@ -166,12 +166,12 @@ Begin VB.Form FrmFichaFinanceira
    End
    Begin VSFlex7DAOCtl.VSFlexGrid grdItensProduto 
       Height          =   4890
-      Left            =   3720
+      Left            =   3960
       TabIndex        =   4
       ToolTipText     =   "Se desejar excluir um item, clique duas vezes sobre o item a ser excluido."
       Top             =   300
-      Width           =   11340
-      _cx             =   20002
+      Width           =   11100
+      _cx             =   19579
       _cy             =   8625
       _ConvInfo       =   1
       Appearance      =   2
@@ -416,6 +416,7 @@ End Sub
 
 Private Sub Form_Load()
 
+'teste
 lblTituloJanela.Caption = FrmFichaFinanceira.Caption
 
   FrmFichaFinanceira.top = 4680
@@ -576,7 +577,7 @@ Function PintaGrid(ByVal Cor As String)
 End Function
 
 Sub CamposGrid()
-         If (rsFichaFinanc("HIC_JurosCartorio") <> "0" Or rsFichaFinanc("HIC_duplAtrasado") <> "0") Then
+         If (rsFichaFinanc("HIC_JurosCartorio") <> "0" Or rsFichaFinanc("HIC_duplAtrasado") <> "0") Or rsFichaFinanc("HIC_SaldoCompras") < 0 Or rsFichaFinanc("HIC_SaldoCompras") = 0 Then
 
       grdFichaFinanceira.Row = 16
       grdFichaFinanceira.Col = 0
@@ -599,7 +600,14 @@ If (DateDiff("m", DATA, Now) > 3) Then
       grdFichaFinanceira.Row = 7
       grdFichaFinanceira.Col = 1
       grdFichaFinanceira.CellForeColor = &HFF&
-    End If
+End If
+
+If rsFichaFinanc("HIC_SaldoCompras") < 0 Or rsFichaFinanc("HIC_SaldoCompras") = 0 Then
+
+      grdFichaFinanceira.Row = 5
+      grdFichaFinanceira.Col = 1
+      grdFichaFinanceira.CellForeColor = &HFF&
+End If
     
 End Sub
 Sub CarregarGrid()
