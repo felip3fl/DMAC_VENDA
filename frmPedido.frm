@@ -1,16 +1,16 @@
 VERSION 5.00
-Object = "{D76D7130-4A96-11D3-BD95-D296DC2DD072}#1.0#0"; "vsflex7d.ocx"
+Object = "{D76D7130-4A96-11D3-BD95-D296DC2DD072}#1.0#0"; "Vsflex7d.ocx"
 Object = "{90F3D7B3-92E7-44BA-B444-6A8E2A3BC375}#1.0#0"; "actskin4.ocx"
 Object = "{C932BA88-4374-101B-A56C-00AA003668DC}#1.1#0"; "MSMASK32.OCX"
 Object = "{EAB22AC0-30C1-11CF-A7EB-0000C05BAE0B}#1.1#0"; "ieframe.dll"
-Object = "{D76D7120-4A96-11D3-BD95-D296DC2DD072}#1.0#0"; "vsflex7u.ocx"
+Object = "{D76D7120-4A96-11D3-BD95-D296DC2DD072}#1.0#0"; "Vsflex7u.ocx"
 Begin VB.Form frmPedido 
    BackColor       =   &H80000012&
    BorderStyle     =   0  'None
    Caption         =   "DMAC Venda"
-   ClientHeight    =   11115
-   ClientLeft      =   6030
-   ClientTop       =   150
+   ClientHeight    =   11175
+   ClientLeft      =   2655
+   ClientTop       =   165
    ClientWidth     =   15120
    ControlBox      =   0   'False
    FillColor       =   &H00404040&
@@ -21,80 +21,10 @@ Begin VB.Form frmPedido
    MinButton       =   0   'False
    MouseIcon       =   "frmPedido.frx":23FA
    Picture         =   "frmPedido.frx":2CC4
-   ScaleHeight     =   11115
+   ScaleHeight     =   11175
    ScaleWidth      =   15120
    ShowInTaskbar   =   0   'False
    WindowState     =   2  'Maximized
-   Begin VB.Frame frmClienteConsumidorCEP 
-      Appearance      =   0  'Flat
-      BackColor       =   &H00505050&
-      BorderStyle     =   0  'None
-      ForeColor       =   &H80000008&
-      Height          =   1635
-      Left            =   5655
-      TabIndex        =   53
-      Top             =   6765
-      Visible         =   0   'False
-      Width           =   4050
-      Begin VB.TextBox txtCEP 
-         BackColor       =   &H00C0C0C0&
-         BeginProperty Font 
-            Name            =   "MS Sans Serif"
-            Size            =   12
-            Charset         =   0
-            Weight          =   700
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         ForeColor       =   &H00000000&
-         Height          =   420
-         Left            =   300
-         MaxLength       =   8
-         TabIndex        =   54
-         Top             =   915
-         Width           =   3450
-      End
-      Begin VB.Label Label4 
-         BackStyle       =   0  'Transparent
-         Caption         =   "Informe o CEP (Apenas números)"
-         BeginProperty Font 
-            Name            =   "MS Sans Serif"
-            Size            =   8.25
-            Charset         =   0
-            Weight          =   700
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         ForeColor       =   &H00FFFFFF&
-         Height          =   195
-         Left            =   300
-         TabIndex        =   56
-         Top             =   630
-         Width           =   6165
-      End
-      Begin VB.Label lblPagamento 
-         Alignment       =   2  'Center
-         BackStyle       =   0  'Transparent
-         Caption         =   "CEP Cliente Consumidor"
-         BeginProperty Font 
-            Name            =   "MS Sans Serif"
-            Size            =   13.5
-            Charset         =   0
-            Weight          =   700
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         ForeColor       =   &H00FFFFFF&
-         Height          =   390
-         Left            =   105
-         TabIndex        =   55
-         Top             =   105
-         Width           =   3855
-      End
-   End
    Begin VB.TextBox lblBloqueio 
       Alignment       =   1  'Right Justify
       Appearance      =   0  'Flat
@@ -1996,34 +1926,7 @@ Private Sub CmdDesfaz_Click()
 End Sub
 
 Private Sub cmdFechaPedido_Click()
-
-    Dim rsCotacao As New ADODB.Recordset
-    SQL = "select cliente from nfcapa where numeroped = " & frmPedido.txtpedido.Text
-    
-    rsCotacao.CursorLocation = adUseClient
-    rsCotacao.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
-    
-    wCodigoCliente = rsCotacao("cliente")
-    
-    If wValor > 10000 And wCodigoCliente = "999999" Then
-        MsgBox "Não é permitido cliente consumidor para vendas maiores que R$10.000,00", vbExclamation, "SAT"
-        Screen.MousePointer = vbNormal
-        Exit Sub
-    End If
-    
-    rsCotacao.Close
-    
-    txtCEP.Text = ""
-    
-    'If wCodigoCliente = "999999" Then
-        'frmClienteConsumidorCEP.Visible = True
-        'txtCEP.SetFocus
-    'Else
-        Call FechaPedido
-    'End If
-    
-
-    'Call FechaPedido
+    Call FechaPedido
  '    frmFinalizaPedido.Show 1
  '    frmFinalizaPedido.ZOrder
 End Sub
@@ -2315,7 +2218,7 @@ trata_erro:
   End If
 
       
-    'ricardo
+    'ricardo 11:50
     Dim rdoLiberaPedido As New ADODB.Recordset
     Dim recebe As String
 
@@ -2572,40 +2475,6 @@ End Sub
 
 Private Sub tmrTroca_Timer()
 
-End Sub
-
-Private Sub txtCEP_KeyPress(KeyAscii As Integer)
-    If KeyAscii = 13 Then
-        If txtCEP.Text = "" Then
-            MsgBox "Informe o CEP do cliente", vbExclamation, "CEP Cliente"
-        ElseIf Len(txtCEP.Text) <> 8 Then
-            MsgBox "CEP Inválido", vbExclamation, "CEP Cliente"
-        ElseIf IsNumeric(txtCEP.Text) = False Then
-            MsgBox "Informe apenas números", vbExclamation, "CEP Cliente"
-        ElseIf txtCEP.Text = "11111111" Or _
-        txtCEP.Text = "11111111" Or _
-        txtCEP.Text = "99999999" Or _
-        txtCEP.Text = "88888888" Or _
-        txtCEP.Text = "77777777" Or _
-        txtCEP.Text = "66666666" Or _
-        txtCEP.Text = "55555555" Or _
-        txtCEP.Text = "44444444" Or _
-        txtCEP.Text = "33333333" Or _
-        txtCEP.Text = "22222222" Or _
-        txtCEP.Text = "00000000" Or _
-        txtCEP.Text = "12345678" Then
-            MsgBox "CEP Inválido!", vbExclamation, "CEP Cliente"
-        Else
-            frmClienteConsumidorCEP.Visible = False
-            Call FechaPedido
-        End If
-    ElseIf KeyAscii = 27 Then
-        frmClienteConsumidorCEP.Visible = False
-    End If
-End Sub
-
-Private Sub txtCEP_LostFocus()
-    frmClienteConsumidorCEP.Visible = False
 End Sub
 
 'Public Sub ExecutarAcao()
@@ -3890,20 +3759,36 @@ End Sub
  Sub FechaPedido()
 
     Dim rsControle As New ADODB.Recordset
-
+    Dim rsCotacao As New ADODB.Recordset
     
-    auxItens = 0
-    wCodigo = 1
-    wSequencia = 1
-    wValorDados = "V"
+
+ auxItens = 0
+ wCodigo = 1
+ wSequencia = 1
+ wValorDados = "V"
   
 ' On Error GoTo erronoUpdate
     Screen.MousePointer = vbHourglass
     
     '************************ Verificando Cliente 999999
     'ricardo 11:24
+    SQL = "select cliente from nfcapa where numeroped = " & frmPedido.txtpedido.Text
+    
+    rsCotacao.CursorLocation = adUseClient
+    rsCotacao.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+    
+     wCodigoCliente = rsCotacao("cliente")
+    
+      If wValor > 10000 And wCodigoCliente = "999999" Then
+        MsgBox "Não é permitido cliente consumidor para vendas maiores que R$10.000,00", vbExclamation, "SAT"
+        Screen.MousePointer = vbNormal
+        Exit Sub
+      End If
+      
+      rsCotacao.Close
      
     '*************************
+    
     
  
     SQL = ""
@@ -3982,8 +3867,7 @@ End Sub
             rsComplementoVenda.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
        
        SQL = ""
-       SQL = "Update NFCapa set TipoNota = 'PA', qtditem = " & rsComplementoVenda("NumeroItem") & "," _
-             & " cepcli = '" & txtCEP.Text & "'" _
+       SQL = "Update NFCapa set TipoNota = 'PA', qtditem = " & rsComplementoVenda("NumeroItem") & "" _
              & " Where NumeroPed = " & frmPedido.txtpedido.Text
        adoCNLoja.Execute SQL
        

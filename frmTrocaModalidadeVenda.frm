@@ -369,9 +369,16 @@ wPagamento = ""
 wPagamentototal = ""
 'Limpa tabelas
 
-    SQL = "update nfitens set VLUNIT = PR_PrecoVenda1, VLTOTITEM = (PR_PrecoVenda1 * QTDE) " & _
+'    SQL = "update nfitens set VLUNIT = PR_PrecoVenda1, VLTOTITEM = (PR_PrecoVenda1 * QTDE) " & _
+'          "from produtoloja " & _
+'          "where numeroped = " & frmPedido.txtpedido.Text & " and pr_referencia = referencia"
+          
+          
+    'ricardo 11:51
+    SQL = "update nfitens set VLUNIT = VLUNIT, VLTOTITEM = (VLUNIT * QTDE) " & _
           "from produtoloja " & _
           "where numeroped = " & frmPedido.txtpedido.Text & " and pr_referencia = referencia"
+          
     adoCNLoja.Execute SQL
     
     SQL = "update nfcapa set condpag = 1 where numeroped = " & frmPedido.txtpedido.Text & ""
