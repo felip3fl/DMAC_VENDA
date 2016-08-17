@@ -41,7 +41,7 @@ Begin VB.Form FrmCotacao
       NoFolders       =   0   'False
       Transparent     =   0   'False
       ViewID          =   "{0057D0E0-3573-11CF-AE69-08002B2E1262}"
-      Location        =   "http:///"
+      Location        =   ""
    End
    Begin VB.PictureBox Picture2 
       BackColor       =   &H00808080&
@@ -166,9 +166,9 @@ End Sub
 
 Private Sub Form_Activate()
     Screen.MousePointer = 11
-    dados frmPedido.txtpedido.Text
+    dados frmPedido.txtPedido.Text
     Me.Visible = False
-    txtpedido.Text = frmPedido.txtpedido.Text
+    txtPedido.Text = frmPedido.txtPedido.Text
     timerImpressao.Enabled = True
 End Sub
 
@@ -192,18 +192,18 @@ Private Sub FechaCotacao()
     Dim SQL As String
     
     SQL = "Select sum(vltotitem) as vlrmercadoria, sum(vltotitem - desconto) as totalnota " & _
-    "from nfitens where numeroped = " & txtpedido.Text
+    "from nfitens where numeroped = " & txtPedido.Text
     rsComplementoVenda.CursorLocation = adUseClient
     rsComplementoVenda.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
     
     SQL = ""
     SQL = "Update NFCapa set TipoNota = 'PD', vlrmercadoria = " & ConverteVirgula(Format(rsComplementoVenda("vlrmercadoria"), "##0.00")) & _
     ", TotalNota = " & ConverteVirgula(Format(rsComplementoVenda("Totalnota"), "##0.00")) & _
-    " Where NumeroPed = " & txtpedido.Text
+    " Where NumeroPed = " & txtPedido.Text
     adoCNLoja.Execute SQL
     
     SQL = ""
-    SQL = "Update NFItens Set TipoNota = 'PD' Where NumeroPed = " & txtpedido.Text
+    SQL = "Update NFItens Set TipoNota = 'PD' Where NumeroPed = " & txtPedido.Text
     adoCNLoja.Execute SQL
     
     SQL = ""

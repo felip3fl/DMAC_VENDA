@@ -2579,7 +2579,7 @@ Private Sub txtMunicipio_GotFocus()
 If (grdMunicipio.TextMatrix(2, 1) <> "") Then
     grdMunicipio.ZOrder
     grdMunicipio.Visible = True
-    End If
+End If
 End Sub
 
 Private Sub txtMunicipio_KeyDown(KeyCode As Integer, Shift As Integer)
