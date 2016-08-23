@@ -8,9 +8,9 @@ Begin VB.Form frmPedido
    BackColor       =   &H80000012&
    BorderStyle     =   0  'None
    Caption         =   "DMAC Venda"
-   ClientHeight    =   11175
-   ClientLeft      =   2655
-   ClientTop       =   165
+   ClientHeight    =   11520
+   ClientLeft      =   4980
+   ClientTop       =   450
    ClientWidth     =   15120
    ControlBox      =   0   'False
    FillColor       =   &H00404040&
@@ -21,7 +21,7 @@ Begin VB.Form frmPedido
    MinButton       =   0   'False
    MouseIcon       =   "frmPedido.frx":23FA
    Picture         =   "frmPedido.frx":2CC4
-   ScaleHeight     =   11175
+   ScaleHeight     =   11520
    ScaleWidth      =   15120
    ShowInTaskbar   =   0   'False
    WindowState     =   2  'Maximized
@@ -204,7 +204,7 @@ Begin VB.Form frmPedido
       End
    End
    Begin VB.Frame fraCondicao 
-      BackColor       =   &H000080FF&
+      BackColor       =   &H00C0C0C0&
       BorderStyle     =   0  'None
       Enabled         =   0   'False
       ForeColor       =   &H00404040&
@@ -553,7 +553,7 @@ Begin VB.Form frmPedido
             GridLinesFixed  =   2
             GridLineWidth   =   1
             Rows            =   14
-            Cols            =   21
+            Cols            =   19
             FixedRows       =   1
             FixedCols       =   0
             RowHeightMin    =   0
@@ -800,7 +800,7 @@ Begin VB.Form frmPedido
          ColWidthMin     =   0
          ColWidthMax     =   0
          ExtendLastCol   =   0   'False
-         FormatString    =   $"frmPedido.frx":12027
+         FormatString    =   $"frmPedido.frx":11FD9
          ScrollTrack     =   0   'False
          ScrollBars      =   3
          ScrollTips      =   0   'False
@@ -843,7 +843,7 @@ Begin VB.Form frmPedido
       End
       Begin ACTIVESKINLibCtl.Skin Skin1 
          Left            =   330
-         OleObjectBlob   =   "frmPedido.frx":1210C
+         OleObjectBlob   =   "frmPedido.frx":120BE
          Top             =   5310
       End
       Begin VB.Label lblPesquisa 
@@ -897,8 +897,8 @@ Begin VB.Form frmPedido
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
-      MICON           =   "frmPedido.frx":12340
-      PICN            =   "frmPedido.frx":1235C
+      MICON           =   "frmPedido.frx":122F2
+      PICN            =   "frmPedido.frx":1230E
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -939,8 +939,8 @@ Begin VB.Form frmPedido
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
-      MICON           =   "frmPedido.frx":12A94
-      PICN            =   "frmPedido.frx":12AB0
+      MICON           =   "frmPedido.frx":12A46
+      PICN            =   "frmPedido.frx":12A62
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -981,8 +981,8 @@ Begin VB.Form frmPedido
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
-      MICON           =   "frmPedido.frx":130F8
-      PICN            =   "frmPedido.frx":13114
+      MICON           =   "frmPedido.frx":130AA
+      PICN            =   "frmPedido.frx":130C6
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -1023,8 +1023,8 @@ Begin VB.Form frmPedido
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
-      MICON           =   "frmPedido.frx":138AE
-      PICN            =   "frmPedido.frx":138CA
+      MICON           =   "frmPedido.frx":13860
+      PICN            =   "frmPedido.frx":1387C
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -1065,8 +1065,8 @@ Begin VB.Form frmPedido
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
-      MICON           =   "frmPedido.frx":13F31
-      PICN            =   "frmPedido.frx":13F4D
+      MICON           =   "frmPedido.frx":13EE3
+      PICN            =   "frmPedido.frx":13EFF
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -1107,8 +1107,8 @@ Begin VB.Form frmPedido
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
-      MICON           =   "frmPedido.frx":14697
-      PICN            =   "frmPedido.frx":146B3
+      MICON           =   "frmPedido.frx":14649
+      PICN            =   "frmPedido.frx":14665
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -1149,8 +1149,8 @@ Begin VB.Form frmPedido
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
-      MICON           =   "frmPedido.frx":14EA6
-      PICN            =   "frmPedido.frx":14EC2
+      MICON           =   "frmPedido.frx":14E58
+      PICN            =   "frmPedido.frx":14E74
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -1191,8 +1191,8 @@ Begin VB.Form frmPedido
       FCOLO           =   15258293
       MCOL            =   12632256
       MPTR            =   1
-      MICON           =   "frmPedido.frx":15695
-      PICN            =   "frmPedido.frx":156B1
+      MICON           =   "frmPedido.frx":15647
+      PICN            =   "frmPedido.frx":15663
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -1232,8 +1232,8 @@ Begin VB.Form frmPedido
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
-      MICON           =   "frmPedido.frx":15DE9
-      PICN            =   "frmPedido.frx":15E05
+      MICON           =   "frmPedido.frx":15D9B
+      PICN            =   "frmPedido.frx":15DB7
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -1274,8 +1274,8 @@ Begin VB.Form frmPedido
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
-      MICON           =   "frmPedido.frx":16583
-      PICN            =   "frmPedido.frx":1659F
+      MICON           =   "frmPedido.frx":16535
+      PICN            =   "frmPedido.frx":16551
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -1313,8 +1313,8 @@ Begin VB.Form frmPedido
       FCOLO           =   16777215
       MCOL            =   12632256
       MPTR            =   1
-      MICON           =   "frmPedido.frx":16CF6
-      PICN            =   "frmPedido.frx":16D12
+      MICON           =   "frmPedido.frx":16CA8
+      PICN            =   "frmPedido.frx":16CC4
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -1354,8 +1354,8 @@ Begin VB.Form frmPedido
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
-      MICON           =   "frmPedido.frx":18874
-      PICN            =   "frmPedido.frx":18890
+      MICON           =   "frmPedido.frx":18826
+      PICN            =   "frmPedido.frx":18842
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -1396,8 +1396,8 @@ Begin VB.Form frmPedido
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
-      MICON           =   "frmPedido.frx":19084
-      PICN            =   "frmPedido.frx":190A0
+      MICON           =   "frmPedido.frx":19036
+      PICN            =   "frmPedido.frx":19052
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -1436,7 +1436,7 @@ Begin VB.Form frmPedido
       FCOLO           =   16777215
       MCOL            =   12632256
       MPTR            =   1
-      MICON           =   "frmPedido.frx":19639
+      MICON           =   "frmPedido.frx":195EB
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -1476,8 +1476,8 @@ Begin VB.Form frmPedido
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
-      MICON           =   "frmPedido.frx":19655
-      PICN            =   "frmPedido.frx":19671
+      MICON           =   "frmPedido.frx":19607
+      PICN            =   "frmPedido.frx":19623
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -1543,8 +1543,8 @@ Begin VB.Form frmPedido
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
-      MICON           =   "frmPedido.frx":19D79
-      PICN            =   "frmPedido.frx":19D95
+      MICON           =   "frmPedido.frx":19D2B
+      PICN            =   "frmPedido.frx":19D47
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -1557,7 +1557,7 @@ Begin VB.Form frmPedido
    Begin VB.Image imgIconBandeja 
       Height          =   240
       Left            =   375
-      Picture         =   "frmPedido.frx":1A60B
+      Picture         =   "frmPedido.frx":1A5BD
       Top             =   255
       Visible         =   0   'False
       Width           =   240
@@ -1653,7 +1653,7 @@ Begin VB.Form frmPedido
       BackStyle       =   0  'Transparent
       Caption         =   "Movimento Caixa"
       BeginProperty Font 
-         Name            =   "Arial"
+         Name            =   "Arial Narrow"
          Size            =   8.25
          Charset         =   0
          Weight          =   400
@@ -1672,7 +1672,7 @@ Begin VB.Form frmPedido
    Begin VB.Image webInternet3 
       Height          =   2475
       Left            =   90
-      Picture         =   "frmPedido.frx":1A995
+      Picture         =   "frmPedido.frx":1A947
       Stretch         =   -1  'True
       Top             =   100
       Width           =   15180
@@ -1704,8 +1704,7 @@ Option Explicit
 ' RELOGIO ' ' ' ' ' ' ' ' ' ' ' ' ' ' ' ' ' ' ' ' ' ' ' ' ' '
 
 Dim tempoRestante As String
-Dim wBanner As String
-Dim wBanner2 As String
+
 Dim cSize As Long
 Private Const WM_NCLBUTTONDOWN = &HA1
 Private Const HTCAPTION = 2
@@ -1741,6 +1740,7 @@ Dim wSequencia As Integer
 Dim wPesquisaSequencia As Integer
 Dim wValorDados As String
 
+Dim wBanner As String
 Dim wFichaTec As String
 
 Dim wSerie As Integer
@@ -1932,14 +1932,6 @@ Private Sub cmdFechaPedido_Click()
 End Sub
 
 
-Private Sub cmdTotalPedido_Change()
-
-    If cmdTotalPedido.Caption <> "" Then
-        wValor = cmdTotalPedido.Caption
-    End If
-    
-End Sub
-
 Private Sub cmdTR_Click()
   frmTR.Show 1
   frmTR.ZOrder
@@ -1971,8 +1963,6 @@ End Sub
 
 Private Sub Form_Activate()
     wbFichaTecnica.Height = 6050
-    WebBrowser1.Navigate (wBanner2)
-
 End Sub
 
 Private Sub Form_Click()
@@ -1993,7 +1983,6 @@ tempoRestante = "00:00:10"
 
 picLimitadorBanner.ZOrder 0
 picLimitadorBanner.Height = 2025
-
 
 
 'Call criaIconeBarra(TrayAdd, Me.Hwnd, Me.Caption, imgIconBandeja.Picture)
@@ -2032,7 +2021,7 @@ cmdBotoes(9).top = cmdBotoes(0).top
  'frmPedido.Picture = LoadPicture("C:\Sistemas\DMAC Venda\Imagens\frmpedido1024768hd")
  webInternet3.Picture = LoadPicture(endIMG("topo1024768hd"))
  'webBannnerChamada.Navigate ("C:\Sistemas\DMAC Venda\Imagens\BannerChamada\configBannerChamada")
- WebBrowser1.Navigate (wBanner2)
+ WebBrowser1.Navigate ("C:\Sistemas\DMAC Venda\Imagens\BannerTopo1\BannerTopo1a.GIF")
  'webInternet1.Picture = LoadPicture("C:\Sistemas\DMAC Venda\Imagens\BannerTopo2\BannerTopo2.swf")
  'webInternet2.Picture = LoadPicture("C:\Sistemas\DMAC Venda\Imagens\BannerTopo1\BannerTopo1a.swf")
  NroBanner = 1
@@ -2046,7 +2035,7 @@ cmdBotoes(9).top = cmdBotoes(0).top
  PicBanner.ZOrder
  RemoveMenus
   
-  
+
  Dim OMes As String
 
 ' RELOGIO
@@ -2073,7 +2062,6 @@ cmdBotoes(9).top = cmdBotoes(0).top
     'picLimitadorBanner.Height = 7850
     'WebBrowser1.Navigate ("C:\Sistemas\DMAC Venda\Imagens\BannerTopo1\BannerTopo1b.GIF")
     WebBrowser1.SetFocus
-    
 
   
 erro:
@@ -2085,17 +2073,22 @@ Private Sub grdItensProduto_EnterCell()
  Dim codigoHTML As String
  Dim SQL As String
 
+
+'ricardo 04
+    If grdItensProduto.Col <> 2 Then
+
+       grdItensProduto.Editable = flexEDNone      ' Desabilita
+            
+     End If
+
+'''''''''''''''''''''''''''''''''''''''''''''''''''
+
     Screen.MousePointer = 11
 
     If Mid(grdItensProduto.TextMatrix(grdItensProduto.Row, 9), 1, 1) = "P" Then
         grdDadosProduto.BackColor = &HFF&
         grdDadosProduto.ForeColor = vbWhite
-    ElseIf Mid(grdItensProduto.TextMatrix(grdItensProduto.Row, 20), 1, 3) = "180" Then
-        grdDadosProduto.BackColor = &H800080
-        grdDadosProduto.ForeColor = vbWhite
-    ElseIf Mid(grdItensProduto.TextMatrix(grdItensProduto.Row, 19), 1, 3) = "180" Then
-        grdDadosProduto.BackColor = &H80FF&
-        grdDadosProduto.ForeColor = vbWhite
+        'grdItensProduto.BackColorSel = &HFF&
     Else
         grdDadosProduto.BackColor = &HE0E0E0
         grdDadosProduto.ForeColor = vbBlack
@@ -2166,6 +2159,8 @@ trata_erro:
   End If
 End Sub
 
+
+
 Private Sub Timer1_Timer()
     Dim H As Single, m As Single, s As Single
     Dim TotHours As Single
@@ -2207,7 +2202,6 @@ Private Sub grdItensProduto_DblClick()
   PicBanner.Visible = True
   
 
-
 trata_erro:
   
 
@@ -2217,8 +2211,8 @@ trata_erro:
      'MsgBox "Ocorreu o erro : " & Err.Number & " - " & Err.description
   End If
 
-      
-    'ricardo 11:50
+   
+      'ricardo 01
     Dim rdoLiberaPedido As New ADODB.Recordset
     Dim recebe As String
 
@@ -2242,8 +2236,7 @@ trata_erro:
 End If
     
     rdoLiberaPedido.Close
-      
-      
+    
 '      wbFichaTecnica.Navigate2 wFichaTec & grdItensProduto.TextMatrix(grdItensProduto.Row, 0)
 '      wbFichaTecnica.Visible = True
 '     wbFichaTecnica.ZOrder
@@ -2252,8 +2245,8 @@ End If
 
 'navegador.Visible = False
 
-End Sub
 
+End Sub
 
 
 Private Sub grdItensProduto_KeyDown(KeyCode As Integer, Shift As Integer)
@@ -2268,6 +2261,7 @@ Private Sub grdItensProduto_KeyDown(KeyCode As Integer, Shift As Integer)
        'If grdPrecos.Enabled = True Then
           'grdPrecos.SetFocus
           'grdPrecos.Row = 1
+          
        If lblBloqueio.Text = "BLOQUEADO" And lblBloqueio.Visible = True Then
           MsgBox "Você não pode vende produto com o Bloqueio 9", vbExclamation, "DMAC Venda"
        Else
@@ -2278,8 +2272,42 @@ Private Sub grdItensProduto_KeyDown(KeyCode As Integer, Shift As Integer)
         frmPesquisaEstoqueCentral.ZOrder
         frmPesquisaEstoqueCentral.Show 1
     End If
+    
+    
+      'ricardo 02
+'    Dim rdoLiberaPedido As New ADODB.Recordset
+'    Dim recebe As String
+'
+'
+'    SQL = ""
+'    SQL = "Select * from nfcapa where numeroped = " & txtPedido.Text
+'
+'    rdoLiberaPedido.CursorLocation = adUseClient
+'    rdoLiberaPedido.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+'
+'     If rdoLiberaPedido("LiberaBloqueio") = "T" Then
+'        grdItensProduto.BackColorSel = vbBlue
+'        grdItensProduto.Editable = flexEDKbdMouse
+'         'grdItensProduto.BackColorSel = vbBlue 'Muda a Cor do Fundo
+'            'grdItensProduto.CellForeColor = vbBlack 'Muda a Cor da Letra
+'            'grdItensProduto.Editable = flexEDKbdMouse
+'
+'    End If
+'
+' 'txtQuantidade.SetFocus
+' rdoLiberaPedido.Close
+' grdItensProduto.Editable = flexEDNone
+  
 End Sub
+Private Sub grdItensProduto_KeyPressEdit(ByVal Row As Long, ByVal Col As Long, KeyAscii As Integer)
 
+       If KeyAscii = "27" Then
+                   
+            grdItensProduto.Editable = flexEDNone
+            
+       End If
+
+End Sub
 Private Sub grdItensProduto_LostFocus()
  'PicBanner.Visible = False
 End Sub
@@ -2502,7 +2530,7 @@ Private Sub txtPedido_GotFocus()
 
    'Timer4.Enabled = True
    ShellExecute Hwnd, "open", ("C:\Sistemas\DMAC Venda\TrocaVersao.exe"), "", "", 1
-   WebBrowser1.Navigate (wBanner2)
+   WebBrowser1.Navigate ("C:\Sistemas\DMAC Venda\Imagens\BannerTopo1\BannerTopo1a.GIF")
    
    cmdBotoes(4).Visible = False
    cmdBotoes(1).Visible = False
@@ -2906,6 +2934,7 @@ If KeyAscii = 13 Then
 
             grdItensProduto.Enabled = True
             
+
             If cmdQtdeItens.Caption > 0 Then
                 SQL = ""
                 SQL = "Select ModalidadeVenda, Parcelas From NFCapa Where Numeroped = " & txtpedido.Text
@@ -2935,15 +2964,32 @@ If KeyAscii = 13 Then
                        ' End If
                     'Next Index
          
+         
+         
+         '
+         'ricardo 03
+         Dim I As Integer
+    
+'    grdItensProduto.Col = 2
+'    For I = 1 To grdItensProduto.Rows - 1
+'        grdItensProduto.Row = I
+'        'grdItensProduto.CellBackColor = vbBlue
+'         grdItensProduto.BackColorSel = vbBlue
+'    Next I
+'
+         
+         
+         
                 End If
                 rdoControle.Close
-         
+
             'ElseIf cmdQtdeItens.Caption = 0 Then
                'grdPrecos.Enabled = True
             End If
     Else
             txtPesquisar.SetFocus
     End If
+    
     
 ElseIf KeyAscii = 27 Then
 
@@ -3039,8 +3085,7 @@ Else
     SQL = "Select (CASE WHEN PR_SubstituicaoTributaria = 'N' THEN PR_ICMSSaida ELSE PR_ICMSSaidaIva End) as IcmsSaida," & _
           "(CASE WHEN PR_SubstituicaoTributaria = 'N' THEN PR_IcmPdv ELSE PR_ICMSPDVSaidaIva End) as IcmsPdv," & _
           "PRB_CodigoBarras,PR_Referencia,PR_Descricao,PR_PrecoVenda1,EL_Estoque,PR_Classe,pr_CodigoProdutoNoFornecedor," & _
-          "PR_Bloqueio,PR_SubstituicaoTributaria,LPR_Linha,LPR_Descricao,pr_indicePreco, pr_classeFiscal,PR_ST,PR_GarantiaEstendida ,FO_NOMEFANTASIA, " & _
-          "EL_NaoComercializado, EL_NaoComercializadoCONSO " & _
+          "PR_Bloqueio,PR_SubstituicaoTributaria,LPR_Linha,LPR_Descricao,pr_indicePreco, pr_classeFiscal,PR_ST,PR_GarantiaEstendida ,FO_NOMEFANTASIA " & _
           "From ProdutoLoja, Produtobarras, EstoqueLoja, LinhaProduto,fornecedor " & _
           "Where EL_Referencia=PR_Referencia and " & wWhere & " and PR_Situacao not in('E') and PRB_Referencia = PR_Referencia " & _
           "and (Case When PR_LinhaProduto IS NULL Then  '990100' Else PR_LinhaProduto End) = LPR_Linha  and pr_codigofornecedor=fo_codigofornecedor " & _
@@ -3086,9 +3131,7 @@ End If
                 & rsPesquisaPed("pr_classeFiscal") & Chr(9) _
                 & rsPesquisaPed("FO_NOMEFANTASIA") & Chr(9) _
                 & rsPesquisaPed("PR_ST") & Chr(9) _
-                & rsPesquisaPed("PR_GarantiaEstendida") & Chr(9) _
-                & rsPesquisaPed("EL_NaoComercializado") & Chr(9) _
-                & rsPesquisaPed("EL_NaoComercializadoCONSO")
+                & rsPesquisaPed("PR_GarantiaEstendida")
                 wValorVenda = Format(rsPesquisaPed("PR_PrecoVenda1"), "0.00")
                 
   
@@ -3419,8 +3462,7 @@ End Sub
 
 
 Private Sub LerControleSistema()
-
-  SQL = "Select CTS_CaminhoWeb2,CTS_Loja,CTS_CaminhoWeb1,CTS_CaminhoBanner,CTS_CaminhoWeb2,CTS_LogoPedido from ControleSistema"
+  SQL = "Select * from ControleSistema"
   rdoControle.CursorLocation = adUseClient
   rdoControle.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
     
@@ -3431,7 +3473,6 @@ Private Sub LerControleSistema()
   Else
      wLoja = rdoControle("CTS_Loja")
      wBanner = Trim(rdoControle("CTS_CaminhoWeb1"))
-     wBanner2 = Trim(rdoControle("CTS_CaminhoBanner"))
      wFichaTec = Trim(rdoControle("CTS_CaminhoWeb2"))
      GLB_logoPedido = Trim(rdoControle("CTS_LogoPedido"))
      rdoControle.Close
@@ -3759,8 +3800,6 @@ End Sub
  Sub FechaPedido()
 
     Dim rsControle As New ADODB.Recordset
-    Dim rsCotacao As New ADODB.Recordset
-    
 
  auxItens = 0
  wCodigo = 1
@@ -3769,26 +3808,6 @@ End Sub
   
 ' On Error GoTo erronoUpdate
     Screen.MousePointer = vbHourglass
-    
-    '************************ Verificando Cliente 999999
-    'ricardo 11:24
-    SQL = "select cliente from nfcapa where numeroped = " & frmPedido.txtpedido.Text
-    
-    rsCotacao.CursorLocation = adUseClient
-    rsCotacao.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
-    
-     wCodigoCliente = rsCotacao("cliente")
-    
-      If wValor > 10000 And wCodigoCliente = "999999" Then
-        MsgBox "Não é permitido cliente consumidor para vendas maiores que R$10.000,00", vbExclamation, "SAT"
-        Screen.MousePointer = vbNormal
-        Exit Sub
-      End If
-      
-      rsCotacao.Close
-     
-    '*************************
-    
     
  
     SQL = ""
@@ -3809,18 +3828,7 @@ End Sub
     rsComplementoVenda.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
     
     If RTrim(LTrim(rsComplementoVenda("cliente"))) <> "999999" Then
-    
-        If validaDadosCliente(rsComplementoVenda("cliente")) = False Then
-            MsgBox "Há erro(s) no cadastro desse cliente que impede o finalizamento desse pedido", vbExclamation, "Cliente"
-            rsComplementoVenda.Close
-            rsItensVenda.Close
-            adoCNLoja.CommitTrans
-            Screen.MousePointer = vbNormal
-            Exit Sub
-        End If
-        
         rsComplementoVenda.Close
-
         
         SQL = "select CTS_SerieNota from ControleSistema"
         rsControle.CursorLocation = adUseClient
@@ -3873,6 +3881,9 @@ End Sub
        
        rsComplementoVenda.Close
        
+            
+
+
        
 '************************ Gravando TipoNota NFItens
        SQL = "Update NFItens Set TipoNota = 'PA' Where NumeroPed = " & frmPedido.txtpedido.Text
@@ -3896,9 +3907,6 @@ End Sub
         txtPesquisar.SelLength = Len(txtPesquisar.Text)
      End If
      rsItensVenda.Close
-     
-     
-     
      Screen.MousePointer = vbNormal
      Exit Sub
        
@@ -3965,7 +3973,7 @@ Private Sub carregaProdutoGarantia()
         
             If Val(rsProdGarantiaEstendida("itensGarantia")) > 0 Then
                 frmGarantiaEstendida.Show 1
-                'frmGarantiaEstendida.ZOrder
+                frmGarantiaEstendida.ZOrder
             End If
         rsProdGarantiaEstendida.Close
 End Sub
@@ -4015,26 +4023,13 @@ End If
 End Sub
 
 Private Sub WebBrowser1_GotFocus()
-    Dim SQL As String
-    Dim rsBanner As New ADODB.Recordset
-    
     picLimitadorBanner.Height = 7850
-    
-    SQL = "select CTS_CaminhoWeb2 from ControleSistema"
-    
-    rsBanner.CursorLocation = adUseClient
-    rsBanner.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
-    If Not rsBanner.EOF Then
-        wBanner = rsBanner("CTS_CaminhoWeb2")
-    End If
-    rsBanner.Close
-    WebBrowser1.Navigate (wBanner)
-    
+    WebBrowser1.Navigate ("C:\Sistemas\DMAC Venda\Imagens\BannerTopo1\BannerTopo1b.GIF")
 End Sub
 
 Private Sub WebBrowser1_LostFocus()
     picLimitadorBanner.Height = 2025
-    WebBrowser1.Navigate (wBanner2)
+    WebBrowser1.Navigate ("C:\Sistemas\DMAC Venda\Imagens\BannerTopo1\BannerTopo1a.GIF")
     tempoRestante = "00:00:10"
 End Sub
 

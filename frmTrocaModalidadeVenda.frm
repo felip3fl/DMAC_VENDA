@@ -369,26 +369,26 @@ wPagamento = ""
 wPagamentototal = ""
 'Limpa tabelas
 
+'ricardo original
 '    SQL = "update nfitens set VLUNIT = PR_PrecoVenda1, VLTOTITEM = (PR_PrecoVenda1 * QTDE) " & _
 '          "from produtoloja " & _
-'          "where numeroped = " & frmPedido.txtpedido.Text & " and pr_referencia = referencia"
-          
-          
-    'ricardo 11:51
+'          "where numeroped = " & frmPedido.txtPedido.Text & " and pr_referencia = referencia"
+                 
     SQL = "update nfitens set VLUNIT = VLUNIT, VLTOTITEM = (VLUNIT * QTDE) " & _
           "from produtoloja " & _
-          "where numeroped = " & frmPedido.txtpedido.Text & " and pr_referencia = referencia"
+          "where numeroped = " & frmPedido.txtPedido.Text & " and pr_referencia = referencia"
+          
           
     adoCNLoja.Execute SQL
     
-    SQL = "update nfcapa set condpag = 1 where numeroped = " & frmPedido.txtpedido.Text & ""
+    SQL = "update nfcapa set condpag = 1 where numeroped = " & frmPedido.txtPedido.Text & ""
     adoCNLoja.Execute SQL
     
 ' ' ' ' ' ' ' ' ' ' ' ' ' ' ' '
 
  wGravaModalidade = False
  wValorVenda = frmPedido.cmdTotalPedido
- wNroPedido = frmPedido.txtpedido.Text
+ wNroPedido = frmPedido.txtPedido.Text
 
  grdModalidade.Rows = 1
  grdModalidade.AddItem "A Vista"
@@ -414,9 +414,9 @@ End Sub
 
 Private Sub MontaPrecos(CodigoCrediario As String)
      grdPrecos.Rows = 1
-     SQL = "Select cp_tipo,CP_Codigo,CP_Condicao,CP_TipoCondicao,cp_parcelas,round(SUM(pr_precovenda1 * qtde), 1)," _
-         & " round (sum(((pr_precovenda1 * qtde) * cp_coeficiente)), 1) as PrecoID," _
-         & " round (sum((((pr_precovenda1 * qtde) * cp_coeficiente)/cp_parcelas)),1) as ValorParcela " _
+     SQL = "Select cp_tipo,CP_Codigo,CP_Condicao,CP_TipoCondicao,cp_parcelas,round(SUM(vlunit * qtde), 1)," _
+         & " round (sum(((vlunit * qtde) * cp_coeficiente)), 1) as PrecoID," _
+         & " round (sum((((vlunit * qtde) * cp_coeficiente)/cp_parcelas)),1) as ValorParcela " _
          & " From produtoloja, CondicaoPagamento, nfitens " _
          & " where PR_IndicePreco=CP_ID and CP_Tipo='" & CodigoCrediario _
          & "' and PR_Referencia = REFERENCIA and NUMEROPED =" & wNroPedido _
