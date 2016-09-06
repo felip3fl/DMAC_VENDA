@@ -1,13 +1,13 @@
 VERSION 5.00
-Object = "{D76D7130-4A96-11D3-BD95-D296DC2DD072}#1.0#0"; "Vsflex7d.ocx"
+Object = "{D76D7130-4A96-11D3-BD95-D296DC2DD072}#1.0#0"; "vsflex7d.ocx"
 Object = "{C932BA88-4374-101B-A56C-00AA003668DC}#1.1#0"; "MSMASK32.OCX"
 Begin VB.Form frmCliente 
    BackColor       =   &H00505050&
    BorderStyle     =   0  'None
    Caption         =   "Cadastro de Cliente"
    ClientHeight    =   5895
-   ClientLeft      =   1950
-   ClientTop       =   3270
+   ClientLeft      =   2430
+   ClientTop       =   3015
    ClientWidth     =   15255
    LinkTopic       =   "Form1"
    LockControls    =   -1  'True
@@ -1443,9 +1443,10 @@ lblClite(3).ForeColor = &HE0E0E0
 
     If verificaCamposNulos = True Then
 
-        Call lerClientePorCNPJ
+        Call lerClientePorCodigo
         
         Screen.MousePointer = 11
+        
         If adoClienteCNPJ.EOF Then
             
             cmbSituacao.Enabled = False
@@ -1474,8 +1475,15 @@ Private Sub lerClientePorCNPJ()
     
      adoClienteCNPJ.CursorLocation = adUseClient
      adoClienteCNPJ.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
-     
 
+End Sub
+
+Private Sub lerClientePorCodigo()
+
+ SQL = " exec SP_FIN_Pesquisa_Codigo '" & txtCodigo.Text & "'"
+    
+     adoClienteCNPJ.CursorLocation = adUseClient
+     adoClienteCNPJ.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
 
 End Sub
 
@@ -3503,7 +3511,9 @@ End Function
 
 Function GravaCliente() As Boolean
     Dim Pessoa As String
+    Dim msgErroCadastro As String
         
+    msgErroCadastro = ""
     GravaCliente = True
     cmbPessoa.Enabled = True
     
@@ -3512,6 +3522,7 @@ Function GravaCliente() As Boolean
         mskCep.SelStart = 0
         mskCep.SelLength = Len(mskCep.Text)
         GravaCliente = False
+        msgErroCadastro = msgErroCadastro & "CEP, "
     End If
 
 
@@ -3523,6 +3534,7 @@ Function GravaCliente() As Boolean
               txtCnpj.SelStart = 0
               txtCnpj.SelLength = Len(txtCnpj.Text)
               GravaCliente = False
+              msgErroCadastro = msgErroCadastro & "TIPO PESSOA OU CPF/CNPJ, "
         End If
         
         If Len(txtCnpj.Text) = 14 And UCase(Mid(cmbPessoa.Text, 1, 1)) = "F" Then
@@ -3531,6 +3543,7 @@ Function GravaCliente() As Boolean
               txtCnpj.SelLength = Len(txtCnpj.Text)
               Screen.MousePointer = 0
               GravaCliente = False
+              msgErroCadastro = msgErroCadastro & "TIPO PESSOA OU CPF/CNPJ, "
         End If
     
         If Len(txtCnpj.Text) = 11 Then
@@ -3540,6 +3553,7 @@ Function GravaCliente() As Boolean
               txtCnpj.SelLength = Len(txtCnpj.Text)
               Screen.MousePointer = 0
               GravaCliente = False
+              msgErroCadastro = msgErroCadastro & "CPF/CNPJ, "
            End If
         End If
 
@@ -3550,6 +3564,7 @@ Function GravaCliente() As Boolean
               txtCnpj.SelLength = Len(txtCnpj.Text)
               Screen.MousePointer = 0
            GravaCliente = False
+           msgErroCadastro = msgErroCadastro & "CPF/CNPJ, "
            End If
         Else
            If Len(txtCnpj.Text) <> 11 Then
@@ -3558,6 +3573,7 @@ Function GravaCliente() As Boolean
               txtCnpj.SelLength = Len(txtCnpj.Text)
               Screen.MousePointer = 0
            GravaCliente = False
+           msgErroCadastro = msgErroCadastro & "CPF/CNPJ, "
            End If
         End If
       End If
@@ -3599,6 +3615,7 @@ Function GravaCliente() As Boolean
              txtInscricaoEstadual.SetFocus
              Screen.MousePointer = 0
              GravaCliente = False
+             msgErroCadastro = msgErroCadastro & "TIPO PESSOA, "
           End If
        End If
     End If
@@ -3610,6 +3627,7 @@ Function GravaCliente() As Boolean
        txtNumero.SelLength = Len(txtNumero.Text)
        Screen.MousePointer = 0
        GravaCliente = False
+       msgErroCadastro = msgErroCadastro & "CPF/CNPJ, "
     End If
 
     If Trim(txtCodMun.Text) = "" Then
@@ -3619,6 +3637,7 @@ Function GravaCliente() As Boolean
        txtCodMun.SelLength = Len(mskCep.Text)
        Screen.MousePointer = 0
        GravaCliente = False
+       msgErroCadastro = msgErroCadastro & "CODIGO MUNICIPIO, "
     End If
 
     If IsNumeric(mskTelefone.Text) = False Or Trim(mskTelefone.Text) = "" Then
@@ -3632,6 +3651,7 @@ Function GravaCliente() As Boolean
     mskFax.Text = wNumeros
     
     dataNascimento = Format(mskDataNascimento.Text, "yyyy/mm/dd")
+
     
     If GravaCliente = True Then
     
@@ -3684,7 +3704,9 @@ Function GravaCliente() As Boolean
         End If
         adoCliente.Close
     Else
-        MsgBox "Cadastro ainda possui erros!", vbExclamation, "Atenção"
+        msgErroCadastro = left(msgErroCadastro, Len(msgErroCadastro) - 2)
+        MsgBox "Cadastro ainda possui erros! " & vbNewLine & msgErroCadastro, vbExclamation, "Atenção"
+        
     End If
 End Function
 
