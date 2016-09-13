@@ -411,7 +411,7 @@ Private Sub cmdGrava_Click()
         End If
        
    Else
-      wValorCampo = "00"
+      wValorCampo = "CT"
       wTipoNota = "TA"
       wSequencia = Trim(frmPedido.txtpedido.Text)
    End If
