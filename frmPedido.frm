@@ -9,8 +9,8 @@ Begin VB.Form frmPedido
    BorderStyle     =   0  'None
    Caption         =   "DMAC Venda"
    ClientHeight    =   11115
-   ClientLeft      =   4980
-   ClientTop       =   345
+   ClientLeft      =   4425
+   ClientTop       =   135
    ClientWidth     =   15120
    ControlBox      =   0   'False
    FillColor       =   &H00404040&
@@ -270,7 +270,7 @@ Begin VB.Form frmPedido
          NoFolders       =   0   'False
          Transparent     =   0   'False
          ViewID          =   "{0057D0E0-3573-11CF-AE69-08002B2E1262}"
-         Location        =   ""
+         Location        =   "http:///"
       End
    End
    Begin VB.Frame fraCondicao 
@@ -548,7 +548,7 @@ Begin VB.Form frmPedido
          NoFolders       =   0   'False
          Transparent     =   0   'False
          ViewID          =   "{0057D0E0-3573-11CF-AE69-08002B2E1262}"
-         Location        =   ""
+         Location        =   "http:///"
       End
    End
    Begin VB.Timer tmrRefresh 
@@ -2194,7 +2194,10 @@ Private Sub grdItensProduto_EnterCell()
 
     Screen.MousePointer = 11
 
-    If Mid(grdItensProduto.TextMatrix(grdItensProduto.Row, 9), 1, 1) = "P" Then
+    If Mid(grdItensProduto.TextMatrix(grdItensProduto.Row, 15), 1, 1) = "2" Then
+        grdDadosProduto.BackColor = &H80FF&
+        grdDadosProduto.ForeColor = vbWhite
+    ElseIf Mid(grdItensProduto.TextMatrix(grdItensProduto.Row, 9), 1, 1) = "P" Then
         grdDadosProduto.BackColor = &HFF&
         grdDadosProduto.ForeColor = vbWhite
     ElseIf Mid(grdItensProduto.TextMatrix(grdItensProduto.Row, 20), 1, 3) = "180" Then
