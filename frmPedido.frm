@@ -2194,7 +2194,7 @@ Private Sub grdItensProduto_EnterCell()
 
     Screen.MousePointer = 11
 
-    If Mid(grdItensProduto.TextMatrix(grdItensProduto.Row, 15), 1, 1) = "2" Then
+    If Val(grdItensProduto.TextMatrix(grdItensProduto.Row, 14)) = 4 Then
         grdDadosProduto.BackColor = &H80FF&
         grdDadosProduto.ForeColor = vbWhite
     ElseIf Mid(grdItensProduto.TextMatrix(grdItensProduto.Row, 9), 1, 1) = "P" Then
