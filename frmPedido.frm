@@ -21,8 +21,8 @@ Begin VB.Form frmPedido
    MinButton       =   0   'False
    MouseIcon       =   "frmPedido.frx":23FA
    Picture         =   "frmPedido.frx":2CC4
-   ScaleHeight     =   11115
-   ScaleWidth      =   15120
+   ScaleHeight     =   10575
+   ScaleWidth      =   20490
    ShowInTaskbar   =   0   'False
    WindowState     =   2  'Maximized
    Begin VB.Frame frmClienteConsumidorCEP 
@@ -3087,6 +3087,12 @@ If KeyAscii = 13 Then
         ElseIf IsNumeric(Trim(txtPesquisar.Text)) = True And Len(Trim(txtPesquisar.Text)) > 3 Then
             wWhere = "PRB_CodigoBarras = '" & Trim(txtPesquisar.Text) & "' "
             PesquisarProduto wWhere ' Pesquisa por codigo de barras
+        ElseIf IsNumeric(Trim(txtPesquisar.Text)) = False And UCase(txtPesquisar.Text) = "PNC" Then
+            wWhere = "PRB_Tipocodigo = 'D' and EL_NaoComercializadoCONSO = '180'"
+            PesquisarProduto wWhere  ' Pesquisa por descrição
+        ElseIf IsNumeric(Trim(txtPesquisar.Text)) = False And UCase(txtPesquisar.Text) = "PROMO" Then
+            wWhere = "PRB_Tipocodigo = 'D' and pr_IndicePreco = '3'"
+            PesquisarProduto wWhere  ' Pesquisa por descrição
         ElseIf IsNumeric(Trim(txtPesquisar.Text)) = False Then
             If IsNumeric(Mid(txtPesquisar.Text, 1, 3)) = True And Trim(Mid(txtPesquisar.Text, 4, 1)) = "" Then
                  wWhere = "PRB_Tipocodigo = 'D' and PR_Descricao Like '" & Trim(UCase(Mid(Trim(txtPesquisar.Text), 4, _
