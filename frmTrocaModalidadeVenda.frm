@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{D76D7130-4A96-11D3-BD95-D296DC2DD072}#1.0#0"; "Vsflex7d.ocx"
+Object = "{D76D7130-4A96-11D3-BD95-D296DC2DD072}#1.0#0"; "vsflex7d.ocx"
 Object = "{C932BA88-4374-101B-A56C-00AA003668DC}#1.1#0"; "MSMASK32.OCX"
 Begin VB.Form frmTrocaModalidadeVenda 
    BackColor       =   &H00505050&
@@ -369,20 +369,27 @@ wPagamento = ""
 wPagamentototal = ""
 'Limpa tabelas
 
-'ricardo original
-'    SQL = "update nfitens set VLUNIT = PR_PrecoVenda1, VLTOTITEM = (PR_PrecoVenda1 * QTDE) " & _
-'          "from produtoloja " & _
-'          "where numeroped = " & frmPedido.txtPedido.Text & " and pr_referencia = referencia"
-                 
-    SQL = "update nfitens set VLUNIT = VLUNIT, VLTOTITEM = (VLUNIT * QTDE) " & _
-          "from produtoloja " & _
-          "where numeroped = " & frmPedido.txtPedido.Text & " and pr_referencia = referencia"
-          
-          
-    adoCNLoja.Execute SQL
+    If wLiberaBloqueioPreco Then
     
-    SQL = "update nfcapa set condpag = 1 where numeroped = " & frmPedido.txtPedido.Text & ""
-    adoCNLoja.Execute SQL
+        SQL = "update nfitens set VLUNIT = PrecoUnitAlternativa,  VLTOTITEM = (PrecoUnitAlternativa * QTDE) " & _
+              "from produtoloja " & _
+              "where numeroped = " & frmPedido.txtPedido.Text & " and pr_referencia = referencia"
+        adoCNLoja.Execute SQL
+        
+        SQL = "update nfcapa set condpag = 1 where numeroped = " & frmPedido.txtPedido.Text & ""
+        adoCNLoja.Execute SQL
+    
+    Else
+    
+        SQL = "update nfitens set VLUNIT = PR_PrecoVenda1, VLTOTITEM = (PR_PrecoVenda1 * QTDE) " & _
+              "from produtoloja " & _
+              "where numeroped = " & frmPedido.txtPedido.Text & " and pr_referencia = referencia"
+        adoCNLoja.Execute SQL
+        
+        SQL = "update nfcapa set condpag = 1 where numeroped = " & frmPedido.txtPedido.Text & ""
+        adoCNLoja.Execute SQL
+    
+    End If
     
 ' ' ' ' ' ' ' ' ' ' ' ' ' ' ' '
 
@@ -413,17 +420,37 @@ Private Sub Form_Load()
 End Sub
 
 Private Sub MontaPrecos(CodigoCrediario As String)
+
      grdPrecos.Rows = 1
-     SQL = "Select cp_tipo,CP_Codigo,CP_Condicao,CP_TipoCondicao,cp_parcelas,round(SUM(vlunit * qtde), 1)," _
-         & " round (sum(((vlunit * qtde) * cp_coeficiente)), 1) as PrecoID," _
-         & " round (sum((((vlunit * qtde) * cp_coeficiente)/cp_parcelas)),1) as ValorParcela " _
-         & " From produtoloja, CondicaoPagamento, nfitens " _
-         & " where PR_IndicePreco=CP_ID and CP_Tipo='" & CodigoCrediario _
-         & "' and PR_Referencia = REFERENCIA and NUMEROPED =" & wNroPedido _
-         & "group by cp_tipo,CP_Codigo,CP_TipoCondicao,cp_parcelas,CP_Condicao"
-    
-     rsCondicaoFaturado.CursorLocation = adUseClient
-     rsCondicaoFaturado.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+     
+     If wLiberaBloqueioPreco Then
+     
+         SQL = "Select cp_tipo,CP_Codigo,CP_Condicao,CP_TipoCondicao,cp_parcelas,round(SUM(PrecoUnitAlternativa * qtde), 1)," _
+             & " round (sum(((PrecoUnitAlternativa * qtde) * cp_coeficiente)), 1) as PrecoID," _
+             & " round (sum((((PrecoUnitAlternativa * qtde) * cp_coeficiente)/cp_parcelas)),1) as ValorParcela " _
+             & " From produtoloja, CondicaoPagamento, nfitens " _
+             & " where PR_IndicePreco=CP_ID and CP_Tipo='" & CodigoCrediario _
+             & "' and PR_Referencia = REFERENCIA and NUMEROPED =" & wNroPedido _
+             & "group by cp_tipo,CP_Codigo,CP_TipoCondicao,cp_parcelas,CP_Condicao"
+        
+         rsCondicaoFaturado.CursorLocation = adUseClient
+         rsCondicaoFaturado.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+     
+     
+     Else
+     
+         SQL = "Select cp_tipo,CP_Codigo,CP_Condicao,CP_TipoCondicao,cp_parcelas,round(SUM(pr_precovenda1 * qtde), 1)," _
+             & " round (sum(((pr_precovenda1 * qtde) * cp_coeficiente)), 1) as PrecoID," _
+             & " round (sum((((pr_precovenda1 * qtde) * cp_coeficiente)/cp_parcelas)),1) as ValorParcela " _
+             & " From produtoloja, CondicaoPagamento, nfitens " _
+             & " where PR_IndicePreco=CP_ID and CP_Tipo='" & CodigoCrediario _
+             & "' and PR_Referencia = REFERENCIA and NUMEROPED =" & wNroPedido _
+             & "group by cp_tipo,CP_Codigo,CP_TipoCondicao,cp_parcelas,CP_Condicao"
+        
+         rsCondicaoFaturado.CursorLocation = adUseClient
+         rsCondicaoFaturado.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+     
+     End If
     
      Do While Not rsCondicaoFaturado.EOF
         If rsCondicaoFaturado("CP_Tipo") = "FA" Then

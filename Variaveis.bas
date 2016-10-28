@@ -145,4 +145,6 @@ Global pedidoCotacao As String
 
 Global wValor As Double
 
+Global wLiberaBloqueioPreco As Boolean
+
 Global wCodigoCliente As String

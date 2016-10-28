@@ -154,7 +154,7 @@ Dim wValorComplemento As String
 Dim wDesconto As Double
 Dim TotalComDesconto As Double
 Dim CondPag, total As String
-Dim I, cont, n, qtotal, limite As Integer
+Dim i, cont, n, qtotal, limite As Integer
 
 Public Function VerificaRetornoImpressora(Label As String, RetornoFuncao As String, TituloJanela As String)
     
@@ -324,14 +324,14 @@ Function ConverteVirgula(ByVal Numero As String) As String
     Dim Ret As String
     Dim CharLido As String
     Dim Maximo As Long
-    Dim I As Long
+    Dim i As Long
     
     Ret = "0"
     Numero = IIf(IsNull(Numero), 0, Numero)
     Maximo = Len(Numero)
     
-    For I = 1 To Maximo
-        CharLido = Mid(Numero, I, 1)
+    For i = 1 To Maximo
+        CharLido = Mid(Numero, i, 1)
         
         If IsNumeric(CharLido) Then
             Ret = Ret & CharLido
@@ -998,7 +998,7 @@ wControlaQuebraDaPagina = 0
 
     Call DadosLoja
             
-    SQL = "select qtditem from nfcapa Where NumeroPed = " & frmPedido.txtpedido.Text
+    SQL = "select qtditem from nfcapa Where NumeroPed = " & frmPedido.txtPedido.Text
     rsComplementoVenda.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
             
             
@@ -1356,7 +1356,7 @@ Private Sub ImprimeCarimbo()
                                 ElseIf RsPegaItensEspeciais("CNF_DetalheImpressao") = "T" Then
                                        wConta = wConta + 1
                                        Printer.Print ""
-                                       Call FinalizaNota(Trim(frmPedido.txtpedido.Text))
+                                       Call FinalizaNota(Trim(frmPedido.txtPedido.Text))
                                 Else
                                        wConta = wConta + 1
                                 End If
@@ -1368,7 +1368,7 @@ Private Sub ImprimeCarimbo()
                              Exit Sub
                          Else
                              RsPegaItensEspeciais.Close
-                             Call FinalizaNota(Trim(frmPedido.txtpedido.Text))
+                             Call FinalizaNota(Trim(frmPedido.txtPedido.Text))
                          End If
 
 End Sub
@@ -2132,12 +2132,12 @@ Dim wColuna As Integer
 '  frmPedido.fraMenu.Enabled = False
   'picQuadroGeral.Width = 9975
 
-  frmPedido.txtpedido.Enabled = True
+  frmPedido.txtPedido.Enabled = True
   frmPedido.fradados.Enabled = True
-  frmPedido.txtVendedor.Width = frmPedido.txtpedido.Width
+  frmPedido.txtVendedor.Width = frmPedido.txtPedido.Width
   frmPedido.fradados.Width = 2830
   frmPedido.txtVendedor.Enabled = False
-  frmPedido.txtpedido.SetFocus
+  frmPedido.txtPedido.SetFocus
   'frmPedido.PicBanner.Picture = LoadPicture("C:\Sistemas\DMAC Venda\Imagens\BannerChamada\BannerChamada")
   GBL_Frete = 0
   auxItens = 0
@@ -2147,6 +2147,8 @@ Dim wColuna As Integer
   frmPedido.grdDadosProduto.BackColor = &HE0E0E0
   frmPedido.grdDadosProduto.ForeColor = vbBlack
 
+
+  wLiberaBloqueioPreco = False
        'frmPedido.WebBrowser1.SetFocus
 
 End Sub
@@ -2227,13 +2229,13 @@ Sub LimpaTR()
 
     SQL = ""
     SQL = "update nfcapa set ValorTotalCodigoZero = 0, TotalNotaAlternativa = 0, valormercadoriaAlternativa = 0 " & _
-          "where Numeroped = " & frmPedido.txtpedido.Text
+          "where Numeroped = " & frmPedido.txtPedido.Text
    adoCNLoja.Execute (SQL)
  
     
     SQL = ""
     SQL = "update nfitens set ReferenciaAlternativa = 0, DescricaoAlternativa = '', valormercadoriaAlternativa = 0 " & _
-          "where Numeroped = " & frmPedido.txtpedido.Text
+          "where Numeroped = " & frmPedido.txtPedido.Text
    adoCNLoja.Execute (SQL)
 
 End Sub
@@ -3072,30 +3074,30 @@ Public Sub dados(ByVal Pedido As Double)
     rsInfLoja.CursorLocation = adUseClient
     rsInfLoja.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
     
-    I = 1
+    i = 1
     If Not rsInfLoja.EOF Then
-    ReDim Preserve loja(I) As String
-                loja(I) = rsInfLoja("LO_Razao")
-                I = I + 1
-     ReDim Preserve loja(I) As String
+    ReDim Preserve loja(i) As String
+                loja(i) = rsInfLoja("LO_Razao")
+                i = i + 1
+     ReDim Preserve loja(i) As String
      cnpj = rsInfLoja("LO_cgc")
-       loja(I) = Format(Mid(cnpj, 1, 8), "##,###,###") & "/" & Mid(cnpj, 9, 4) & "-" & Mid(cnpj, 13, 2)
-      I = I + 1
-    ReDim Preserve loja(I) As String
-               loja(I) = rsInfLoja("LO_Endereco") & ", " & rsInfLoja("LO_Numero")
-               I = I + 1
-    ReDim Preserve loja(I) As String
-                loja(I) = Format(rsInfLoja("LO_Cep"), "#####-###")
-               I = I + 1
-    ReDim Preserve loja(I) As String
-                loja(I) = rsInfLoja("LO_Municipio")
-               I = I + 1
-    ReDim Preserve loja(I) As String
-                loja(I) = rsInfLoja("LO_UF")
-                 I = I + 1
-    ReDim Preserve loja(I) As String
-               loja(I) = Format(rsInfLoja("LO_Telefone"), "(##)####-####")
-           I = I + 1
+       loja(i) = Format(Mid(cnpj, 1, 8), "##,###,###") & "/" & Mid(cnpj, 9, 4) & "-" & Mid(cnpj, 13, 2)
+      i = i + 1
+    ReDim Preserve loja(i) As String
+               loja(i) = rsInfLoja("LO_Endereco") & ", " & rsInfLoja("LO_Numero")
+               i = i + 1
+    ReDim Preserve loja(i) As String
+                loja(i) = Format(rsInfLoja("LO_Cep"), "#####-###")
+               i = i + 1
+    ReDim Preserve loja(i) As String
+                loja(i) = rsInfLoja("LO_Municipio")
+               i = i + 1
+    ReDim Preserve loja(i) As String
+                loja(i) = rsInfLoja("LO_UF")
+                 i = i + 1
+    ReDim Preserve loja(i) As String
+               loja(i) = Format(rsInfLoja("LO_Telefone"), "(##)####-####")
+           i = i + 1
            
 
 '               ReDim Preserve loja(i) As String
@@ -3104,18 +3106,18 @@ Public Sub dados(ByVal Pedido As Double)
 '                  ReDim Preserve loja(i) As String
 '               loja(i) = rsInfLoja("LO_emailoja")
 '           i = i + 1
-                     ReDim Preserve loja(I) As String
-               loja(I) = rsInfLoja("LO_site")
-           I = I + 1
+                     ReDim Preserve loja(i) As String
+               loja(i) = rsInfLoja("LO_site")
+           i = i + 1
     End If
     rsInfLoja.Close
-    ReDim Preserve loja(I) As String
-                loja(I) = Pedido
-                 I = I + 1
+    ReDim Preserve loja(i) As String
+                loja(i) = Pedido
+                 i = i + 1
 
-        ReDim Preserve loja(I) As String
-                loja(I) = Date
-                 I = I + 1
+        ReDim Preserve loja(i) As String
+                loja(i) = Date
+                 i = i + 1
      SQL = "SELECT Cliente From NFCapa Where Numeroped = " & Pedido
     
           rsComplemento.CursorLocation = adUseClient
@@ -3138,15 +3140,15 @@ Public Sub dados(ByVal Pedido As Double)
             rsCliente.Open sql1, adoCNLoja, adOpenForwardOnly, adLockPessimistic
     
     If Not rsCliente.EOF Then
-     ReDim Preserve loja(I) As String
-        loja(I) = rsCliente("CE_CodigoCliente") & " - " & rsCliente("CE_Razao")
-       I = I + 1
-        ReDim Preserve loja(I) As String
-        loja(I) = Format(rsCliente("CE_Telefone"), "(##)####-####")
-       I = I + 1
-        ReDim Preserve loja(I) As String
-        loja(I) = Format(rsCliente("CE_Fax"), "(##)####-####")
-       I = I + 1
+     ReDim Preserve loja(i) As String
+        loja(i) = rsCliente("CE_CodigoCliente") & " - " & rsCliente("CE_Razao")
+       i = i + 1
+        ReDim Preserve loja(i) As String
+        loja(i) = Format(rsCliente("CE_Telefone"), "(##)####-####")
+       i = i + 1
+        ReDim Preserve loja(i) As String
+        loja(i) = Format(rsCliente("CE_Fax"), "(##)####-####")
+       i = i + 1
         
 '    Else
 '     ReDim Preserve Loja(i) As String
@@ -3165,7 +3167,7 @@ Public Sub dados(ByVal Pedido As Double)
     rsCliente.Close
     qtotal = 0
     
-    SQL = "EXEC SP_FIN_Calcula_ICMS_NFCAPA '" & frmPedido.txtpedido.Text & "', '" & Format(Date, "YYYY/MM/DD") & "'"
+    SQL = "EXEC SP_FIN_Calcula_ICMS_NFCAPA '" & frmPedido.txtPedido.Text & "', '" & Format(Date, "YYYY/MM/DD") & "'"
     adoCNLoja.Execute SQL
     
      SQL = "Select FO_NomeFantasia,C.Cliente,C.BASEICMS,C.vlricms,VE_Codigo, VE_Nome,VDE_Email,VDE_ASSINATURA, PR_Descricao, I.Qtde,I.desconto as descontoporitem, I.Vlunit,(I.VLUnit * I.Qtde) as VLUnit2,PR_Referencia, PR_ClasseFiscal, C.Desconto as Desconto " _
@@ -3177,12 +3179,12 @@ Public Sub dados(ByVal Pedido As Double)
     rdoPedido.CursorLocation = adUseClient
     rdoPedido.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
     'Dados do Vendedor
-    ReDim Preserve loja(I) As String
-        loja(I) = rdoPedido("VDE_Email")
-        I = I + 1
-     ReDim Preserve loja(I) As String
-        loja(I) = rdoPedido("VE_Codigo") & " - " & UCase$(rdoPedido("VE_Nome"))
-        I = I + 1
+    ReDim Preserve loja(i) As String
+        loja(i) = rdoPedido("VDE_Email")
+        i = i + 1
+     ReDim Preserve loja(i) As String
+        loja(i) = rdoPedido("VE_Codigo") & " - " & UCase$(rdoPedido("VE_Nome"))
+        i = i + 1
 
         vendedor = "C:\Sistemas\DMAC Venda\Cotacao\Imagem\" & rdoPedido("VE_Codigo")
 If Not fso.FileExists(vendedor) Then
@@ -3196,31 +3198,31 @@ End If
         
      
         'Valor do Frete
-          ReDim Preserve loja(I) As String
-        loja(I) = Format(rdoPedido("FRETECOBR"), "##,###,###0.00")
-        I = I + 1
+          ReDim Preserve loja(i) As String
+        loja(i) = Format(rdoPedido("FRETECOBR"), "##,###,###0.00")
+        i = i + 1
         'Valor Total de Desconto
-          ReDim Preserve loja(I) As String
-        loja(I) = Format(rdoPedido("Desconto"), "##,###,###0.00")
-        I = I + 1
-    ReDim Preserve loja(I) As String
+          ReDim Preserve loja(i) As String
+        loja(i) = Format(rdoPedido("Desconto"), "##,###,###0.00")
+        i = i + 1
+    ReDim Preserve loja(i) As String
         'BASE ICMS
-        loja(I) = Format((rdoPedido("BASEICMS") - rdoPedido("Desconto")), "##,###,###0.00")
-        I = I + 1
-    ReDim Preserve loja(I) As String
+        loja(i) = Format((rdoPedido("BASEICMS") - rdoPedido("Desconto")), "##,###,###0.00")
+        i = i + 1
+    ReDim Preserve loja(i) As String
         'Valor ICMS
        If IsNull(rdoPedido("vlricms")) Then
-       loja(I) = Format(0, "##,###,###0.00")
-        I = I + 1
+       loja(i) = Format(0, "##,###,###0.00")
+        i = i + 1
        Else
-        loja(I) = Format(rdoPedido("vlricms"), "##,###,###0.00")
-        I = I + 1
+        loja(i) = Format(rdoPedido("vlricms"), "##,###,###0.00")
+        i = i + 1
         End If
   'valor Total da Cotação
-    ReDim Preserve loja(I) As String
-        loja(I) = Format((rdoPedido("TOTALNOTA") - rdoPedido("Desconto")), "##,###,###0.00")
-        valparcela = loja(I)
-        I = I + 1
+    ReDim Preserve loja(i) As String
+        loja(i) = Format((rdoPedido("TOTALNOTA") - rdoPedido("Desconto")), "##,###,###0.00")
+        valparcela = loja(i)
+        i = i + 1
  
    
   
@@ -3316,41 +3318,41 @@ End If
     SQL = "Select CTS_ValidadeCotacao From ControleSistema"
     rdoValidadeCotacao.CursorLocation = adUseClient
     rdoValidadeCotacao.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
-        ReDim Preserve loja(I) As String
-        loja(I) = Format(DateAdd("D", rdoValidadeCotacao("CTs_ValidadeCotacao"), Date), "dd/mm/yyyy")
-        I = I + 1
+        ReDim Preserve loja(i) As String
+        loja(i) = Format(DateAdd("D", rdoValidadeCotacao("CTs_ValidadeCotacao"), Date), "dd/mm/yyyy")
+        i = i + 1
 
     rdoValidadeCotacao.Close
        
        
         If Not rsComplemento.EOF Then
 
-        ReDim Preserve loja(I) As String
-        loja(I) = IIf(IsNull(rsComplemento.Fields("modalidadevenda")), "A VISTA", rsComplemento.Fields("modalidadevenda"))
+        ReDim Preserve loja(i) As String
+        loja(i) = IIf(IsNull(rsComplemento.Fields("modalidadevenda")), "A VISTA", rsComplemento.Fields("modalidadevenda"))
         
-        If Trim(loja(I)) = "Faturado" Then
-         loja(I) = loja(I) & " - " & wPagamentototal
-         loja(I) = Replace(loja(I), "X", "  ")
+        If Trim(loja(i)) = "Faturado" Then
+         loja(i) = loja(i) & " - " & wPagamentototal
+         loja(i) = Replace(loja(i), "X", "  ")
          
         Else
         wPagamentototal = valparcela
         valparcela = (wPagamentototal / wPagamento)
         valparcela = Format(valparcela, "##,###,###0.00")
         wPagamentototal = Format(wPagamentototal, "##,###,###0.00")
-        If Trim(loja(I)) = "Cartão" Then
-        loja(I) = "Cart&atilde;o"
+        If Trim(loja(i)) = "Cartão" Then
+        loja(i) = "Cart&atilde;o"
         End If
         
-         loja(I) = Trim(loja(I)) & " - " & wPagamento & " X " & valparcela & " Total: " & wPagamentototal
+         loja(i) = Trim(loja(i)) & " - " & wPagamento & " X " & valparcela & " Total: " & wPagamentototal
         End If
-        I = I + 1
+        i = i + 1
             
         Else
         
-        ReDim Preserve loja(I) As String
-        loja(I) = "A VISTA"
-        loja(I) = loja(I) & " - " & wPagamento
-        I = I + 1
+        ReDim Preserve loja(i) As String
+        loja(i) = "A VISTA"
+        loja(i) = loja(i) & " - " & wPagamento
+        i = i + 1
         End If
         rsComplemento.Close
 total = qtotal

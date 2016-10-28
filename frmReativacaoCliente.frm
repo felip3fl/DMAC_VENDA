@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{D76D7130-4A96-11D3-BD95-D296DC2DD072}#1.0#0"; "Vsflex7d.ocx"
+Object = "{D76D7130-4A96-11D3-BD95-D296DC2DD072}#1.0#0"; "vsflex7d.ocx"
 Object = "{C932BA88-4374-101B-A56C-00AA003668DC}#1.1#0"; "MSMASK32.OCX"
 Object = "{EAB22AC0-30C1-11CF-A7EB-0000C05BAE0B}#1.1#0"; "ieframe.dll"
 Begin VB.Form frmReativacaoCliente 
@@ -7,8 +7,8 @@ Begin VB.Form frmReativacaoCliente
    BorderStyle     =   0  'None
    Caption         =   "Reativando Cliente"
    ClientHeight    =   5970
-   ClientLeft      =   2745
-   ClientTop       =   165
+   ClientLeft      =   660
+   ClientTop       =   2025
    ClientWidth     =   15120
    LinkTopic       =   "Form1"
    LockControls    =   -1  'True
