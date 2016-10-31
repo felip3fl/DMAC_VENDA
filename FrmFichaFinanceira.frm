@@ -641,3 +641,93 @@ End If
 rsConsultaitens.Close
 End Sub
 
+Private Sub grdItensProduto_Click()
+'ricardo 19/10/2016
+Dim variavelChaveNfe As String
+Dim nf As String
+Dim variavelEmail As String
+Dim rsPesquisa As New ADODB.Recordset
+Dim rsPesquisaEmail As New ADODB.Recordset
+
+
+   '------------------------- SELECIONA A NOTA CORRESPONDENTE AO CLICK NO GRID -----------------------------------------------------------
+    SQL = ""
+'    SQL = "select vc_chavenfe,vc_notafiscal,vc_serie from Capanfvenda where vc_notafiscal = '" & grdItensProduto.TextMatrix(grdItensProduto.Row, 5) & "' " _
+'         & "and VC_LojaOrigem = '" & AchaLojaControle & "' and vc_serie = 'NE'"
+         
+         SQL = "select vc_chavenfe,vc_notafiscal,vc_serie from Capanfvenda where vc_notafiscal = '" & grdItensProduto.TextMatrix(grdItensProduto.Row, 5) & "' " _
+         & "and VC_LojaOrigem = '" & AchaLojaControle & "' and vc_serie = 'NE'"
+       
+    rsPesquisa.CursorLocation = adUseClient
+    rsPesquisa.Open SQL, rdoCNMatriz, adOpenForwardOnly, adLockPessimistic
+    
+    If rsPesquisa.EOF Then
+        MsgBox "Essa nota não é do Tipo Eletronica", vbInformation
+        Exit Sub
+    End If
+    
+    
+    If Trim(rsPesquisa("vc_chavenfe") = "" Or rsPesquisa("vc_notafiscal") = "" Or rsPesquisa("vc_serie") = "") Then
+        MsgBox "Não temos informação sobre essa nota favor contacta o CPD"
+    Exit Sub
+    End If
+    
+    
+    If Trim(rsPesquisa("vc_serie")) <> "NE" Or IsNull(Trim(rsPesquisa("vc_serie"))) Then
+        MsgBox "Nota selecionada não é Eletronica", vbInformation
+        Exit Sub
+    End If
+    
+    
+    If IsNull(rsPesquisa("vc_chavenfe")) Then
+        MsgBox "Não é possivel enviar a chave de acesso", vbInformation
+        Exit Sub
+    End If
+    
+    If rsPesquisa("vc_notafiscal") = "" Then
+          MsgBox "Não temos informação sobre essa nota favor contacta o CPD"
+          Exit Sub
+    End If
+    
+    
+     variavelChaveNfe = rsPesquisa("vc_chavenfe")
+     nf = rsPesquisa("vc_notafiscal")
+     
+
+    
+    '----------------------- SELECIONA CLIENTE PARA VERIFICAÇÃO SE EXISTE EMAIL CADASTRADO -----------------------------------------------
+    
+    SQL = " Select CE_EMail from FIN_Cliente where CE_CodigoCliente = '" & frmConsCliente.txtPesquisaCliente & "'"
+    
+    
+      rsPesquisaEmail.CursorLocation = adUseClient
+      rsPesquisaEmail.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+      
+     If IsNull(rsPesquisaEmail("CE_Email")) Then
+        MsgBox "Email não valido ou não cadastrado favor verificar", vbDefaultButton2, "Email"
+        Exit Sub
+     Else
+        variavelEmail = rsPesquisaEmail("CE_EMail")
+     End If
+     
+      
+    
+    
+    '--------------------- INSERE ChaveNfe na Tabela NFe_ide --------------------------------------------------------------------------------
+    SQL = "INSERT INTO NFe_ide(eLoja,eNF,eSerie,Situacao,cUF,cNF,natOp,indPag,mod,serie,nNF,dEmi,dSaiEnt,hSaiEnt,tpNF,cMunFG,tpImp,tpEmis, " _
+         & "cDV,tpAmb,finNFe,procEmi,verProc,dhCont,xJust,ChaveAcesso,refNFe,IDDEST,INDFINAL,INDPRES) " _
+         & " VALUES ('" & AchaLojaControle & "','" & nf & "','NE','D','35','" & nf & "','DANFE E XML','0','55','1','" & nf & "','" & Format(Date, "yyyy/mm/dd") & "','" & Format(Date, "yyyy/mm/dd") & "','" & Format(Date, "yyyy/mm/dd") & "','1','3550308','1','1', " _
+         & " '','2','1','3','2.0.0','" & Format(Date, "yyyy/mm/dd") & "','Erro no envio da Nota Fiscal Eletronica devido a problemas com Sefaz','" & variavelChaveNfe & "','','1','1','1')"
+    
+           
+         adoCNLoja.Execute (SQL)
+    
+    
+
+rsPesquisa.Close
+rsPesquisaEmail.Close
+
+End Sub
+
+
+
