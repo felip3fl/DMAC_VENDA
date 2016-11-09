@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{D76D7130-4A96-11D3-BD95-D296DC2DD072}#1.0#0"; "Vsflex7d.ocx"
+Object = "{D76D7130-4A96-11D3-BD95-D296DC2DD072}#1.0#0"; "vsflex7d.ocx"
 Begin VB.Form FrmFichaFinanceira 
    BackColor       =   &H00404040&
    BorderStyle     =   0  'None
@@ -641,7 +641,7 @@ End If
 rsConsultaitens.Close
 End Sub
 
-Private Sub grdItensProduto_Click()
+Private Sub grdItensProduto_DblClick()
 'ricardo 19/10/2016
 Dim variavelChaveNfe As String
 Dim nf As String
@@ -728,6 +728,5 @@ rsPesquisa.Close
 rsPesquisaEmail.Close
 
 End Sub
-
 
 
