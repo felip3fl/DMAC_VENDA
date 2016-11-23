@@ -4,8 +4,8 @@ Begin VB.Form FrmCotacao
    BackColor       =   &H00505050&
    BorderStyle     =   0  'None
    ClientHeight    =   7095
-   ClientLeft      =   4800
-   ClientTop       =   2070
+   ClientLeft      =   3135
+   ClientTop       =   2160
    ClientWidth     =   13650
    ClipControls    =   0   'False
    LinkTopic       =   "Form3"
@@ -147,7 +147,8 @@ Private Sub CmdOK_Click()
 '    End If
 '    OptFechaCotacao.Value = True
 
-    FrmCotacao.WebNavegador.ExecWB OLECMDID_PRINT, OLECMDEXECOPT_PROMPTUSER
+    'FrmCotacao.WebNavegador.ExecWB OLECMDID_PRINT, OLECMDEXECOPT_PROMPTUSER
+    FrmCotacao.WebNavegador.ExecWB OLECMDID_PRINT, OLECMDEXECOPT_DONTPROMPTUSER
     
     Call FechaCotacao
     

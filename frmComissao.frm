@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{D76D7130-4A96-11D3-BD95-D296DC2DD072}#1.0#0"; "Vsflex7d.ocx"
+Object = "{D76D7130-4A96-11D3-BD95-D296DC2DD072}#1.0#0"; "vsflex7d.ocx"
 Object = "{C932BA88-4374-101B-A56C-00AA003668DC}#1.1#0"; "MSMASK32.OCX"
 Begin VB.Form frmComissao 
    BackColor       =   &H00505050&
@@ -1300,7 +1300,7 @@ End Sub
 
 Private Sub Form_Load()
 
-   frmNf.top = lblTotalVendas.top
+   frmNF.top = lblTotalVendas.top
    Call AjustaTela(frmComissao)
    wVendedor = ""
    GLB_Senha = ""
@@ -1393,6 +1393,11 @@ Private Sub Form_Load()
             
             
 End Sub
+
+Private Sub FrmOpcao_DblClick()
+    frmAlteraLojaVenda.Show 1
+End Sub
+
 Private Sub grdCliente1_Click()
     txtPesquisaCliente.Text = grdCliente1.TextMatrix(grdCliente1.Row, 1)
 End Sub
@@ -1442,7 +1447,7 @@ Private Sub grdItensNF_KeyDown(KeyCode As Integer, Shift As Integer)
     grdItensNF.Visible = False
  grdNotaFiscal.Visible = True
  grdNotaFiscal.SetFocus
- frmNf.Visible = False
+ frmNF.Visible = False
 End If
 End Sub
 
@@ -1454,7 +1459,7 @@ Private Sub grdNotaFiscal_DblClick()
           If wLinhagrd > 0 Then
             grdItensNF.Visible = True
             grdItensNF.SetFocus
-            frmNf.Visible = True
+            frmNF.Visible = True
             grdItensNF.SetFocus
             CarregagrditensNf
         Else
@@ -1479,7 +1484,7 @@ wLinhagrd = grdNotaFiscal.Row
   grdNotaFiscal.Visible = False
   If wLinhagrd <> 0 Then
     grdItensNF.Visible = True
-    frmNf.Visible = True
+    frmNF.Visible = True
     grdItensNF.SetFocus
     CarregagrditensNf
 Else

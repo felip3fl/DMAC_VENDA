@@ -6,8 +6,8 @@ Begin VB.Form frmDesconto
    BorderStyle     =   0  'None
    Caption         =   "Desconto"
    ClientHeight    =   7260
-   ClientLeft      =   5430
-   ClientTop       =   2610
+   ClientLeft      =   24645
+   ClientTop       =   2595
    ClientWidth     =   13260
    ControlBox      =   0   'False
    LinkTopic       =   "Form2"

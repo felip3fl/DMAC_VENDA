@@ -5,13 +5,13 @@ Begin VB.Form frmGarantiaEstendida
    BorderStyle     =   0  'None
    Caption         =   "Garantia Estendida"
    ClientHeight    =   5580
-   ClientLeft      =   2070
-   ClientTop       =   4020
-   ClientWidth     =   6555
+   ClientLeft      =   8535
+   ClientTop       =   3450
+   ClientWidth     =   6435
    LinkTopic       =   "Form2"
    LockControls    =   -1  'True
    ScaleHeight     =   5580
-   ScaleWidth      =   6555
+   ScaleWidth      =   6435
    ShowInTaskbar   =   0   'False
    Begin VB.PictureBox Picture2 
       BackColor       =   &H00808080&
@@ -345,7 +345,7 @@ End Sub
 Private Sub Form_Activate()
     
     valorGarantiaEstendida = 0
-    wNumeroPedido = frmPedido.txtpedido.Text
+    wNumeroPedido = frmPedido.txtPedido.Text
     lblValorTotalGarantia.Caption = RTrim(frmPedido.cmdTotalPedido.Caption)
     montaCamposGrid
     

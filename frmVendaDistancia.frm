@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{D76D7130-4A96-11D3-BD95-D296DC2DD072}#1.0#0"; "Vsflex7d.ocx"
+Object = "{D76D7130-4A96-11D3-BD95-D296DC2DD072}#1.0#0"; "vsflex7d.ocx"
 Object = "{90F3D7B3-92E7-44BA-B444-6A8E2A3BC375}#1.0#0"; "actskin4.ocx"
 Begin VB.Form frmVendaDistancia 
    BackColor       =   &H00505050&
@@ -18,12 +18,12 @@ Begin VB.Form frmVendaDistancia
    Begin VB.PictureBox Picture2 
       BackColor       =   &H00808080&
       Height          =   45
-      Left            =   75
+      Left            =   150
       ScaleHeight     =   45
-      ScaleWidth      =   6360
+      ScaleWidth      =   6165
       TabIndex        =   5
-      Top             =   4965
-      Width           =   6360
+      Top             =   4875
+      Width           =   6165
    End
    Begin VB.TextBox txtVendedorLojaVenda 
       BackColor       =   &H00C0C0C0&
@@ -39,11 +39,11 @@ Begin VB.Form frmVendaDistancia
       EndProperty
       ForeColor       =   &H00000000&
       Height          =   480
-      Left            =   90
+      Left            =   150
       MaxLength       =   3
       TabIndex        =   4
-      Top             =   4380
-      Width           =   3960
+      Top             =   4245
+      Width           =   2265
    End
    Begin ACTIVESKINLibCtl.Skin Skin1 
       Left            =   5805
@@ -71,13 +71,13 @@ Begin VB.Form frmVendaDistancia
       Width           =   300
    End
    Begin VSFlex7DAOCtl.VSFlexGrid grdLojas 
-      Height          =   3660
-      Left            =   105
+      Height          =   3450
+      Left            =   150
       TabIndex        =   1
       Top             =   405
       Width           =   6345
       _cx             =   11192
-      _cy             =   6456
+      _cy             =   6085
       _ConvInfo       =   1
       Appearance      =   2
       BorderStyle     =   1
@@ -165,9 +165,9 @@ Begin VB.Form frmVendaDistancia
    End
    Begin Project1.chameleonButton cmdGrava 
       Height          =   405
-      Left            =   5340
+      Left            =   5250
       TabIndex        =   6
-      Top             =   5040
+      Top             =   5055
       Width           =   1095
       _ExtentX        =   1931
       _ExtentY        =   714
@@ -216,9 +216,9 @@ Begin VB.Form frmVendaDistancia
       EndProperty
       ForeColor       =   &H00FFFFFF&
       Height          =   240
-      Left            =   135
+      Left            =   150
       TabIndex        =   3
-      Top             =   4170
+      Top             =   3990
       Width           =   2460
    End
    Begin VB.Label lblLojaVenda 
@@ -237,7 +237,7 @@ Begin VB.Form frmVendaDistancia
       Height          =   375
       Left            =   150
       TabIndex        =   2
-      Top             =   120
+      Top             =   150
       Width           =   2775
    End
 End
@@ -259,7 +259,7 @@ Private Sub cmdGrava_Click()
   SQL = ""
   SQL = "LojaVenda = ''" & Trim(grdLojas.TextMatrix(grdLojas.Row, 0)) & "'', OutraLoja = ''" & Trim(grdLojas.TextMatrix(grdLojas.Row, 0)) & "''," & _
         "VendedorLojaVenda = " & wValorCampo & ",OutroVend = " & wValorCampo
-  adoCNLoja.Execute "exec SP_GravaComplementoVenda " & txtpedido.Text & ",1," & wSequencia & ",'" & SQL & "'" ', rdExecDirect
+  adoCNLoja.Execute "exec SP_GravaComplementoVenda " & txtPedido.Text & ",1," & wSequencia & ",'" & SQL & "'" ', rdExecDirect
 
   Unload Me
 End Sub
@@ -280,7 +280,7 @@ Private Sub Form_Load()
   
   txtVendedorLojaVenda.Enabled = False
 
-  txtpedido.Text = frmPedido.txtpedido.Text
+  txtPedido.Text = frmPedido.txtPedido.Text
   wCodigo = 1
   SQL = "Select * from Loja where " _
       & "LO_OrdemLoja <> 888 and LO_Loja not in('Conso','CMCS','CMCE','CD','CMC') Order By LO_OrdemLoja"
@@ -296,11 +296,6 @@ Private Sub Form_Load()
   End If
   rsCarregaLoja.Close
 End Sub
-
-Private Sub fraBotoes_DragDrop(Source As Control, X As Single, Y As Single)
-
-End Sub
-
 
 
 Private Sub grdLojas_Click()
