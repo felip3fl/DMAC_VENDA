@@ -1,4 +1,5 @@
 VERSION 5.00
+Object = "{C932BA88-4374-101B-A56C-00AA003668DC}#1.1#0"; "MSMASK32.OCX"
 Begin VB.Form frmAlteraLojaVenda 
    BackColor       =   &H00505050&
    BorderStyle     =   0  'None
@@ -17,10 +18,10 @@ Begin VB.Form frmAlteraLojaVenda
       BorderStyle     =   0  'None
       Height          =   1545
       Left            =   120
-      TabIndex        =   19
+      TabIndex        =   21
       Top             =   3045
       Width           =   6165
-      Begin VB.ComboBox Combo1 
+      Begin VB.ComboBox cmbLoja 
          BackColor       =   &H00C0C0C0&
          BeginProperty Font 
             Name            =   "MS Sans Serif"
@@ -33,12 +34,12 @@ Begin VB.Form frmAlteraLojaVenda
          EndProperty
          Height          =   420
          Left            =   0
-         TabIndex        =   25
+         TabIndex        =   26
          Text            =   "271"
          Top             =   975
          Width           =   1515
       End
-      Begin VB.TextBox Text1 
+      Begin VB.TextBox txtChaveAcesso 
          BackColor       =   &H00C0C0C0&
          BeginProperty Font 
             Name            =   "MS Sans Serif"
@@ -52,7 +53,8 @@ Begin VB.Form frmAlteraLojaVenda
          ForeColor       =   &H00000000&
          Height          =   360
          Left            =   0
-         TabIndex        =   20
+         MaxLength       =   44
+         TabIndex        =   5
          ToolTipText     =   " "
          Top             =   255
          Width           =   6165
@@ -72,7 +74,7 @@ Begin VB.Form frmAlteraLojaVenda
          ForeColor       =   &H00FFFFFF&
          Height          =   165
          Left            =   0
-         TabIndex        =   26
+         TabIndex        =   27
          Top             =   735
          Width           =   2850
       End
@@ -91,7 +93,7 @@ Begin VB.Form frmAlteraLojaVenda
          ForeColor       =   &H00FFFFFF&
          Height          =   165
          Left            =   0
-         TabIndex        =   21
+         TabIndex        =   22
          Top             =   0
          Width           =   6165
       End
@@ -101,10 +103,10 @@ Begin VB.Form frmAlteraLojaVenda
       BorderStyle     =   0  'None
       Height          =   1080
       Left            =   150
-      TabIndex        =   12
+      TabIndex        =   14
       Top             =   1600
       Width           =   6165
-      Begin VB.Label Label11 
+      Begin VB.Label lblLojaVenda 
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
          Caption         =   "0,00"
@@ -120,11 +122,11 @@ Begin VB.Form frmAlteraLojaVenda
          ForeColor       =   &H00FFFFFF&
          Height          =   240
          Left            =   4290
-         TabIndex        =   24
+         TabIndex        =   25
          Top             =   750
          Width           =   435
       End
-      Begin VB.Label Label10 
+      Begin VB.Label lblLojaOrigem 
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
          Caption         =   "0,00"
@@ -140,11 +142,11 @@ Begin VB.Form frmAlteraLojaVenda
          ForeColor       =   &H00FFFFFF&
          Height          =   240
          Left            =   1365
-         TabIndex        =   23
+         TabIndex        =   24
          Top             =   750
          Width           =   435
       End
-      Begin VB.Label Label9 
+      Begin VB.Label lblVendedor 
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
          Caption         =   "0,00"
@@ -160,7 +162,7 @@ Begin VB.Form frmAlteraLojaVenda
          ForeColor       =   &H00FFFFFF&
          Height          =   240
          Left            =   4290
-         TabIndex        =   22
+         TabIndex        =   23
          Top             =   400
          Width           =   435
       End
@@ -180,7 +182,7 @@ Begin VB.Form frmAlteraLojaVenda
          ForeColor       =   &H00FFFFFF&
          Height          =   240
          Left            =   3000
-         TabIndex        =   18
+         TabIndex        =   20
          Top             =   750
          Width           =   1260
       End
@@ -200,7 +202,7 @@ Begin VB.Form frmAlteraLojaVenda
          ForeColor       =   &H00FFFFFF&
          Height          =   240
          Left            =   0
-         TabIndex        =   17
+         TabIndex        =   19
          Top             =   750
          Width           =   1335
       End
@@ -220,7 +222,7 @@ Begin VB.Form frmAlteraLojaVenda
          ForeColor       =   &H00FFFFFF&
          Height          =   240
          Left            =   3000
-         TabIndex        =   16
+         TabIndex        =   18
          Top             =   400
          Width           =   1095
       End
@@ -240,7 +242,7 @@ Begin VB.Form frmAlteraLojaVenda
          ForeColor       =   &H00FFFFFF&
          Height          =   240
          Left            =   0
-         TabIndex        =   15
+         TabIndex        =   17
          Top             =   0
          Width           =   2640
       End
@@ -260,11 +262,11 @@ Begin VB.Form frmAlteraLojaVenda
          ForeColor       =   &H00FFFFFF&
          Height          =   240
          Left            =   0
-         TabIndex        =   14
+         TabIndex        =   16
          Top             =   400
          Width           =   1170
       End
-      Begin VB.Label lblValorUnitarioItem 
+      Begin VB.Label lblTotalNota 
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
          Caption         =   "0,00"
@@ -280,7 +282,7 @@ Begin VB.Form frmAlteraLojaVenda
          ForeColor       =   &H00FFFFFF&
          Height          =   240
          Left            =   1365
-         TabIndex        =   13
+         TabIndex        =   15
          Top             =   400
          Width           =   435
       End
@@ -290,65 +292,33 @@ Begin VB.Form frmAlteraLojaVenda
       BorderStyle     =   0  'None
       Caption         =   "Frame1"
       Height          =   885
-      Left            =   465
-      TabIndex        =   3
+      Left            =   480
+      TabIndex        =   9
       Top             =   600
       Width           =   5640
-      Begin VB.TextBox Text6 
-         BackColor       =   &H00C0C0C0&
-         BeginProperty Font 
+      Begin MSMask.MaskEdBox mskDataEmissao 
+         Height          =   375
+         Left            =   2640
+         TabIndex        =   3
+         Top             =   240
+         Width           =   1695
+         _ExtentX        =   2990
+         _ExtentY        =   661
+         _Version        =   393216
+         BackColor       =   12632256
+         BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
-            Size            =   9.75
+            Size            =   8.25
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         ForeColor       =   &H00000000&
-         Height          =   360
-         Left            =   4425
-         TabIndex        =   10
-         Top             =   255
-         Width           =   1200
+         Format          =   "dd/mm/yyyy"
+         PromptChar      =   "_"
       End
-      Begin VB.TextBox Text5 
-         BackColor       =   &H00C0C0C0&
-         BeginProperty Font 
-            Name            =   "MS Sans Serif"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   700
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         ForeColor       =   &H00000000&
-         Height          =   360
-         Left            =   2550
-         TabIndex        =   7
-         Top             =   255
-         Width           =   1800
-      End
-      Begin VB.TextBox Text4 
-         BackColor       =   &H00C0C0C0&
-         BeginProperty Font 
-            Name            =   "MS Sans Serif"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   700
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         ForeColor       =   &H00000000&
-         Height          =   360
-         Left            =   1275
-         TabIndex        =   6
-         Top             =   255
-         Width           =   1200
-      End
-      Begin VB.TextBox txtPesquisaCliente 
+      Begin VB.TextBox txtNumero 
          BackColor       =   &H00C0C0C0&
          BeginProperty Font 
             Name            =   "MS Sans Serif"
@@ -362,7 +332,43 @@ Begin VB.Form frmAlteraLojaVenda
          ForeColor       =   &H00000000&
          Height          =   360
          Left            =   0
+         TabIndex        =   1
+         Top             =   240
+         Width           =   1200
+      End
+      Begin VB.TextBox txtCliente 
+         BackColor       =   &H00C0C0C0&
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00000000&
+         Height          =   360
+         Left            =   4440
          TabIndex        =   4
+         Top             =   240
+         Width           =   1200
+      End
+      Begin VB.TextBox txtSerie 
+         BackColor       =   &H00C0C0C0&
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00000000&
+         Height          =   360
+         Left            =   1275
+         TabIndex        =   2
          Top             =   255
          Width           =   1200
       End
@@ -381,7 +387,7 @@ Begin VB.Form frmAlteraLojaVenda
          ForeColor       =   &H00FFFFFF&
          Height          =   165
          Left            =   4425
-         TabIndex        =   11
+         TabIndex        =   13
          Top             =   0
          Width           =   2490
       End
@@ -400,7 +406,7 @@ Begin VB.Form frmAlteraLojaVenda
          ForeColor       =   &H00FFFFFF&
          Height          =   165
          Left            =   2550
-         TabIndex        =   9
+         TabIndex        =   12
          Top             =   0
          Width           =   2490
       End
@@ -419,7 +425,7 @@ Begin VB.Form frmAlteraLojaVenda
          ForeColor       =   &H00FFFFFF&
          Height          =   165
          Left            =   1275
-         TabIndex        =   8
+         TabIndex        =   11
          Top             =   0
          Width           =   915
       End
@@ -438,7 +444,7 @@ Begin VB.Form frmAlteraLojaVenda
          ForeColor       =   &H00FFFFFF&
          Height          =   165
          Left            =   0
-         TabIndex        =   5
+         TabIndex        =   10
          Top             =   0
          Width           =   915
       End
@@ -453,11 +459,11 @@ Begin VB.Form frmAlteraLojaVenda
       Top             =   4725
       Width           =   6165
    End
-   Begin Project1.chameleonButton cmdImportarContato 
+   Begin Project1.chameleonButton cmdGravar 
       Height          =   405
       Left            =   4350
-      TabIndex        =   1
-      Top             =   4905
+      TabIndex        =   6
+      Top             =   4920
       Width           =   1980
       _ExtentX        =   3493
       _ExtentY        =   714
@@ -491,6 +497,44 @@ Begin VB.Form frmAlteraLojaVenda
       CHECK           =   0   'False
       VALUE           =   0   'False
    End
+   Begin Project1.chameleonButton cmdRetornar 
+      Height          =   405
+      Left            =   2280
+      TabIndex        =   7
+      Top             =   4920
+      Width           =   1980
+      _ExtentX        =   3493
+      _ExtentY        =   714
+      BTYPE           =   14
+      TX              =   "Retornar"
+      ENAB            =   -1  'True
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      COLTYPE         =   2
+      FOCUSR          =   -1  'True
+      BCOL            =   5263440
+      BCOLO           =   0
+      FCOL            =   16777215
+      FCOLO           =   16777215
+      MCOL            =   5263440
+      MPTR            =   1
+      MICON           =   "frmAlteraLojaVenda.frx":001C
+      UMCOL           =   -1  'True
+      SOFT            =   0   'False
+      PICPOS          =   0
+      NGREY           =   0   'False
+      FX              =   0
+      HAND            =   0   'False
+      CHECK           =   0   'False
+      VALUE           =   0   'False
+   End
    Begin VB.Label lblPagamento 
       Alignment       =   2  'Center
       BackStyle       =   0  'Transparent
@@ -507,7 +551,7 @@ Begin VB.Form frmAlteraLojaVenda
       ForeColor       =   &H00FFFFFF&
       Height          =   390
       Left            =   150
-      TabIndex        =   2
+      TabIndex        =   8
       Top             =   150
       Width           =   6165
    End
@@ -517,18 +561,208 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+
+Option Explicit
+Dim SQL As String
+Dim rdoLojas As New ADODB.Recordset
+Dim rdoNotas As New ADODB.Recordset
+Dim rdoGravar As New ADODB.Recordset
+Dim wTotalNota As Double
+Dim CHAVENF As String
+
+
+Private Sub cmdRetornar_Click()
+    Unload Me
+End Sub
+
 Private Sub Form_Load()
+
+  If rdoCNMatriz.State = 1 Then
+    rdoCNMatriz.Close
+  End If
+  
+  ConectaODBCMatriz
+  If GLB_ConectouOK = False Then
+     MsgBox "Erro ao conectar-se ao Banco de Dados da Matriz", vbCritical, "Atenção"
+     Exit Sub
+  End If
+  
 
     Call AjustaTela(frmAlteraLojaVenda)
 
     frmNF.BackColor = Me.BackColor
     frmInfoNF.BackColor = Me.BackColor
     frmAlterarNF.BackColor = Me.BackColor
+    
+    
+    lblTotalNota.Caption = ""
+    lblLojaOrigem.Caption = ""
+    lblVendedor.Caption = ""
+    lblLojaVenda.Caption = ""
+    cmdGravar.Enabled = False
+    
+    
+    SQL = "Select Lo_loja from loja where lo_Regiao < 900 and lo_loja not in ('CD5') GROUP BY lo_loja"
+ 
+        rdoLojas.CursorLocation = adUseClient
+        rdoLojas.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+ 
+    
+        If Not rdoLojas.EOF Then
+            cmbLoja.Clear
+            Do While Not rdoLojas.EOF
+                cmbLoja.AddItem Trim(rdoLojas("lo_loja"))
+                rdoLojas.MoveNext
+            Loop
+            
+            Screen.MousePointer = 0
+        End If
+
+rdoLojas.Close
+
+cmbLoja.ListIndex = 0
 
 End Sub
+Private Sub CarregaNota()
+    
 
-Private Sub Frame2_DragDrop(Source As Control, X As Single, Y As Single)
+'SQL = "select  * " _
+'    & "From NFCAPA " _
+'    & "where NF = '" & txtNumero.Text & "' and SERIE = '" & txtSerie.Text & "' and DATAEMI = '" & Format(mskDataEmissao.Text, "yyyy/mm/dd") & "' and Cliente = '" & RTrim(Trim(txtCliente.Text)) & "' "
 
+SQL = ""
+SQL = "select VC_ChaveNFE,VC_TotalNota, VC_LojaOrigem, VC_VendedorLojaVenda ,VC_LojaVenda " _
+    & "From CapaNFVenda " _
+    & "where VC_NotaFiscal = '" & txtNumero.Text & "' and VC_Serie = '" & "NE" & "' " _
+    & "and VC_DataEmissao = '" & Format(mskDataEmissao.Text, "yyyy/mm/dd") & "' " _
+    & "and VC_Cliente = '" & RTrim(Trim(txtCliente.Text)) & "'" & "and VC_CodigoVendedor = '" & Mid(frmPedido.txtVendedor.Text, 1, 3) & "' " _
+    & "and VC_LojaOrigem = '" & RTrim(wLoja) & "'"
+
+
+        rdoNotas.CursorLocation = adUseClient
+        
+        rdoNotas.Open SQL, rdoCNMatriz, adOpenForwardOnly, adLockPessimistic
+        
+        
+           If Not rdoNotas.EOF Then
+
+                lblTotalNota.Caption = Format(rdoNotas("VC_TotalNota"), "##0.00")
+                lblLojaOrigem.Caption = rdoNotas("VC_LojaOrigem")
+                lblVendedor.Caption = rdoNotas("VC_VendedorLojaVenda")
+                lblLojaVenda.Caption = rdoNotas("VC_LojaVenda")
+                CHAVENF = rdoNotas("VC_ChaveNFE")
+                
+                txtNumero.Enabled = False
+                txtSerie.Enabled = False
+                mskDataEmissao.Enabled = False
+                txtCliente.Enabled = False
+            
+           Else
+                MsgBox "Não existe informações sobre esta nota,ou série errada", vbInformation
+                LimparCampos
+                txtChaveAcesso.Enabled = False
+                txtCliente.SetFocus
+           End If
+           
+        rdoNotas.Close
+End Sub
+
+Private Sub mskDataEmissao_KeyPress(KeyAscii As Integer)
+
+    If Len(mskDataEmissao.Text) = 2 Then
+            mskDataEmissao.Text = mskDataEmissao.Text & "/"
+            mskDataEmissao.SelStart = 3
+        ElseIf Len(mskDataEmissao.Text) = 5 Then
+            mskDataEmissao.Text = mskDataEmissao.Text & "/"
+            mskDataEmissao.SelStart = 6
+        End If
+        
+End Sub
+
+Private Sub txtChaveAcesso_KeyPress(KeyAscii As Integer)
+
+If KeyAscii > 64 Then  'Não permite letras
+    KeyAscii = 0
+End If
+
+    'Não permite caracteres especiais
+  If (KeyAscii < 65 Or KeyAscii > 90) And _
+       (KeyAscii < 97 Or KeyAscii > 122) And _
+       (KeyAscii < 48 Or KeyAscii > 57) And _
+       (KeyAscii <> 32) And _
+       (KeyAscii > 9) Then
+        KeyAscii = 0
+  End If
+  
+  If KeyAscii = 13 Then
+    If Len(txtChaveAcesso.Text) < 44 Then
+            MsgBox "Chave de acesso Incorreta, A chave deve conter 44 numeros ", vbCritical, "Atenção"
+            txtChaveAcesso.SetFocus
+        End If
+    Else
+    If CHAVENF = txtChaveAcesso.Text Then
+        cmdGravar.Enabled = True
+    Else
+        MsgBox "Chave de acesso incorreta", vbInformation, "Atenção"
+    
+  End If
+ End If
+      
+End Sub
+
+Private Sub txtSerie_LostFocus()
+    txtSerie.Text = UCase(txtSerie.Text)
+End Sub
+
+Private Sub txtCliente_KeyPress(KeyAscii As Integer)
+
+    If KeyAscii = 13 Then
+        CarregaNota
+        cmdGravar.Enabled = False
+       
+    End If
+         
+End Sub
+
+Private Sub cmdGravar_Click()
+'ricardo
+
+        
+         'Update loja
+        SQL = ""
+        SQL = "Update NFCAPA set LojaVenda = '" & cmbLoja.Text & "' where NF = '" & txtNumero.Text & "'" _
+          & "and SERIE = '" & txtSerie.Text & "' and DATAEMI = '" & Format(mskDataEmissao.Text, "yyyy/mm/dd") & "'" _
+          & "and Cliente = '" & RTrim(Trim(txtCliente.Text)) & "' and LojaOrigem = '" & lblLojaOrigem.Caption & "'"
+    
+        adoCNLoja.Execute (SQL)
+        rdoCNMatriz.Execute (SQL)
+        
+        'Update Matriz
+        SQL = "Update CapaNFVenda set VC_LojaVenda = '" & cmbLoja.Text & "'" _
+            & "where VC_TipoNota = 'V' and vc_notafiscal = '" & txtNumero.Text & "' and vc_Serie = '" & txtSerie.Text & "' and vc_DataEmissao = '" & Format(mskDataEmissao.Text, "yyyy/mm/dd") & "'" _
+            & "and VC_Cliente = '" & RTrim(Trim(txtCliente.Text)) & "' and vc_LojaOrigem = '" & lblLojaOrigem.Caption & "'"
+        
+        rdoCNMatriz.Execute (SQL)
+        
+        MsgBox "Nota fiscal alterada com sucesso", vbCritical, "Atenção"
+        LimparCampos
+        
+End Sub
+
+Private Sub LimparCampos()
+    txtNumero.Text = ""
+    txtSerie.Text = ""
+    mskDataEmissao.Text = ""
+    txtCliente.Text = ""
+    txtChaveAcesso.Text = ""
+    lblTotalNota.Caption = ""
+    lblLojaOrigem.Caption = ""
+    lblVendedor.Caption = ""
+    lblLojaVenda.Caption = ""
+    txtChaveAcesso.Enabled = False
+    cmdGravar.Enabled = False
+    cmbLoja.ListIndex = 0
+    
 End Sub
 
 Private Sub lblTotalVendas_Click()
@@ -546,3 +780,5 @@ Private Sub txtPesquisaCliente_KeyPress(KeyAscii As Integer)
         Unload Me
     End If
 End Sub
+
+
