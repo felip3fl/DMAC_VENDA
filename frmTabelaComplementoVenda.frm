@@ -192,7 +192,7 @@ Option Explicit
 'Dim rsDadosGerais As rdoResultset
 Dim SQL As String
 
-Private Sub CmdGravar_Click()
+Private Sub cmdGravar_Click()
   Call GravaDadosGerais
   Call CarregaGride
   txtCodigo.Text = ""

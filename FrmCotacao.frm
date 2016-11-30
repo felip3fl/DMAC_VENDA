@@ -167,9 +167,9 @@ End Sub
 
 Private Sub Form_Activate()
     Screen.MousePointer = 11
-    dados frmPedido.txtPedido.Text
+    dados frmPedido.txtpedido.Text
     Me.Visible = False
-    txtPedido.Text = frmPedido.txtPedido.Text
+    txtpedido.Text = frmPedido.txtpedido.Text
     timerImpressao.Enabled = True
 End Sub
 
@@ -193,18 +193,18 @@ Private Sub FechaCotacao()
     Dim SQL As String
     
     SQL = "Select sum(vltotitem) as vlrmercadoria, sum(vltotitem - desconto) as totalnota " & _
-    "from nfitens where numeroped = " & txtPedido.Text
+    "from nfitens where numeroped = " & txtpedido.Text
     rsComplementoVenda.CursorLocation = adUseClient
     rsComplementoVenda.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
     
     SQL = ""
     SQL = "Update NFCapa set TipoNota = 'PD', vlrmercadoria = " & ConverteVirgula(Format(rsComplementoVenda("vlrmercadoria"), "##0.00")) & _
     ", TotalNota = " & ConverteVirgula(Format(rsComplementoVenda("Totalnota"), "##0.00")) & _
-    " Where NumeroPed = " & txtPedido.Text
+    " Where NumeroPed = " & txtpedido.Text
     adoCNLoja.Execute SQL
     
     SQL = ""
-    SQL = "Update NFItens Set TipoNota = 'PD' Where NumeroPed = " & txtPedido.Text
+    SQL = "Update NFItens Set TipoNota = 'PD' Where NumeroPed = " & txtpedido.Text
     adoCNLoja.Execute SQL
     
     SQL = ""

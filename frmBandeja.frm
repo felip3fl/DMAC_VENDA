@@ -3,8 +3,8 @@ Begin VB.Form frmBandeja
    BackColor       =   &H00000000&
    Caption         =   "DMAC Venda"
    ClientHeight    =   10125
-   ClientLeft      =   2640
-   ClientTop       =   555
+   ClientLeft      =   2565
+   ClientTop       =   75
    ClientWidth     =   15120
    Icon            =   "frmBandeja.frx":0000
    LinkTopic       =   "Form2"

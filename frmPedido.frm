@@ -9,8 +9,8 @@ Begin VB.Form frmPedido
    BorderStyle     =   0  'None
    Caption         =   "DMAC Venda"
    ClientHeight    =   11040
-   ClientLeft      =   27720
-   ClientTop       =   255
+   ClientLeft      =   22350
+   ClientTop       =   570
    ClientWidth     =   15120
    ControlBox      =   0   'False
    FillColor       =   &H00404040&

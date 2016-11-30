@@ -6,13 +6,14 @@ Begin VB.Form frmComissao
    BorderStyle     =   0  'None
    Caption         =   "Comissão Vendedor"
    ClientHeight    =   6375
-   ClientLeft      =   2505
-   ClientTop       =   1740
-   ClientWidth     =   13305
+   ClientLeft      =   5100
+   ClientTop       =   3705
+   ClientWidth     =   6555
    ControlBox      =   0   'False
    LinkTopic       =   "Form2"
+   LockControls    =   -1  'True
    ScaleHeight     =   6375
-   ScaleWidth      =   13305
+   ScaleWidth      =   6555
    ShowInTaskbar   =   0   'False
    Begin VB.TextBox txtPesquisaCliente 
       BackColor       =   &H00C0C0C0&
@@ -61,57 +62,76 @@ Begin VB.Form frmComissao
       BackColor       =   &H00505050&
       Caption         =   "Opção/Senha"
       ForeColor       =   &H00FFFFFF&
-      Height          =   1095
-      Left            =   600
+      Height          =   2730
+      Left            =   1095
       TabIndex        =   19
-      Top             =   1920
-      Width           =   4935
-      Begin VB.TextBox txtSenhaComissao2 
-         BackColor       =   &H00C0C0C0&
-         ForeColor       =   &H00000000&
-         Height          =   315
-         IMEMode         =   3  'DISABLE
-         Left            =   1080
-         MaxLength       =   8
-         PasswordChar    =   "*"
-         TabIndex        =   0
-         Top             =   240
-         Width           =   1200
-      End
+      Top             =   1275
+      Width           =   4620
       Begin VB.OptionButton chkReativacao 
          BackColor       =   &H00505050&
          Caption         =   "Reativação de Cliente"
          ForeColor       =   &H00FFFFFF&
          Height          =   315
-         Left            =   2640
+         Left            =   150
+         TabIndex        =   42
+         Top             =   1800
+         Width           =   4305
+      End
+      Begin VB.TextBox txtSenhaComissao2 
+         BackColor       =   &H00C0C0C0&
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   13.5
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00000000&
+         Height          =   480
+         IMEMode         =   3  'DISABLE
+         Left            =   2265
+         MaxLength       =   8
+         PasswordChar    =   "*"
+         TabIndex        =   0
+         Top             =   240
+         Width           =   2205
+      End
+      Begin VB.OptionButton chkAlteraLojaVenda 
+         BackColor       =   &H00505050&
+         Caption         =   "Alterar Loja Venda"
+         ForeColor       =   &H00FFFFFF&
+         Height          =   315
+         Left            =   150
          TabIndex        =   40
-         Top             =   720
-         Width           =   1935
+         Top             =   2200
+         Width           =   4305
       End
       Begin VB.OptionButton chkPorCliente 
          BackColor       =   &H00505050&
          Caption         =   "Por Cliente"
          ForeColor       =   &H00FFFFFF&
          Height          =   315
-         Left            =   1320
+         Left            =   150
          TabIndex        =   21
-         Top             =   720
-         Width           =   1095
+         Top             =   1400
+         Width           =   4305
       End
       Begin VB.OptionButton chkPorNotaFiscal 
          BackColor       =   &H00505050&
          Caption         =   "Comissão"
          ForeColor       =   &H00FFFFFF&
          Height          =   315
-         Left            =   120
+         Left            =   150
          TabIndex        =   20
-         Top             =   720
-         Width           =   1455
+         Top             =   1000
+         Width           =   4305
       End
       Begin VB.Label Label6 
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
-         Caption         =   "Senha:"
+         Caption         =   "Informe sua senha:"
          BeginProperty Font 
             Name            =   "MS Sans Serif"
             Size            =   9.75
@@ -123,10 +143,10 @@ Begin VB.Form frmComissao
          EndProperty
          ForeColor       =   &H00FFFFFF&
          Height          =   240
-         Left            =   240
+         Left            =   150
          TabIndex        =   41
          Top             =   360
-         Width           =   735
+         Width           =   1965
       End
    End
    Begin VB.Frame frmNf 
@@ -136,7 +156,7 @@ Begin VB.Form frmComissao
       Height          =   615
       Left            =   15
       TabIndex        =   10
-      Top             =   5550
+      Top             =   5565
       Visible         =   0   'False
       Width           =   6420
       Begin VB.Label lblValor 
@@ -1253,10 +1273,19 @@ Dim resultadoNota As String
 Dim rsNomeCliente As New ADODB.Recordset
 Dim NomeUsuario As String
 
+Private Sub chkAlteraLojaVenda_Click()
+    
+    frmAlteraLojaVenda.Show 1
+    frmAlteraLojaVenda.ZOrder
+    Unload Me
+    
+End Sub
+
 Private Sub chkReativacao_Click()
             'ricardo
             frmReativacaoCliente.Show 1
             frmReativacaoCliente.ZOrder
+            Unload Me
         
 End Sub
 
@@ -1265,9 +1294,10 @@ Private Sub chkReativacao_KeyDown(KeyCode As Integer, Shift As Integer)
         FrmOpcao.Visible = True
         txtSenhaComissao2.Visible = True
         Label6.Visible = True
-        chkPorNotaFiscal.Visible = False
-        chkPorCliente.Visible = False
-        chkReativacao.Visible = False
+        chkPorNotaFiscal.enable = False
+        chkPorNotaFiscal.enable = False
+        chkReativacao.enable = False
+        chkAlteraLojaVenda.Enabled = False
         Label6.Enabled = True
         txtSenhaComissao2.Enabled = True
      End If
@@ -1278,9 +1308,10 @@ Private Sub chkPorCliente_KeyDown(KeyCode As Integer, Shift As Integer)
         FrmOpcao.Visible = True
         txtSenhaComissao2.Visible = True
         Label6.Visible = True
-        chkPorNotaFiscal.Visible = False
-        chkPorCliente.Visible = False
-        chkReativacao.Visible = False
+        chkPorNotaFiscal.enable = False
+        chkPorNotaFiscal.enable = False
+        chkReativacao.enable = False
+        chkAlteraLojaVenda.Enabled = False
         Label6.Enabled = True
         txtSenhaComissao2.Enabled = True
     End If
@@ -1290,17 +1321,44 @@ Private Sub chkPorNotaFiscal_KeyDown(KeyCode As Integer, Shift As Integer)
         FrmOpcao.Visible = True
         txtSenhaComissao2.Visible = True
         Label6.Visible = True
-        chkPorNotaFiscal.Visible = False
-        chkPorCliente.Visible = False
-        chkReativacao.Visible = False
+        chkPorNotaFiscal.enable = False
+        chkPorNotaFiscal.enable = False
+        chkReativacao.enable = False
+        chkAlteraLojaVenda.Enabled = False
         Label6.Enabled = True
         txtSenhaComissao2.Enabled = True
     End If
 End Sub
 
+Private Sub carregaSenhaVendedor()
+
+    Dim rsSenha As New ADODB.Recordset
+
+   wVendedor = Mid(frmPedido.txtVendedor.Text, 1, 3)
+  
+   SQL = "select ve_Nome,ve_senha from vende where ve_codigo = '" & wVendedor & "'"
+   rsSenha.CursorLocation = adUseClient
+   rsSenha.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+   
+   'ricardo
+   GLB_Senha = Trim(rsSenha("ve_Senha"))
+   
+   rsSenha.Close
+
+End Sub
+
+Private Sub Form_Activate()
+    carregaSenhaVendedor
+End Sub
+
 Private Sub Form_Load()
 
-   frmNF.top = lblTotalVendas.top
+    chkPorNotaFiscal.Enabled = False
+    chkPorCliente.Enabled = False
+    chkReativacao.Enabled = False
+    chkAlteraLojaVenda.Enabled = False
+
+   frmNf.top = lblTotalVendas.top
    Call AjustaTela(frmComissao)
    wVendedor = ""
    GLB_Senha = ""
@@ -1326,16 +1384,7 @@ Private Sub Form_Load()
    ''''''''''''''''''''''''''''''''''''''''''''''''''''
  
 
-   wVendedor = Mid(frmPedido.txtVendedor.Text, 1, 3)
-  
-   SQL = "select ve_Nome,ve_senha from vende where ve_codigo = '" & wVendedor & "'"
-   rsComissao.CursorLocation = adUseClient
-   rsComissao.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
-   
-   'ricardo
-   GLB_Senha = Trim(rsComissao("ve_Senha"))
-   
-   rsComissao.Close
+
    
    mskDataInicial.Text = "__/__/____"
    mskDataFinal.Text = "__/__/____"
@@ -1351,45 +1400,46 @@ Private Sub Form_Load()
   grdComissao.Row = -1
    
    
-            FrmOpcao.Visible = True
-            frmComissao.FrmOpcao.Visible = True
-            
-            lblSenha.Visible = False
-            txtSenhaComissao.Visible = False
-            lblPeriodo.Visible = False
-            mskDataInicial.Visible = False
-            lblA.Visible = False
-            mskDataFinal.Visible = False
-            Label4.Visible = False
-            txtPesquisaCliente.Visible = False
-            grdComissao.Visible = False
-            grdNotaCliente.Visible = False
-            grdItensCliente.Visible = False
-            lblTotalVendas.Visible = False
-            lblValorTotalVendas.Visible = False
-            lblTotalComissao.Visible = False
-            lblValorTotalComissao.Visible = False
-            lblTotalDevolucao.Visible = False
-            lblValortotalDevolucao.Visible = False
-            Label1.Visible = False
-            lblNf.Visible = False
-            Label3.Visible = False
-            lblCliente.Visible = False
-            Label2.Visible = False
-            lblSerie.Visible = False
-            Label5.Visible = False
-            lblValor.Visible = False
-            'Frame1.Visible = False
-            LabelSenha1.Visible = False
-            txtSenhaComissao1.Visible = False
-            lblPeriodo1.Visible = False
-            mskDataInicial1.Visible = False
-            lblA1.Visible = False
-            mskDataFinal1.Visible = False
-            
-            chkPorNotaFiscal.Visible = False
-            chkPorCliente.Visible = False
-            chkReativacao.Visible = False
+    FrmOpcao.Visible = True
+    frmComissao.FrmOpcao.Visible = True
+    
+    lblSenha.Visible = False
+    txtSenhaComissao.Visible = False
+    lblPeriodo.Visible = False
+    mskDataInicial.Visible = False
+    lblA.Visible = False
+    mskDataFinal.Visible = False
+    Label4.Visible = False
+    txtPesquisaCliente.Visible = False
+    grdComissao.Visible = False
+    grdNotaCliente.Visible = False
+    grdItensCliente.Visible = False
+    lblTotalVendas.Visible = False
+    lblValorTotalVendas.Visible = False
+    lblTotalComissao.Visible = False
+    lblValorTotalComissao.Visible = False
+    lblTotalDevolucao.Visible = False
+    lblValortotalDevolucao.Visible = False
+    Label1.Visible = False
+    lblNf.Visible = False
+    Label3.Visible = False
+    lblCliente.Visible = False
+    Label2.Visible = False
+    lblSerie.Visible = False
+    Label5.Visible = False
+    lblValor.Visible = False
+    'Frame1.Visible = False
+    LabelSenha1.Visible = False
+    txtSenhaComissao1.Visible = False
+    lblPeriodo1.Visible = False
+    mskDataInicial1.Visible = False
+    lblA1.Visible = False
+    mskDataFinal1.Visible = False
+    
+    chkPorNotaFiscal.Enabled = False
+    chkPorCliente.Enabled = False
+    chkReativacao.Enabled = False
+    chkAlteraLojaVenda.Enabled = False
             
             
 End Sub
@@ -1447,7 +1497,7 @@ Private Sub grdItensNF_KeyDown(KeyCode As Integer, Shift As Integer)
     grdItensNF.Visible = False
  grdNotaFiscal.Visible = True
  grdNotaFiscal.SetFocus
- frmNF.Visible = False
+ frmNf.Visible = False
 End If
 End Sub
 
@@ -1459,7 +1509,7 @@ Private Sub grdNotaFiscal_DblClick()
           If wLinhagrd > 0 Then
             grdItensNF.Visible = True
             grdItensNF.SetFocus
-            frmNF.Visible = True
+            frmNf.Visible = True
             grdItensNF.SetFocus
             CarregagrditensNf
         Else
@@ -1484,7 +1534,7 @@ wLinhagrd = grdNotaFiscal.Row
   grdNotaFiscal.Visible = False
   If wLinhagrd <> 0 Then
     grdItensNF.Visible = True
-    frmNF.Visible = True
+    frmNf.Visible = True
     grdItensNF.SetFocus
     CarregagrditensNf
 Else
@@ -2055,7 +2105,6 @@ Private Sub txtSenhaComissao2_KeyPress(KeyAscii As Integer)
        
        If frmComissao.txtSenhaComissao2.Text = "" Then
           MsgBox "Informar senha do vendedor", vbExclamation, Me.Caption
-          
        ElseIf frmComissao.txtSenhaComissao2.Text = "'" Or Trim(frmComissao.txtSenhaComissao2.Text) <> GLB_Senha Then
        
           MsgBox "Senha incorreta", vbExclamation, Me.Caption
@@ -2069,15 +2118,14 @@ Private Sub txtSenhaComissao2_KeyPress(KeyAscii As Integer)
 '            frmComissao.txtSenhaComissao2.Visible = False
             frmComissao.Label6.Enabled = False
             frmComissao.txtSenhaComissao2.Enabled = False
-            chkPorNotaFiscal.Visible = True
-            chkPorCliente.Visible = True
-            chkReativacao.Visible = True
+            chkPorNotaFiscal.Enabled = True
+            chkPorCliente.Enabled = True
+            chkReativacao.Enabled = True
+            chkAlteraLojaVenda.Enabled = True
             frmComissao.txtSenhaComissao2.Text = ""
             
             
        End If
-Else
-    frmComissao.txtSenhaComissao2.SetFocus
        
     End If
 
