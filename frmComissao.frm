@@ -1294,9 +1294,9 @@ Private Sub chkReativacao_KeyDown(KeyCode As Integer, Shift As Integer)
         FrmOpcao.Visible = True
         txtSenhaComissao2.Visible = True
         Label6.Visible = True
-        chkPorNotaFiscal.enable = False
-        chkPorNotaFiscal.enable = False
-        chkReativacao.enable = False
+        chkPorNotaFiscal.Enabled = False
+        chkPorNotaFiscal.Enabled = False
+        chkReativacao.Enabled = False
         chkAlteraLojaVenda.Enabled = False
         Label6.Enabled = True
         txtSenhaComissao2.Enabled = True
@@ -1308,9 +1308,9 @@ Private Sub chkPorCliente_KeyDown(KeyCode As Integer, Shift As Integer)
         FrmOpcao.Visible = True
         txtSenhaComissao2.Visible = True
         Label6.Visible = True
-        chkPorNotaFiscal.enable = False
-        chkPorNotaFiscal.enable = False
-        chkReativacao.enable = False
+        chkPorNotaFiscal.Enabled = False
+        chkPorNotaFiscal.Enabled = False
+        chkReativacao.Enabled = False
         chkAlteraLojaVenda.Enabled = False
         Label6.Enabled = True
         txtSenhaComissao2.Enabled = True
@@ -1321,9 +1321,9 @@ Private Sub chkPorNotaFiscal_KeyDown(KeyCode As Integer, Shift As Integer)
         FrmOpcao.Visible = True
         txtSenhaComissao2.Visible = True
         Label6.Visible = True
-        chkPorNotaFiscal.enable = False
-        chkPorNotaFiscal.enable = False
-        chkReativacao.enable = False
+        chkPorNotaFiscal.Enabled = False
+        chkPorNotaFiscal.Enabled = False
+        chkReativacao.Enabled = False
         chkAlteraLojaVenda.Enabled = False
         Label6.Enabled = True
         txtSenhaComissao2.Enabled = True
@@ -1358,7 +1358,7 @@ Private Sub Form_Load()
     chkReativacao.Enabled = False
     chkAlteraLojaVenda.Enabled = False
 
-   frmNf.top = lblTotalVendas.top
+   frmNF.top = lblTotalVendas.top
    Call AjustaTela(frmComissao)
    wVendedor = ""
    GLB_Senha = ""
@@ -1497,7 +1497,7 @@ Private Sub grdItensNF_KeyDown(KeyCode As Integer, Shift As Integer)
     grdItensNF.Visible = False
  grdNotaFiscal.Visible = True
  grdNotaFiscal.SetFocus
- frmNf.Visible = False
+ frmNF.Visible = False
 End If
 End Sub
 
@@ -1509,7 +1509,7 @@ Private Sub grdNotaFiscal_DblClick()
           If wLinhagrd > 0 Then
             grdItensNF.Visible = True
             grdItensNF.SetFocus
-            frmNf.Visible = True
+            frmNF.Visible = True
             grdItensNF.SetFocus
             CarregagrditensNf
         Else
@@ -1534,7 +1534,7 @@ wLinhagrd = grdNotaFiscal.Row
   grdNotaFiscal.Visible = False
   If wLinhagrd <> 0 Then
     grdItensNF.Visible = True
-    frmNf.Visible = True
+    frmNF.Visible = True
     grdItensNF.SetFocus
     CarregagrditensNf
 Else
