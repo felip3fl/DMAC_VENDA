@@ -497,6 +497,14 @@ Begin VB.Form frmAlteraLojaVenda
       CHECK           =   0   'False
       VALUE           =   0   'False
    End
+   Begin VB.Label Label9 
+      Caption         =   "Label9"
+      Height          =   255
+      Left            =   840
+      TabIndex        =   27
+      Top             =   5040
+      Width           =   1455
+   End
    Begin VB.Label lblPagamento 
       Alignment       =   2  'Center
       BackStyle       =   0  'Transparent
@@ -528,6 +536,7 @@ Option Explicit
 Dim SQL As String
 Dim rdoLojas As New ADODB.Recordset
 Dim rdoNotas As New ADODB.Recordset
+Dim rdoTipoCliente As New ADODB.Recordset
 Dim rdoGravar As New ADODB.Recordset
 Dim wTotalNota As Double
 Dim CHAVENF As String
@@ -587,8 +596,43 @@ rdoLojas.Close
 cmbLoja.ListIndex = 0
 
 End Sub
-Private Sub CarregaNota()
+Private Sub VerificaCliente()
+    'Metodo que verifca se o cliente é do tipo consumidor
+    Dim Cliente As String
     
+    
+    SQL = ""
+    SQL = "select VC_Cliente,VC_ChaveNFE,VC_TotalNota, VC_LojaOrigem, VC_VendedorLojaVenda ,VC_LojaVenda " _
+        & "From CapaNFVenda " _
+        & "where VC_NotaFiscal = '" & txtNumero.Text & "' and VC_Serie = '" & "NE" & "' " _
+        & "and VC_DataEmissao = '" & Format(mskDataEmissao.Text, "yyyy/mm/dd") & "' " _
+        & "and VC_Cliente = '" & RTrim(Trim(txtCliente.Text)) & "'" & "and VC_CodigoVendedor = '" & Mid(frmPedido.txtVendedor.Text, 1, 3) & "' " _
+        & "and VC_LojaOrigem = '" & RTrim(wLoja) & "'"
+
+
+        rdoTipoCliente.CursorLocation = adUseClient
+        rdoTipoCliente.Open SQL, rdoCNMatriz, adOpenForwardOnly, adLockPessimistic
+        
+        
+            Cliente = rdoTipoCliente("VC_Cliente")
+        
+              If Cliente = "999999" Then
+                
+                    MsgBox "Você não pode fazer venda a distância para Cliente consumidor", vbInformation, "Atenção"
+                      LimparCampos
+                      frmAlterarNF.Enabled = False
+                      frmNF.Enabled = True
+             End If
+      
+        rdoTipoCliente.Close
+    
+End Sub
+
+Private Sub CarregaNota()
+     Dim MesAtual As String
+     Dim MesPassadoLimite As String
+     Dim X As String
+            X = Date
 
 'SQL = "select  * " _
 '    & "From NFCAPA " _
@@ -608,26 +652,35 @@ SQL = "select VC_ChaveNFE,VC_TotalNota, VC_LojaOrigem, VC_VendedorLojaVenda ,VC_
         rdoNotas.Open SQL, rdoCNMatriz, adOpenForwardOnly, adLockPessimistic
         
         
-           If Not rdoNotas.EOF Then
-
-                lblTotalNota.Caption = Format(rdoNotas("VC_TotalNota"), "##0.00")
-                lblLojaOrigem.Caption = rdoNotas("VC_LojaOrigem")
-                lblVendedor.Caption = rdoNotas("VC_VendedorLojaVenda")
-                lblLojaVenda.Caption = rdoNotas("VC_LojaVenda")
-                CHAVENF = rdoNotas("VC_ChaveNFE")
+                MesAtual = "01/" & Format(Date, "MM/YYYY")
+                MesPassadoLimite = DateAdd("D", -5, Date)
                 
-                frmAlterarNF.Enabled = True
-                frmNF.Enabled = False
+                If X > MesPassadoLimite Then
+                    MsgBox "Tempo Limite para troca superado"
+                    End If
             
-           Else
-                MsgBox "Não existe informações sobre esta nota, ou série errada", vbInformation
-                LimparCampos
-                frmAlterarNF.Enabled = False
-                frmNF.Enabled = True
-                txtCliente.SetFocus
-           End If
+                    
+                    If Not rdoNotas.EOF Then
+
+                        lblTotalNota.Caption = Format(rdoNotas("VC_TotalNota"), "##0.00")
+                        lblLojaOrigem.Caption = rdoNotas("VC_LojaOrigem")
+                        lblVendedor.Caption = rdoNotas("VC_VendedorLojaVenda")
+                        lblLojaVenda.Caption = rdoNotas("VC_LojaVenda")
+                        CHAVENF = rdoNotas("VC_ChaveNFE")
+                        
+                        frmAlterarNF.Enabled = True
+                        frmNF.Enabled = False
+                
+                   Else
+                        MsgBox "Não existe informações sobre esta nota, ou série errada", vbInformation
+                        LimparCampos
+                        frmAlterarNF.Enabled = False
+                        frmNF.Enabled = True
+                        txtNumero.SetFocus
+                   End If
            
-        rdoNotas.Close
+                        rdoNotas.Close
+                
 End Sub
 
 Private Sub mskDataEmissao_KeyPress(KeyAscii As Integer)
@@ -709,6 +762,7 @@ Private Sub txtCliente_KeyPress(KeyAscii As Integer)
     End If
     
     If KeyAscii = 13 Then
+        VerificaCliente
         CarregaNota
         cmdGravar.Enabled = False
        
@@ -716,8 +770,9 @@ Private Sub txtCliente_KeyPress(KeyAscii As Integer)
          
 End Sub
 
-Private Sub cmdGravar_Click()
+Private Sub CmdGravar_Click()
 'ricardo
+
          'Update loja
         SQL = ""
         SQL = "Update NFCAPA set LojaVenda = '" & cmbLoja.Text & "' where NF = '" & txtNumero.Text & "'" _
