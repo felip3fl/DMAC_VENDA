@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{D76D7130-4A96-11D3-BD95-D296DC2DD072}#1.0#0"; "vsflex7d.ocx"
+Object = "{D76D7130-4A96-11D3-BD95-D296DC2DD072}#1.0#0"; "Vsflex7d.ocx"
 Object = "{90F3D7B3-92E7-44BA-B444-6A8E2A3BC375}#1.0#0"; "actskin4.ocx"
 Begin VB.Form frmVendaDistancia 
    BackColor       =   &H00505050&
@@ -251,9 +251,12 @@ Dim wCodigo As Integer
 Dim wSequencia As Integer
 Dim wValorCampo As String
 Dim SQL As String
+Dim status As Integer
+Dim rsTipoCliente As New ADODB.Recordset
+
 
 Private Sub cmdGrava_Click()
-
+    
   wSequencia = 10
   wValorCampo = txtVendedorLojaVenda.Text
   SQL = ""
@@ -262,12 +265,19 @@ Private Sub cmdGrava_Click()
   adoCNLoja.Execute "exec SP_GravaComplementoVenda " & txtPedido.Text & ",1," & wSequencia & ",'" & SQL & "'" ', rdExecDirect
 
   Unload Me
+  
+  
 End Sub
 
 Private Sub cmdRetorna_Click()
  Unload Me
  frmPedido.txtPesquisar.SetFocus
 
+End Sub
+
+Private Sub Form_Activate()
+'ricardo
+  VerificaCliente
 End Sub
 
 Private Sub Form_Load()
@@ -278,6 +288,8 @@ Private Sub Form_Load()
  ' Skin1.LoadSkin App.Path & "\Skin\corona2.skn"
  ' Skin1.ApplySkin Me.hwnd
   
+
+
   txtVendedorLojaVenda.Enabled = False
 
   txtPedido.Text = frmPedido.txtPedido.Text
@@ -294,9 +306,34 @@ Private Sub Form_Load()
         rsCarregaLoja.MoveNext
      Loop
   End If
+
   rsCarregaLoja.Close
 End Sub
+Private Sub VerificaCliente()
 
+    'Metodo que verifca se o cliente é do tipo consumidor
+   
+    SQL = ""
+    SQL = "select * from nfcapa where numeroped = '" & (frmPedido.txtPedido.Text) & "' and vendedor = '" & Mid(frmPedido.txtVendedor.Text, 1, 3) & "' and LojaOrigem = '" & RTrim(wLoja) & "'"
+      
+
+        rsTipoCliente.CursorLocation = adUseClient
+        rsTipoCliente.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+
+            
+            
+            If rsTipoCliente("Cliente") = "999999" Then
+                MsgBox "Você não pode fazer venda a distância para Cliente consumidor", vbInformation, "Atenção"
+                 Unload Me
+                  frmPedido.txtPesquisar.SetFocus
+              
+                 Exit Sub
+            End If
+            
+    
+        rsTipoCliente.Close
+    
+End Sub
 
 Private Sub grdLojas_Click()
  '   fraVendedor.Enabled = True

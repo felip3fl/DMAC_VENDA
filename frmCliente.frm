@@ -1292,7 +1292,7 @@ End Sub
 Private Sub cmbPraca_KeyPress(KeyAscii As Integer)
   If KeyAscii = 13 Then
         If cmbPraca.Text <> "" Then
-            ProximoCampo cmbUf
+            ProximoCampo cmbUF
         End If
     ElseIf KeyAscii = 27 Then
         Call Limpar
@@ -1324,8 +1324,8 @@ End Sub
 Private Sub cmbSegmento_KeyPress(KeyAscii As Integer)
     If KeyAscii = 13 Then
         If cmbSegmento.Text <> "" Then
-            ProximoCampo txtEmail
-            SelecionaCampo txtEmail
+            ProximoCampo txtEMail
+            SelecionaCampo txtEMail
         End If
     ElseIf KeyAscii = 27 Then
         Call Limpar
@@ -1366,14 +1366,14 @@ End Sub
 
 
 Private Sub cmbUf_Change()
-    txtEstadoCobranca.Text = cmbUf.Text
+    txtEstadoCobranca.Text = cmbUF.Text
     
 End Sub
 
 Private Sub cmbUf_KeyPress(KeyAscii As Integer)
  If KeyAscii = 13 Then
-        If cmbUf.Text <> "" Then
-            cmbUf.Text = UCase(cmbUf.Text)
+        If cmbUF.Text <> "" Then
+            cmbUF.Text = UCase(cmbUF.Text)
             ProximoCampo mskTelefone
             SelecionaCampo mskTelefone
         End If
@@ -1399,11 +1399,11 @@ Private Sub CmdFichaFinanc_Click()
     End If
 
     wConexao = "Balcao"
-    wCodigoCliFinan = txtCodigo.Text
+    wCodigoCliFinan = Val(txtCodigo.Text)
         
 
         
-        Cliente = txtCodigo.Text
+        Cliente = Val(txtCodigo.Text)
         SQL = "exec SP_fin_Ler_Cliente_Limite_Credito " & Cliente & ", '" & Trim(GLB_Loja) & "'"
         rdoCNMatriz.Execute (SQL)
         
@@ -1423,7 +1423,7 @@ Private Sub CmdFichaFinanc_Click()
 
 End Sub
 
-Private Sub CmdGravar_Click()
+Private Sub cmdGravar_Click()
 
 
 lblClite(4).ForeColor = &HE0E0E0
@@ -1506,7 +1506,7 @@ Private Sub Limpar()
     txtNumero.Text = ""
     txtMunicipio.Text = ""
     txtCodMun.Text = ""
-    cmbUf.ListIndex = -1
+    cmbUF.ListIndex = -1
     txtComplemento.Text = ""
     txtBairro.Text = ""
     cmbPraca.ListIndex = -1
@@ -1516,7 +1516,7 @@ Private Sub Limpar()
     txtClienteFidelidade.Text = ""
     mskDataNascimento.Text = ""
     cmbRamoAtiv.ListIndex = -1
-    txtEmail.Text = ""
+    txtEMail.Text = ""
     cmbSegmento.ListIndex = -1
     mskDataCadastro.Text = ""
     txtEnderecoCobranca.Text = ""
@@ -1578,7 +1578,7 @@ Private Sub Form_Activate()
             txtInscricaoEstadual.Locked = True
             txtMunicipio.Enabled = True
             mskCep.Enabled = True
-            cmbUf.Enabled = True
+            cmbUF.Enabled = True
             mskDataCadastro.Enabled = False
             mskTelefone.Enabled = True
             mskFax.Enabled = True
@@ -1661,13 +1661,13 @@ End If
      
     If preencheUF = True Then
         Do While Not adoCliente.EOF
-            cmbUf.AddItem UCase(adoCliente("UF_Estado"))
+            cmbUF.AddItem UCase(adoCliente("UF_Estado"))
             adoCliente.MoveNext
         Loop
-        For I = 0 To cmbUf.ListCount
-            cmbUf.ListIndex = I
-            If cmbUf.Text = "SP" Then
-                cmbUf.ListIndex = I
+        For I = 0 To cmbUF.ListCount
+            cmbUF.ListIndex = I
+            If cmbUF.Text = "SP" Then
+                cmbUF.ListIndex = I
                 Exit For
             End If
         Next I
@@ -1675,13 +1675,13 @@ End If
       
     If preencheUF = True Then
         Do While Not adoCliente.EOF
-            cmbUf.AddItem UCase(adoCliente("UF_Estado"))
+            cmbUF.AddItem UCase(adoCliente("UF_Estado"))
             adoCliente.MoveNext
         Loop
-        For I = 0 To cmbUf.ListCount
-            cmbUf.ListIndex = I
-            If cmbUf.Text = "SP" Then
-                cmbUf.ListIndex = I
+        For I = 0 To cmbUF.ListCount
+            cmbUF.ListIndex = I
+            If cmbUF.Text = "SP" Then
+                cmbUF.ListIndex = I
                 Exit For
             End If
         Next I
@@ -1721,9 +1721,9 @@ Private Sub grdMunicipio_Click()
 End Sub
 
 Private Sub grdMunicipio_EnterCell()
-    txtEstadoCobranca.Text = cmbUf.Text
+    txtEstadoCobranca.Text = cmbUF.Text
     txtCodMun.Locked = True
-    cmbUf.Locked = True
+    cmbUF.Locked = True
     cmbPraca.Locked = True
     mskTelefone.SetFocus
     
@@ -1760,7 +1760,7 @@ End Sub
 Private Sub grdMunicipio_RowColChange()
    On Error GoTo SaidaRotina
 
-    cmbUf.Text = UCase(grdMunicipio.TextMatrix(grdMunicipio.Row, 2))
+    cmbUF.Text = UCase(grdMunicipio.TextMatrix(grdMunicipio.Row, 2))
     txtCodMun.Text = grdMunicipio.TextMatrix(grdMunicipio.Row, 1)
 
 SaidaRotina:
@@ -2045,8 +2045,8 @@ Private Sub mskDataCadastro_KeyPress(KeyAscii As Integer)
     ElseIf KeyAscii = 27 Then
         Call Limpar
         Unload Me
-        ProximoCampo txtEmail
-        SelecionaCampo txtEmail
+        ProximoCampo txtEMail
+        SelecionaCampo txtEMail
     End If
     
 End Sub
@@ -2118,7 +2118,7 @@ Private Sub mskTelefone_KeyPress(KeyAscii As Integer)
     ElseIf KeyAscii = 27 Then
         Call Limpar
         Unload Me
-        ProximoCampo cmbUf
+        ProximoCampo cmbUF
     End If
     
 End Sub
@@ -2379,10 +2379,10 @@ Private Sub txtComplemento_LostFocus()
 End Sub
 
 Private Sub txtEmail_Change()
-    If txtEmail.Text = "'" Then
+    If txtEMail.Text = "'" Then
         MsgBox "Este campo não permite caracteres especiais!", vbCritical, "ATENÇÃO"
-        txtEmail.Text = ""
-        txtEmail.SetFocus
+        txtEMail.Text = ""
+        txtEMail.SetFocus
         Exit Sub
     End If
 End Sub
@@ -2483,7 +2483,7 @@ Private Sub txtEstadoCobranca_KeyPress(KeyAscii As Integer)
         If txtEstadoCobranca.Text <> "" Then
             txtEstadoCobranca.Text = UCase(txtEstadoCobranca.Text)
         Else
-            txtEstadoCobranca.Text = UCase(cmbUf.Text)
+            txtEstadoCobranca.Text = UCase(cmbUF.Text)
         End If
     ElseIf KeyAscii = 27 Then
         Call Limpar
@@ -2842,7 +2842,7 @@ Function PreencheDadosCliente(ByVal Cliente As String)
         txtCnpj.Locked = False
         txtInscricaoEstadual.Text = adoCliente("CE_InscricaoEstadual")
         txtMunicipio.Text = adoCliente("CE_Municipio")
-        txtEmail.Text = IIf(IsNull(adoCliente("CE_Email")), "", adoCliente("CE_Email"))
+        txtEMail.Text = IIf(IsNull(adoCliente("CE_Email")), "", adoCliente("CE_Email"))
        
         If Trim(adoCliente("CE_TipoPessoa")) = "F" Then
            txtInscricaoEstadual.Locked = True
@@ -2867,11 +2867,11 @@ Function PreencheDadosCliente(ByVal Cliente As String)
             End If
         Next I
         mskCep.Text = adoCliente("CE_Cep")
-        For I = 0 To cmbUf.ListCount
-            cmbUf.ListIndex = I
-            If cmbUf.Text = UCase(adoCliente("CE_Estado")) Then
+        For I = 0 To cmbUF.ListCount
+            cmbUF.ListIndex = I
+            If cmbUF.Text = UCase(adoCliente("CE_Estado")) Then
                 auxCMBUF = UCase(adoCliente("CE_Estado"))
-                cmbUf.ListIndex = I
+                cmbUF.ListIndex = I
                 Exit For
             End If
         Next I
@@ -2893,7 +2893,7 @@ Function PreencheDadosCliente(ByVal Cliente As String)
           ' adoCliente.Close
         End If
  
-        txtEmail.Text = IIf(IsNull(adoCliente("CE_Email")), "", adoCliente("CE_Email"))
+        txtEMail.Text = IIf(IsNull(adoCliente("CE_Email")), "", adoCliente("CE_Email"))
         mskDataNascimento.Enabled = True
         mskDataNascimento.Text = IIf(IsNull(adoCliente("CE_DataNasc")), "01/01/1900", adoCliente("CE_DataNasc"))
         txtClienteFidelidade.Text = IIf(IsNull(adoCliente("ce_clienteFidelidade")), "", adoCliente("ce_clienteFidelidade"))
@@ -2954,7 +2954,7 @@ Function PreencheDadosClienteCNPJ(ByVal Cliente As String)
         txtCnpj.Text = adoCliente("CE_CGC")
         txtInscricaoEstadual.Text = adoCliente("CE_InscricaoEstadual")
         txtMunicipio.Text = adoCliente("CE_Municipio")
-        txtEmail.Text = IIf(IsNull(adoCliente("CE_Email")), "", adoCliente("CE_Email"))
+        txtEMail.Text = IIf(IsNull(adoCliente("CE_Email")), "", adoCliente("CE_Email"))
 
         If Trim(adoCliente("CE_TipoPessoa")) = "F" Then
            txtInscricaoEstadual.Locked = True
@@ -2979,11 +2979,11 @@ Function PreencheDadosClienteCNPJ(ByVal Cliente As String)
             End If
         Next I
         mskCep.Text = adoCliente("CE_Cep")
-        For I = 0 To cmbUf.ListCount
-            cmbUf.ListIndex = I
-            If cmbUf.Text = UCase(adoCliente("CE_Estado")) Then
+        For I = 0 To cmbUF.ListCount
+            cmbUF.ListIndex = I
+            If cmbUF.Text = UCase(adoCliente("CE_Estado")) Then
                 auxCMBUF = UCase(adoCliente("CE_Estado"))
-                cmbUf.ListIndex = I
+                cmbUF.ListIndex = I
                 Exit For
             End If
         Next I
@@ -3004,7 +3004,7 @@ Function PreencheDadosClienteCNPJ(ByVal Cliente As String)
            txtCodMun.Text = adoCliente("CE_CodigoMunicipio")
         End If
         txtClienteFidelidade.Text = IIf(IsNull(adoCliente("ce_codigoFidelidade")), "", adoCliente("ce_codigoFidelidade"))
-        txtEmail.Text = IIf(IsNull(adoCliente("CE_Email")), "", adoCliente("CE_Email"))
+        txtEMail.Text = IIf(IsNull(adoCliente("CE_Email")), "", adoCliente("CE_Email"))
         mskDataNascimento.Enabled = True
         mskDataNascimento.Text = IIf(IsNull(adoCliente("CE_DataNasc")), "01/01/1900", adoCliente("CE_DataNasc"))
         mskCelular.Text = (adoCliente("CE_Celular"))
@@ -3187,10 +3187,10 @@ Dim adoCodigo As New ADODB.Recordset
         txtMunicipio.Text = adoCliente("MUNICIPIO")
         txtMunicipioCobranca.Text = adoCliente("MUNICIPIO")
         txtBairroCobranca.Text = adoCliente("BAIRRO")
-        For I = 0 To cmbUf.ListCount
-            cmbUf.ListIndex = I
-            If cmbUf.Text = UCase(adoCliente("UF")) Then
-                cmbUf.ListIndex = I
+        For I = 0 To cmbUF.ListCount
+            cmbUF.ListIndex = I
+            If cmbUF.Text = UCase(adoCliente("UF")) Then
+                cmbUF.ListIndex = I
                 Exit For
             End If
         Next I
@@ -3217,7 +3217,7 @@ Dim adoCodigo As New ADODB.Recordset
         
         'MsgBox "Banco já cadastrado!", vbCritical, "ATENÇÃO"
         txtCodMun.Text = adoCodigo("Mun_Codigo")
-        cmbUf.Text = adoCodigo("Mun_UF")
+        cmbUF.Text = adoCodigo("Mun_UF")
         
         mskTelefone.SetFocus
         adoCodigo.Close
@@ -3285,10 +3285,10 @@ Function verificaCamposNulos() As Boolean
         verificaCamposNulos = False
         ProximoCampo cmbPraca
         
-    ElseIf cmbUf.Text = "" Then
+    ElseIf cmbUF.Text = "" Then
         'lblClite(4).ForeColor = vbRed
         verificaCamposNulos = False
-        ProximoCampo cmbUf
+        ProximoCampo cmbUF
         
     ElseIf mskCep.Text = "" Then
         lblCep.ForeColor = vbRed
@@ -3310,7 +3310,7 @@ Function verificaCamposNulos() As Boolean
         
     ElseIf txtEstadoCobranca.Text = "" Then
         'lblClite(4).ForeColor = vbRed
-        txtEstadoCobranca.Text = cmbUf.Text
+        txtEstadoCobranca.Text = cmbUF.Text
         verificaCamposNulos = True
         
     ElseIf mskCepCobranca.Text = "" Then
@@ -3470,19 +3470,19 @@ Function AtualizaCliente(ByVal codigo As Double) As Boolean
 
         Err.Number = 0
         adoCNLoja.BeginTrans
-        SQL = "SP_FIN_Altera_Cliente " & codigo & ",'" & txtRazaoSocial.Text & "','" & txtCnpj.Text & "','" _
+        SQL = "SP_FIN_Altera_Cliente " & Val(codigo) & ",'" & txtRazaoSocial.Text & "','" & Val(txtCnpj.Text) & "','" _
                                         & Mid(Pessoa, 1, 2) & "', " & Val(cmbSituacao.Text) & ",'" _
                                         & pagamentoCarteira & "', '" _
-                                        & txtInscricaoEstadual.Text & "','" & mskCep.Text & "','" _
-                                        & txtEndereco.Text & "','" & txtNumero.Text & "','" _
-                                        & txtMunicipio.Text & "'," & txtCodMun.Text & ",'" _
-                                        & cmbUf.Text & "','" & txtComplemento.Text & "','" _
+                                        & Val(txtInscricaoEstadual.Text) & "','" & Val(mskCep.Text) & "','" _
+                                        & txtEndereco.Text & "','" & Val(txtNumero.Text) & "','" _
+                                        & txtMunicipio.Text & "'," & Val(txtCodMun.Text) & ",'" _
+                                        & cmbUF.Text & "','" & txtComplemento.Text & "','" _
                                         & txtBairro.Text & "'," & Mid(cmbPraca.Text, 1, 1) & ",'" _
-                                        & mskTelefone.Text & "','" & mskCelular.Text & "','" _
-                                        & mskFax.Text & "','" & dataNascimento & "'," _
-                                        & Val(cmbRamoAtiv.Text) & ",'" & txtEmail.Text & "'," _
+                                        & Val(mskTelefone.Text) & "','" & Val(mskCelular.Text) & "','" _
+                                        & Val(mskFax.Text) & "','" & dataNascimento & "'," _
+                                        & Val(cmbRamoAtiv.Text) & ",'" & txtEMail.Text & "'," _
                                         & Val(cmbSegmento.Text) & ", '" & txtEnderecoCobranca.Text & "','" _
-                                        & txtNumCobranca.Text & "','" & txtComplCobranca.Text & "','" _
+                                        & Val(txtNumCobranca.Text) & "','" & txtComplCobranca.Text & "','" _
                                         & mskCepCobranca.Text & "','" & txtBairroCobranca.Text & "','" _
                                         & txtMunicipioCobranca.Text & "','" & txtEstadoCobranca.Text & "','0.00'"
                                         
@@ -3658,18 +3658,18 @@ Function GravaCliente() As Boolean
         On Error Resume Next
         adoCNLoja.BeginTrans
         'SQL = ""
-        SQL = "SP_FIN_Grava_Cliente_Loja '" & txtCodigo.Text & "','" & txtRazaoSocial.Text & "','" & txtCnpj.Text & "','" _
+        SQL = "SP_FIN_Grava_Cliente_Loja '" & Val(txtCodigo.Text) & "','" & txtRazaoSocial.Text & "','" & Val(txtCnpj.Text) & "','" _
                                             & Pessoa & "'," & Mid(cmbSituacao.Text, 1, 2) & ",'" & pagamentoCarteira _
                                             & "','" _
-                                            & txtInscricaoEstadual.Text & "','" & mskCep.Text & "','" _
-                                            & txtEndereco.Text & "','" & txtNumero.Text & "','" _
-                                            & txtMunicipio.Text & "','" & txtCodMun.Text & "','" _
-                                            & cmbUf.Text & "','" & txtComplemento.Text & "','" _
+                                            & Val(txtInscricaoEstadual.Text) & "','" & Val(mskCep.Text) & "','" _
+                                            & txtEndereco.Text & "','" & Val(txtNumero.Text) & "','" _
+                                            & txtMunicipio.Text & "','" & Val(txtCodMun.Text) & "','" _
+                                            & cmbUF.Text & "','" & txtComplemento.Text & "','" _
                                             & txtBairro.Text & "'," & Mid(cmbPraca.Text, 1, 1) & ",'" _
-                                            & mskTelefone.Text & "','" & mskCelular.Text & "','" _
-                                            & mskFax.Text & "','" _
+                                            & Val(mskTelefone.Text) & "','" & Val(mskCelular.Text) & "','" _
+                                            & Val(mskFax.Text) & "','" _
                                             & dataNascimento & "','" _
-                                            & Mid(cmbRamoAtiv.Text, 1, 2) & "','" & txtEmail.Text & "','" _
+                                            & Mid(cmbRamoAtiv.Text, 1, 2) & "','" & txtEMail.Text & "','" _
                                             & Mid(cmbSegmento.Text, 1, 2) & "', '" & txtEnderecoCobranca.Text & "','" _
                                             & txtNumCobranca.Text & "','" & txtComplCobranca.Text & "','" _
                                             & mskCepCobranca.Text & "','" & txtBairroCobranca.Text & "','" _
@@ -3689,7 +3689,7 @@ Function GravaCliente() As Boolean
                 adoCliente.CursorLocation = adUseClient
                 adoCliente.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
                 adoCliente.Close ' SDSDSD
-        '             frmManutencaoCliente.txtCampo.Text = txtCodigo.Text
+        '             frmManutencaoCliente.txtCampo.Text = val(txtCodigo.Text)
                 Screen.MousePointer = 0
                 MsgBox "Cliente cadastrado com sucesso!", vbInformation, "Sucesso"
                 frmConsCliente.txtPesquisaCliente.Text = frmCliente.txtCodigo.Text
