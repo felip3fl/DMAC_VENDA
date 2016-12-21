@@ -587,12 +587,32 @@ rdoLojas.Close
 cmbLoja.ListIndex = 0
 
 End Sub
+
+Private Function CarregaDataMaisCinco() As Boolean
+    Dim DataAtual As Date
+    Dim DataMais5 As Date
+    Dim DataNota As Date
+    
+
+CarregaDataMaisCinco = True
+
+            DataNota = mskDataEmissao.Text
+              DataMais5 = Format(DataNota + 5, "dd/mm/yyyy")
+          
+              'DataAtual = Format(Date, "dd/mm/yyyy")
+              
+              DataAtual = DataMais5
+         
+            If DataAtual > DataNota Then
+                MsgBox "Não pode ser alterado, Veirfique com CPD", vbInformation
+                CarregaDataMaisCinco = False
+            End If
+       
+End Function
+
 Private Sub CarregaNota()
     
 
-'SQL = "select  * " _
-'    & "From NFCAPA " _
-'    & "where NF = '" & txtNumero.Text & "' and SERIE = '" & txtSerie.Text & "' and DATAEMI = '" & Format(mskDataEmissao.Text, "yyyy/mm/dd") & "' and Cliente = '" & RTrim(Trim(txtCliente.Text)) & "' "
 
 SQL = ""
 SQL = "select VC_ChaveNFE,VC_TotalNota, VC_LojaOrigem, VC_VendedorLojaVenda ,VC_LojaVenda " _
@@ -604,7 +624,6 @@ SQL = "select VC_ChaveNFE,VC_TotalNota, VC_LojaOrigem, VC_VendedorLojaVenda ,VC_
 
 
         rdoNotas.CursorLocation = adUseClient
-        
         rdoNotas.Open SQL, rdoCNMatriz, adOpenForwardOnly, adLockPessimistic
         
         
@@ -717,7 +736,11 @@ Private Sub txtCliente_KeyPress(KeyAscii As Integer)
 End Sub
 
 Private Sub cmdGravar_Click()
+
 'ricardo
+
+If CarregaDataMaisCinco Then
+
          'Update loja
         SQL = ""
         SQL = "Update NFCAPA set LojaVenda = '" & cmbLoja.Text & "' where NF = '" & txtNumero.Text & "'" _
@@ -736,6 +759,7 @@ Private Sub cmdGravar_Click()
         
         MsgBox "Nota fiscal alterada com sucesso", vbInformation, "Atenção"
         LimparCampos
+End If
         Unload Me
         
 End Sub
