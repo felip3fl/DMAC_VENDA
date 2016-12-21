@@ -596,23 +596,25 @@ Private Function CarregaDataMaisCinco() As Boolean
 
 CarregaDataMaisCinco = True
 
-            DataNota = mskDataEmissao.Text
+DataNota = mskDataEmissao.Text
+     
+           If DataNota <> Date Then
               DataMais5 = Format(DataNota + 5, "dd/mm/yyyy")
           
               'DataAtual = Format(Date, "dd/mm/yyyy")
               
               DataAtual = DataMais5
          
-            If DataAtual > DataNota Then
+            If DataAtual >= DataNota Then
                 MsgBox "Não pode ser alterado, Veirfique com CPD", vbInformation
                 CarregaDataMaisCinco = False
             End If
-       
+       End If
+     
 End Function
 
 Private Sub CarregaNota()
     
-
 
 SQL = ""
 SQL = "select VC_ChaveNFE,VC_TotalNota, VC_LojaOrigem, VC_VendedorLojaVenda ,VC_LojaVenda " _
