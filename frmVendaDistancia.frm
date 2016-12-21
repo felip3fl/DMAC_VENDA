@@ -309,9 +309,10 @@ Private Sub Form_Load()
 
   rsCarregaLoja.Close
 End Sub
-Private Sub VerificaCliente()
+Private Function VerificaCliente() As Boolean
 
     'Metodo que verifca se o cliente é do tipo consumidor
+   VerificaCliente = True
    
     SQL = ""
     SQL = "select * from nfcapa where numeroped = '" & (frmPedido.txtPedido.Text) & "' and vendedor = '" & Mid(frmPedido.txtVendedor.Text, 1, 3) & "' and LojaOrigem = '" & RTrim(wLoja) & "'"
@@ -320,20 +321,18 @@ Private Sub VerificaCliente()
         rsTipoCliente.CursorLocation = adUseClient
         rsTipoCliente.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
 
-            
-            
+        
             If rsTipoCliente("Cliente") = "999999" Then
                 MsgBox "Você não pode fazer venda a distância para Cliente consumidor", vbInformation, "Atenção"
+                 VerificaCliente = False
                  Unload Me
                   frmPedido.txtPesquisar.SetFocus
-              
-                 Exit Sub
             End If
             
     
         rsTipoCliente.Close
     
-End Sub
+End Function
 
 Private Sub grdLojas_Click()
  '   fraVendedor.Enabled = True
