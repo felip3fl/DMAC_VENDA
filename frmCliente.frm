@@ -1,13 +1,13 @@
 VERSION 5.00
-Object = "{D76D7130-4A96-11D3-BD95-D296DC2DD072}#1.0#0"; "vsflex7d.ocx"
+Object = "{D76D7130-4A96-11D3-BD95-D296DC2DD072}#1.0#0"; "Vsflex7d.ocx"
 Object = "{C932BA88-4374-101B-A56C-00AA003668DC}#1.1#0"; "MSMASK32.OCX"
 Begin VB.Form frmCliente 
    BackColor       =   &H00505050&
    BorderStyle     =   0  'None
    Caption         =   "Cadastro de Cliente"
    ClientHeight    =   5895
-   ClientLeft      =   2670
-   ClientTop       =   4440
+   ClientLeft      =   2520
+   ClientTop       =   3000
    ClientWidth     =   15255
    LinkTopic       =   "Form1"
    LockControls    =   -1  'True
@@ -1356,12 +1356,14 @@ Private Sub cmbTipoCliente_LostFocus()
 End Sub
 
 Private Sub BuscaClienteFaturado()
+
     SQL = "Select cts_codigoclientefaturado from controlesistema"
  
     adoBuscaClienteFaturado.CursorLocation = adUseClient
     adoBuscaClienteFaturado.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
     txtCodigo.Text = adoBuscaClienteFaturado("cts_codigoclientefaturado")
     adoBuscaClienteFaturado.Close
+    
 End Sub
 
 
@@ -3654,8 +3656,10 @@ Function GravaCliente() As Boolean
 
     
     If GravaCliente = True Then
-    
+        
         On Error Resume Next
+        
+        Err.Number = 0
         adoCNLoja.BeginTrans
         'SQL = ""
         SQL = "SP_FIN_Grava_Cliente_Loja '" & Val(txtCodigo.Text) & "','" & txtRazaoSocial.Text & "','" & Val(txtCnpj.Text) & "','" _
@@ -3671,10 +3675,10 @@ Function GravaCliente() As Boolean
                                             & dataNascimento & "','" _
                                             & Mid(cmbRamoAtiv.Text, 1, 2) & "','" & txtEMail.Text & "','" _
                                             & Mid(cmbSegmento.Text, 1, 2) & "', '" & txtEnderecoCobranca.Text & "','" _
-                                            & txtNumCobranca.Text & "','" & txtComplCobranca.Text & "','" _
+                                            & Val(txtNumCobranca.Text) & "','" & txtComplCobranca.Text & "','" _
                                             & mskCepCobranca.Text & "','" & txtBairroCobranca.Text & "','" _
                                             & txtMunicipioCobranca.Text & "','" & txtEstadoCobranca.Text & "',0.00,'" _
-                                            & Trim(cmbTipoCliente.Text) & "', '" _
+                                            & left(cmbTipoCliente.Text, 1) & "', '" _
                                             & Trim(txtClienteFidelidade) & "', '" _
                                             & left(frmPedido.txtVendedor.Text, 3) & "', '" _
                                             & Trim(GLB_Loja) & "'"
@@ -3689,7 +3693,13 @@ Function GravaCliente() As Boolean
                 adoCliente.CursorLocation = adUseClient
                 adoCliente.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
                 adoCliente.Close ' SDSDSD
-        '             frmManutencaoCliente.txtCampo.Text = val(txtCodigo.Text)
+                
+                
+                If Mid(cmbTipoCliente.Text, 1, 1) = "F" Then
+                    SQL = "SP_FIN_Grava_Cliente_Loja_Retaguarda '" & Val(txtCodigo.Text) & "'"
+                    adoCNLoja.Execute (SQL)
+                End If
+                
                 Screen.MousePointer = 0
                 MsgBox "Cliente cadastrado com sucesso!", vbInformation, "Sucesso"
                 frmConsCliente.txtPesquisaCliente.Text = frmCliente.txtCodigo.Text
