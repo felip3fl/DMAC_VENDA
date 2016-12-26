@@ -497,6 +497,22 @@ Begin VB.Form frmAlteraLojaVenda
       CHECK           =   0   'False
       VALUE           =   0   'False
    End
+   Begin VB.Label Label10 
+      Caption         =   "Label10"
+      Height          =   135
+      Left            =   1680
+      TabIndex        =   28
+      Top             =   5040
+      Width           =   975
+   End
+   Begin VB.Label Label9 
+      Caption         =   "Label9"
+      Height          =   135
+      Left            =   360
+      TabIndex        =   27
+      Top             =   5040
+      Width           =   615
+   End
    Begin VB.Label lblPagamento 
       Alignment       =   2  'Center
       BackStyle       =   0  'Transparent
@@ -540,6 +556,7 @@ Private Sub cmbLoja_KeyPress(KeyAscii As Integer)
 End Sub
 
 Private Sub Form_Load()
+
 
   If rdoCNMatriz.State = 1 Then
     rdoCNMatriz.Close
@@ -589,28 +606,31 @@ cmbLoja.ListIndex = 0
 End Sub
 
 Private Function CarregaDataMaisCinco() As Boolean
-    Dim DataAtual As Date
-    Dim DataMais5 As Date
-    Dim DataNota As Date
+    Dim MesAtual As Date
+    Dim DiaComparacao As Date
+    Dim MesAnterior As Date
     
-
-CarregaDataMaisCinco = True
+    Dim DataNota As Date
+    MesAtual = "01/" & Format(Date, "mm/yyyy")
 
 DataNota = mskDataEmissao.Text
-     
-           If DataNota <> Date Then
-              DataMais5 = Format(DataNota + 5, "dd/mm/yyyy")
-          
-              'DataAtual = Format(Date, "dd/mm/yyyy")
-              
-              DataAtual = DataMais5
-         
-            If DataAtual >= DataNota Then
-                MsgBox "Não pode ser alterado, Veirfique com CPD", vbInformation
+MesAnterior = DateAdd("d", -5, Date)
+If MesAnterior < MesAtual Then
+    DiaComparacao = MesAnterior
+Else
+    DiaComparacao = MesAtual
+End If
+
+           If DataNota >= DiaComparacao Then
+              CarregaDataMaisCinco = True
+        
+            Else
+    
+                MsgBox "Não pode ser alterado,data expirada ", vbInformation
                 CarregaDataMaisCinco = False
-            End If
+                
        End If
-     
+       
 End Function
 
 Private Sub CarregaNota()
