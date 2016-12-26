@@ -3472,10 +3472,10 @@ Function AtualizaCliente(ByVal codigo As Double) As Boolean
 
         Err.Number = 0
         adoCNLoja.BeginTrans
-        SQL = "SP_FIN_Altera_Cliente " & Val(codigo) & ",'" & txtRazaoSocial.Text & "','" & Val(txtCnpj.Text) & "','" _
+        SQL = "SP_FIN_Altera_Cliente " & Val(codigo) & ",'" & txtRazaoSocial.Text & "','" & txtCnpj.Text & "','" _
                                         & Mid(Pessoa, 1, 2) & "', " & Val(cmbSituacao.Text) & ",'" _
                                         & pagamentoCarteira & "', '" _
-                                        & Val(txtInscricaoEstadual.Text) & "','" & Val(mskCep.Text) & "','" _
+                                        & txtInscricaoEstadual.Text & "','" & mskCep.Text & "','" _
                                         & txtEndereco.Text & "','" & Val(txtNumero.Text) & "','" _
                                         & txtMunicipio.Text & "'," & Val(txtCodMun.Text) & ",'" _
                                         & cmbUF.Text & "','" & txtComplemento.Text & "','" _
@@ -3662,10 +3662,10 @@ Function GravaCliente() As Boolean
         Err.Number = 0
         adoCNLoja.BeginTrans
         'SQL = ""
-        SQL = "SP_FIN_Grava_Cliente_Loja '" & Val(txtCodigo.Text) & "','" & txtRazaoSocial.Text & "','" & Val(txtCnpj.Text) & "','" _
+        SQL = "SP_FIN_Grava_Cliente_Loja '" & Val(txtCodigo.Text) & "','" & txtRazaoSocial.Text & "','" & txtCnpj.Text & "','" _
                                             & Pessoa & "'," & Mid(cmbSituacao.Text, 1, 2) & ",'" & pagamentoCarteira _
                                             & "','" _
-                                            & Val(txtInscricaoEstadual.Text) & "','" & Val(mskCep.Text) & "','" _
+                                            & txtInscricaoEstadual.Text & "','" & mskCep.Text & "','" _
                                             & txtEndereco.Text & "','" & Val(txtNumero.Text) & "','" _
                                             & txtMunicipio.Text & "','" & Val(txtCodMun.Text) & "','" _
                                             & cmbUF.Text & "','" & txtComplemento.Text & "','" _

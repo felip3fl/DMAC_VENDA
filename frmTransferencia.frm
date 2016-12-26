@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{D76D7130-4A96-11D3-BD95-D296DC2DD072}#1.0#0"; "vsflex7d.ocx"
+Object = "{D76D7130-4A96-11D3-BD95-D296DC2DD072}#1.0#0"; "Vsflex7d.ocx"
 Object = "{90F3D7B3-92E7-44BA-B444-6A8E2A3BC375}#1.0#0"; "actskin4.ocx"
 Object = "{48E59290-9880-11CF-9754-00AA00C00908}#1.0#0"; "MSINET.OCX"
 Begin VB.Form frmTransferencia 
@@ -402,8 +402,8 @@ Private Sub cmdGrava_Click()
    
    wSequencia = 0
    If Trim(rdoControle("LO_TipoTransferencia")) = "T" Then
-       'wValorCampo = PegaSerieNota
        wTipoNota = "TA"
+       
         If Trim(grdLojas.TextMatrix(grdLojas.Row, 2)) <> wCNPJLoja Then
          wValorCampo = PegaSerieNota
         Else
@@ -1159,11 +1159,11 @@ wCFO2 = ""
    Exit Sub
 End Sub
 
-Function CriaMovimentoCaixa(ByVal Nf As Double, ByVal Serie As String, ByVal TotalNota As Double, ByVal loja As String, ByVal Grupo As Double, ByVal NroProtocolo As Integer, ByVal NroCaixa As Integer, ByVal NroPedido As Double)
+Function CriaMovimentoCaixa(ByVal nf As Double, ByVal Serie As String, ByVal TotalNota As Double, ByVal loja As String, ByVal Grupo As Double, ByVal NroProtocolo As Integer, ByVal NroCaixa As Integer, ByVal NroPedido As Double)
     
     SQL = "Insert into movimentocaixa (MC_NumeroEcf,MC_CodigoOperador,MC_Loja,MC_Data,MC_Grupo,MC_Documento,MC_Serie,MC_Valor,MC_banco,MC_Agencia," _
         & "MC_Contacorrente,MC_bomPara,MC_Parcelas, MC_Remessa,MC_SituacaoEnvio, MC_Protocolo, MC_NroCaixa, MC_DataProcesso, MC_Pedido) values(" & GLB_ECF & ",'0','" & Trim(loja) & "', " _
-        & " '" & Format(Date, "yyyy/mm/dd") & "'," & Grupo & ", " & Nf & ",'" & Serie & "', " _
+        & " '" & Format(Date, "yyyy/mm/dd") & "'," & Grupo & ", " & nf & ",'" & Serie & "', " _
         & "" & ConverteVirgula(Format(TotalNota, "##,###0.00")) & ", " _
         & "0,0,0,0,0,9,'A'," & NroProtocolo & "," & NroCaixa & ",'" & Format(Date, "yyyy/mm/dd") & "'," & NroPedido & ")"
         adoCNLoja.Execute (SQL)
