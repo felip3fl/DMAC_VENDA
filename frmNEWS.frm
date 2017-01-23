@@ -220,10 +220,10 @@ End Sub
 
 Private Sub LeituraGrid()
     Dim rdoLeituraGrid As New ADODB.Recordset
-    Dim I As Byte
+    Dim I As Integer
     Dim lido As String
     
-lido = grdNoticias.TextMatrix(grdNoticias.Row, 2)
+    lido = grdNoticias.TextMatrix(grdNoticias.Row, 2)
 
 
    For I = 1 To grdNoticias.Rows - 1
