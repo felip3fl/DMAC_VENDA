@@ -1,15 +1,15 @@
 VERSION 5.00
+Object = "{D76D7130-4A96-11D3-BD95-D296DC2DD072}#1.0#0"; "Vsflex7d.ocx"
 Begin VB.Form frmTransportadora 
    BackColor       =   &H00505050&
    BorderStyle     =   0  'None
    Caption         =   "Transportadora"
-   ClientHeight    =   5670
+   ClientHeight    =   5595
    ClientLeft      =   6780
    ClientTop       =   2700
    ClientWidth     =   6555
    LinkTopic       =   "Form2"
-   LockControls    =   -1  'True
-   ScaleHeight     =   5670
+   ScaleHeight     =   5595
    ScaleWidth      =   6555
    ShowInTaskbar   =   0   'False
    Begin VB.PictureBox Picture2 
@@ -18,23 +18,23 @@ Begin VB.Form frmTransportadora
       Left            =   150
       ScaleHeight     =   45
       ScaleWidth      =   6165
-      TabIndex        =   6
-      Top             =   4875
+      TabIndex        =   12
+      Top             =   5355
       Width           =   6165
    End
    Begin VB.Frame fraPagamento 
       BackColor       =   &H00505050&
       ForeColor       =   &H00FFFFFF&
-      Height          =   3870
+      Height          =   4185
       Left            =   165
-      TabIndex        =   4
+      TabIndex        =   8
       Top             =   570
       Width           =   6195
-      Begin VB.TextBox Text5 
+      Begin VB.TextBox txtTransportadora 
          BackColor       =   &H00C0C0C0&
          BeginProperty Font 
             Name            =   "MS Sans Serif"
-            Size            =   9.75
+            Size            =   8.25
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -44,17 +44,17 @@ Begin VB.Form frmTransportadora
          ForeColor       =   &H00000000&
          Height          =   360
          Left            =   1365
-         TabIndex        =   18
+         TabIndex        =   0
          Text            =   "DE MEO TRANSPORTADORA LTDA"
          ToolTipText     =   " "
          Top             =   600
          Width           =   4710
       End
-      Begin VB.TextBox Text4 
+      Begin VB.TextBox txtPlaca 
          BackColor       =   &H00C0C0C0&
          BeginProperty Font 
             Name            =   "MS Sans Serif"
-            Size            =   9.75
+            Size            =   8.25
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -64,17 +64,17 @@ Begin VB.Form frmTransportadora
          ForeColor       =   &H00000000&
          Height          =   360
          Left            =   4305
-         TabIndex        =   16
+         TabIndex        =   7
          Text            =   "YYY-1234"
          ToolTipText     =   " "
          Top             =   3300
          Width           =   1770
       End
-      Begin VB.TextBox Text3 
+      Begin VB.TextBox txtInscricaoEstadual 
          BackColor       =   &H00C0C0C0&
          BeginProperty Font 
             Name            =   "MS Sans Serif"
-            Size            =   9.75
+            Size            =   8.25
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -84,35 +84,36 @@ Begin VB.Form frmTransportadora
          ForeColor       =   &H00000000&
          Height          =   360
          Left            =   2640
-         TabIndex        =   14
+         MaxLength       =   12
+         TabIndex        =   3
          Text            =   "SÃO PAULO"
          ToolTipText     =   " "
          Top             =   1500
          Width           =   3435
       End
-      Begin VB.ComboBox Combo1 
+      Begin VB.ComboBox cmbEstado 
          BackColor       =   &H00C0C0C0&
          BeginProperty Font 
             Name            =   "MS Sans Serif"
-            Size            =   9.75
+            Size            =   8.25
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Height          =   360
+         Height          =   315
          Left            =   3240
-         TabIndex        =   13
+         TabIndex        =   6
          Text            =   "SP"
          Top             =   3300
          Width           =   930
       End
-      Begin VB.TextBox Text2 
+      Begin VB.TextBox txtMunicipio 
          BackColor       =   &H00C0C0C0&
          BeginProperty Font 
             Name            =   "MS Sans Serif"
-            Size            =   9.75
+            Size            =   8.25
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -122,17 +123,17 @@ Begin VB.Form frmTransportadora
          ForeColor       =   &H00000000&
          Height          =   360
          Left            =   150
-         TabIndex        =   10
+         TabIndex        =   5
          Text            =   "SÃO PAULO"
          ToolTipText     =   " "
          Top             =   3300
          Width           =   2955
       End
-      Begin VB.TextBox Text1 
+      Begin VB.TextBox txtEndereco 
          BackColor       =   &H00C0C0C0&
          BeginProperty Font 
             Name            =   "MS Sans Serif"
-            Size            =   9.75
+            Size            =   8.25
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -142,38 +143,18 @@ Begin VB.Form frmTransportadora
          ForeColor       =   &H00000000&
          Height          =   360
          Left            =   150
-         TabIndex        =   9
+         TabIndex        =   4
          Text            =   "FLORENCIO DE ABREU 271"
          ToolTipText     =   " "
          Top             =   2400
          Width           =   5925
       End
-      Begin VB.TextBox txtNome 
-         BackColor       =   &H00C0C0C0&
-         BeginProperty Font 
-            Name            =   "MS Sans Serif"
-            Size            =   9.75
-            Charset         =   0
-            Weight          =   700
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         ForeColor       =   &H00000000&
-         Height          =   360
-         Left            =   150
-         TabIndex        =   0
-         Text            =   "DE MEO TRANSPORTADORA LTDA"
-         ToolTipText     =   " "
-         Top             =   600
-         Width           =   1080
-      End
-      Begin VB.TextBox txtNomeCliente 
+      Begin VB.TextBox txtNumeroTransportadora 
          BackColor       =   &H00C0C0C0&
          Enabled         =   0   'False
          BeginProperty Font 
             Name            =   "MS Sans Serif"
-            Size            =   9.75
+            Size            =   8.25
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -183,10 +164,125 @@ Begin VB.Form frmTransportadora
          ForeColor       =   &H00000000&
          Height          =   360
          Left            =   150
+         TabIndex        =   20
+         Text            =   "Codigo"
+         ToolTipText     =   " "
+         Top             =   600
+         Width           =   1080
+      End
+      Begin VB.TextBox txtCNPJ 
+         BackColor       =   &H00C0C0C0&
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00000000&
+         Height          =   360
+         Left            =   150
+         MaxLength       =   14
          TabIndex        =   2
          Text            =   "60872124001020"
          Top             =   1500
          Width           =   2370
+      End
+      Begin VSFlex7DAOCtl.VSFlexGrid grdMunicipio 
+         Height          =   480
+         Left            =   120
+         TabIndex        =   21
+         Top             =   3720
+         Visible         =   0   'False
+         Width           =   3135
+         _cx             =   5530
+         _cy             =   847
+         _ConvInfo       =   1
+         Appearance      =   0
+         BorderStyle     =   1
+         Enabled         =   -1  'True
+         BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         MousePointer    =   0
+         BackColor       =   14737632
+         ForeColor       =   4210752
+         BackColorFixed  =   0
+         ForeColorFixed  =   16777215
+         BackColorSel    =   3421236
+         ForeColorSel    =   16777215
+         BackColorBkg    =   12632256
+         BackColorAlternate=   12632256
+         GridColor       =   14737632
+         GridColorFixed  =   8421504
+         TreeColor       =   8421504
+         FloodColor      =   16777215
+         SheetBorder     =   8421504
+         FocusRect       =   1
+         HighLight       =   1
+         AllowSelection  =   -1  'True
+         AllowBigSelection=   -1  'True
+         AllowUserResizing=   0
+         SelectionMode   =   0
+         GridLines       =   1
+         GridLinesFixed  =   0
+         GridLineWidth   =   0
+         Rows            =   8
+         Cols            =   2
+         FixedRows       =   0
+         FixedCols       =   0
+         RowHeightMin    =   0
+         RowHeightMax    =   0
+         ColWidthMin     =   0
+         ColWidthMax     =   0
+         ExtendLastCol   =   0   'False
+         FormatString    =   $"frmTransportadora.frx":0000
+         ScrollTrack     =   0   'False
+         ScrollBars      =   2
+         ScrollTips      =   0   'False
+         MergeCells      =   0
+         MergeCompare    =   0
+         AutoResize      =   -1  'True
+         AutoSizeMode    =   0
+         AutoSearch      =   0
+         AutoSearchDelay =   2
+         MultiTotals     =   -1  'True
+         SubtotalPosition=   1
+         OutlineBar      =   0
+         OutlineCol      =   0
+         Ellipsis        =   0
+         ExplorerBar     =   0
+         PicturesOver    =   0   'False
+         FillStyle       =   0
+         RightToLeft     =   0   'False
+         PictureType     =   0
+         TabBehavior     =   0
+         OwnerDraw       =   0
+         Editable        =   0
+         ShowComboButton =   -1  'True
+         WordWrap        =   0   'False
+         TextStyle       =   0
+         TextStyleFixed  =   0
+         OleDragMode     =   0
+         OleDropMode     =   0
+         DataMode        =   0
+         VirtualData     =   -1  'True
+         ComboSearch     =   3
+         AutoSizeMouse   =   -1  'True
+         FrozenRows      =   0
+         FrozenCols      =   0
+         AllowUserFreezing=   0
+         BackColorFrozen =   -2147483633
+         ForeColorFrozen =   4210752
+         WallPaperAlignment=   9
       End
       Begin VB.Line Line1 
          Visible         =   0   'False
@@ -209,9 +305,9 @@ Begin VB.Form frmTransportadora
          EndProperty
          ForeColor       =   &H00FFFFFF&
          Height          =   390
-         Left            =   2490
+         Left            =   1440
          TabIndex        =   19
-         Top             =   255
+         Top             =   240
          Width           =   3210
       End
       Begin VB.Label Label7 
@@ -229,7 +325,7 @@ Begin VB.Form frmTransportadora
          ForeColor       =   &H00FFFFFF&
          Height          =   390
          Left            =   4305
-         TabIndex        =   17
+         TabIndex        =   18
          Top             =   2950
          Width           =   2760
       End
@@ -248,7 +344,7 @@ Begin VB.Form frmTransportadora
          ForeColor       =   &H00FFFFFF&
          Height          =   390
          Left            =   2640
-         TabIndex        =   15
+         TabIndex        =   17
          Top             =   1150
          Width           =   2760
       End
@@ -267,7 +363,7 @@ Begin VB.Form frmTransportadora
          ForeColor       =   &H00FFFFFF&
          Height          =   390
          Left            =   3240
-         TabIndex        =   12
+         TabIndex        =   16
          Top             =   2950
          Width           =   2760
       End
@@ -286,7 +382,7 @@ Begin VB.Form frmTransportadora
          ForeColor       =   &H00FFFFFF&
          Height          =   390
          Left            =   150
-         TabIndex        =   11
+         TabIndex        =   15
          Top             =   2950
          Width           =   2760
       End
@@ -305,7 +401,7 @@ Begin VB.Form frmTransportadora
          ForeColor       =   &H00FFFFFF&
          Height          =   390
          Left            =   150
-         TabIndex        =   8
+         TabIndex        =   14
          Top             =   2050
          Width           =   2760
       End
@@ -324,13 +420,13 @@ Begin VB.Form frmTransportadora
          ForeColor       =   &H00FFFFFF&
          Height          =   390
          Left            =   150
-         TabIndex        =   7
+         TabIndex        =   13
          Top             =   1150
          Width           =   930
       End
       Begin VB.Label Label1 
          BackStyle       =   0  'Transparent
-         Caption         =   "Nome Transportadora"
+         Caption         =   "Código "
          BeginProperty Font 
             Name            =   "MS Sans Serif"
             Size            =   9.75
@@ -343,16 +439,16 @@ Begin VB.Form frmTransportadora
          ForeColor       =   &H00FFFFFF&
          Height          =   390
          Left            =   150
-         TabIndex        =   5
-         Top             =   250
-         Width           =   3210
+         TabIndex        =   11
+         Top             =   255
+         Width           =   810
       End
    End
    Begin Project1.chameleonButton cmdGrava 
       Height          =   405
       Left            =   5280
-      TabIndex        =   1
-      Top             =   5040
+      TabIndex        =   9
+      Top             =   4800
       Width           =   1095
       _ExtentX        =   1931
       _ExtentY        =   714
@@ -376,7 +472,45 @@ Begin VB.Form frmTransportadora
       FCOLO           =   16777215
       MCOL            =   5263440
       MPTR            =   1
-      MICON           =   "frmTransportadora.frx":0000
+      MICON           =   "frmTransportadora.frx":003D
+      UMCOL           =   -1  'True
+      SOFT            =   0   'False
+      PICPOS          =   0
+      NGREY           =   0   'False
+      FX              =   0
+      HAND            =   0   'False
+      CHECK           =   0   'False
+      VALUE           =   0   'False
+   End
+   Begin Project1.chameleonButton cmdRetornar 
+      Height          =   405
+      Left            =   4200
+      TabIndex        =   10
+      Top             =   4800
+      Width           =   1095
+      _ExtentX        =   1931
+      _ExtentY        =   714
+      BTYPE           =   14
+      TX              =   "Retornar"
+      ENAB            =   -1  'True
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      COLTYPE         =   2
+      FOCUSR          =   -1  'True
+      BCOL            =   5263440
+      BCOLO           =   0
+      FCOL            =   16777215
+      FCOLO           =   16777215
+      MCOL            =   5263440
+      MPTR            =   1
+      MICON           =   "frmTransportadora.frx":0059
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -402,7 +536,7 @@ Begin VB.Form frmTransportadora
       ForeColor       =   &H00FFFFFF&
       Height          =   390
       Left            =   180
-      TabIndex        =   3
+      TabIndex        =   1
       Top             =   120
       Width           =   6300
    End
@@ -413,389 +547,240 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
+Dim rsGravaTransportadora As New ADODB.Recordset
+Dim adoCliente As New ADODB.Recordset
+Dim rsBuscaNumeroTransportadora As New ADODB.Recordset
 Dim SQL As String
-Dim wTipoFrete As Integer
 
-Private Sub chkEntrada_Click()
- If chkEntrada.Value = 0 Then
-    txtEntrada.Visible = False
+Dim wLimpar As Boolean
+Dim wPreencheInicio As Boolean
+Dim ln As Integer
 
- ElseIf chkEntrada.Value = 1 Then
-    txtEntrada.Visible = True
-
- End If
-End Sub
-
-Private Sub cmdGrava_Click()
-    
-    If txtCodigoCliente.Text = "" Then
-        MsgBox "Codigo Invalido", vbCritical, "Atenção"
-        Exit Sub
-    End If
-'    If wValor > 10000 And txtCodigoCliente = "999999" Then
-'        MsgBox "Não é permitido cliente consumidor para vendas maiores que R$10.000,00"
-'        txtCodigoCliente.Text = ""
-'        txtNomeCliente.Text = ""
-'        txtCodigoCliente.SetFocus
-'        Exit Sub
-'    End If
-     If txtQtdeVolume.Text = "" Or IsNumeric(txtQtdeVolume.Text) = False Or txtQtdeVolume.Text = "0" Then
-            txtQtdeVolume.SelStart = 0
-            txtQtdeVolume.SelLength = Len(txtQtdeVolume.Text)
-            MsgBox "Informar quantidade."
-            txtQtdeVolume.SetFocus
-            Exit Sub
-     End If
-         
-     If txtPesoVolume.Text = "" Or IsNumeric(txtPesoVolume.Text) = False Or txtPesoVolume.Text = "0" Then
-            txtPesoVolume.SelStart = 0
-            txtPesoVolume.SelLength = Len(txtPesoVolume.Text)
-            MsgBox "Informar peso."
-            txtPesoVolume.SetFocus
-            Exit Sub
-     End If
-     
-     
-     If optFreteDestinatario.Value = True Then
-        wTipoFrete = 1
-     Else
-        wTipoFrete = 0
-     End If
-
-
-      SQL = ""
-      SQL = "Update NFCapa set pgentra = " & ConverteVirgula(Format(txtEntrada.Text, "###,##0.00")) & _
-            ", cliente = " & txtCodigoCliente.Text & ", tipofrete = " & wTipoFrete & _
-            ", pesoLq = " & ConverteVirgula(txtPesoVolume.Text) & ", pesoBr = " & ConverteVirgula(txtPesoVolume.Text) & _
-            ", volume = " & ConverteVirgula(txtQtdeVolume.Text) & _
-            " Where Numeroped = " & frmPedido.txtpedido.Text
-      adoCNLoja.Execute (SQL)
-
-Unload Me
-
-            'frmPedido.cmdBotoes(0).Visible = True
-            frmPedido.txtPesquisar.SelStart = 0
-            frmPedido.txtPesquisar.SelLength = Len(frmPedido.txtPesquisar.Text)
-            frmPedido.cmbPedido.Visible = False
-            frmPedido.cmdBotoes(1).Visible = False
-            frmPedido.cmdBotoes(4).Visible = False
-            frmPedido.cmdBotoes(11).Visible = False
-            frmPedido.cmdFechaPedido.Visible = True
-            frmPedido.cmdBotoes(0).Visible = False
-            'frmPedido.cmdBotoes(13).Visible = False
-            frmPedido.cmdFechaPedido.left = frmPedido.cmdBotoes(0).left
-            frmPedido.cmdBotoes(2).Visible = True
-            frmPedido.cmdBotoes(12).Visible = True
-            frmPedido.cmdBotoes(9).Visible = True
-            frmPedido.cmdBotoes(8).Visible = True
-            frmPedido.cmdBotoes(6).Visible = True
-            
-            frmPedido.cmdBotoes(10).Visible = True
-            frmPedido.cmdBotoes(7).Visible = True
-
-  End Sub
-
-Private Sub cmdRetorna_Click()
-  Unload Me
-End Sub
-
-Private Sub Form_Activate()
-
-  txtEntrada.Visible = False
-  optFreteDestinatario.Value = False
-  optFreteEmitente.Value = True
-  
-  SQL = ""
-  SQL = "select nfcapa.CONDPAG as condpag from nfcapa " & _
-        "where nfcapa.numeroped = " & frmPedido.txtpedido.Text
-  rsCliente.CursorLocation = adUseClient
-  rsCliente.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
-
-  
-  If Val(rsCliente("condpag")) > 1 Then
-         'lblPagamento.Caption = frmPedido.grdPrecos.TextMatrix(0, 0)
-         chkEntrada.Visible = True
-         chkEntrada.Value = 0
-  Else
-     chkEntrada.Visible = False
-  End If
-  
-  rsCliente.Close
-    
-  SQL = ""
-  SQL = "select nfcapa.cliente as Codigo, fin_cliente.ce_razao as Nome, nfcapa.pesolq, nfcapa.volume, nfcapa.pgentra, " & _
-        "nfcapa.garantiaEstendida as GE, nfcapa.CONDPAG " & _
-        "from fin_cliente, nfcapa " & _
-        "where nfcapa.cliente = fin_cliente.ce_codigocliente and nfcapa.numeroped = " & frmPedido.txtpedido.Text
-        '''AQUI ERRO
-            rsCliente.CursorLocation = adUseClient
-            rsCliente.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
-            
-  If Not rsCliente.EOF Then
-    txtQtdeVolume.Text = rsCliente("volume")
-    txtPesoVolume.Text = rsCliente("pesoLq")
-    txtEntrada.Text = rsCliente("pgentra")
-    
-    ''AQUI'''''
-
-    If rsCliente("Codigo") > 0 And rsCliente("Codigo") <= 999999 And rsCliente("Codigo") <> 888888 And rsCliente("GE") <> "S" And rsCliente("CONDPAG") <= 2 Then
-         txtCodigoCliente.Text = rsCliente("Codigo")
-         txtNomeCliente.Text = rsCliente("Nome")
-         txtCodigoCliente.SelStart = 0
-         txtCodigoCliente.SelLength = Len(txtCodigoCliente.Text)
-    End If
-    Else
-       MsgBox "Cliente 999999 não encontrado, favor cadastrar."
-    End If
-   rsCliente.Close
-   'txtCodigoCliente.SetFocus
+Private Sub cmdRetornar_Click()
+    Unload Me
 End Sub
 
 Private Sub Form_Load()
     Call AjustaTela(Me)
-End Sub
-
-Private Sub txtCodigoCliente_GotFocus()
-   txtCodigoCliente.SelStart = 0
-   txtCodigoCliente.SelLength = Len(txtCodigoCliente.Text)
-End Sub
-
-Private Sub txtCodigoCliente_KeyDown(KeyCode As Integer, Shift As Integer)
-    If KeyCode = vbKeyF1 Then
-        If txtCodigoCliente.Text = "999999" Then
-        
-          SQL = "select nfcapa.CONDPAG as condpag, " & _
-          "nfcapa.garantiaEstendida as garantiaEstendida from nfcapa " & _
-          "where nfcapa.numeroped = " & frmPedido.txtpedido.Text
-          rsCliente.CursorLocation = adUseClient
-          rsCliente.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+    LimparCampos
     
-          If rsCliente("condPag") = "01" And rsCliente("garantiaEstendida") <> "S" Then
-              cmdGrava_Click
-              Call frmPedido.FechaPedido
-              Unload Me
-          End If
-          rsCliente.Close
-          
-          ElseIf KeyCode = 27 Then
-    frmPedido.cmdTotalPedidoGE.Visible = False
-    Unload Me
- 
-End If
-  End If
-  If KeyCode = vbKeyF2 Then
-    cmdGrava_Click
+    SQL = ""
+    SQL = "select CTS_NumeroTransportadora from ControleSistema "
     
-        'Call frmPedido.FechaPedido
-  
-  End If
+            rsBuscaNumeroTransportadora.CursorLocation = adUseClient
+            rsBuscaNumeroTransportadora.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+            
+            txtNumeroTransportadora.Text = rsBuscaNumeroTransportadora("CTS_NumeroTransportadora")
+            
+            If Not rsBuscaNumeroTransportadora.EOF Then
+                adoCNLoja.BeginTrans
+                Screen.MousePointer = vbHourglass
+                    SQL = ""
+                    SQL = "Update ControleSistema set CTS_NumeroTransportadora=(CTS_NumeroTransportadora + 1)"
+                          adoCNLoja.Execute SQL
+                          Screen.MousePointer = vbNormal
+                          adoCNLoja.CommitTrans
+                          
+                rsBuscaNumeroTransportadora.Close
+            End If
+            
 End Sub
+Private Sub LimparCampos()
 
-Private Sub txtCodigoCliente_KeyPress(KeyAscii As Integer)
-If KeyAscii = 27 Then
-    frmPedido.cmdTotalPedidoGE.Visible = False
-    Unload Me
-End If
-
-If KeyAscii = 13 Then
-    If txtCodigoCliente = wCodigoCliente Then
-        wCodigoCliente = ""
-        cmdGrava_Click
-    Else
-        Call VerificaCliente
+    txtNumeroTransportadora.Text = ""
+    txtTransportadora.Text = ""
+    txtCNPJ.Text = ""
+    txtInscricaoEstadual.Text = ""
+    txtEndereco.Text = ""
+    txtMunicipio.Text = ""
+    cmbEstado.Text = ""
+    txtPlaca.Text = ""
+    
+End Sub
+Function CamposVazio()
+    
+    'ricardo
+    If txtTransportadora.Text = "" Then
+        MsgBox "Este campo não pode estar vazio", vbInformation, "ATENÇÃO"
+        txtTransportadora.SetFocus
+        Exit Function
     End If
-End If
-
-End Sub
-
-
-Private Sub VerificaCliente()
-
- If rsCliente.State = 1 Then
-    rsCliente.Close
- End If
- 
-     SQL = ""
-  SQL = "select nfcapa.cliente as Codigo, nfcapa.CONDPAG as condpag, fin_cliente.ce_razao as Nome, nfcapa.pgentra as entrada from fin_cliente, nfcapa " & _
-        "where nfcapa.cliente = fin_cliente.ce_codigocliente and nfcapa.numeroped = " & frmPedido.txtpedido.Text
-  rsCliente.CursorLocation = adUseClient
-  rsCliente.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
-  
-
-  If IsNumeric(txtCodigoCliente) = False And txtCodigoCliente <> "" Then
-         MsgBox "Informe somente números."
-         txtCodigoCliente.Text = rsCliente("Codigo")
-         txtNomeCliente.Text = rsCliente("Nome")
-         txtCodigoCliente.SelStart = 0
-         txtCodigoCliente.SelLength = Len(txtCodigoCliente.Text)
-         txtCodigoCliente.SetFocus
-         rsCliente.Close
-         Exit Sub
-  
-  
-  ElseIf txtCodigoCliente = "0" Then
-         wClienteTelaAdicionais = True
-         rsCliente.Close
-         Unload Me
-         Unload frmConsCliente
-         frmConsCliente.Show 1
-         
-         Exit Sub
-
-  ElseIf (txtCodigoCliente = "999999" Or txtCodigoCliente = "") And Val(rsCliente("condpag")) > 1 Then
-         MsgBox "Não é permitido cliente consumidor para Nota Fiscal Faturada / Financiado"
-         txtCodigoCliente.Text = ""
-         txtNomeCliente.Text = ""
-         txtCodigoCliente.SetFocus
-         rsCliente.Close
-         Exit Sub
-         
-  ElseIf txtCodigoCliente = "999999" Or txtCodigoCliente = "0" Or txtCodigoCliente = "900000" Then
-        If pedidoComGarantia(frmPedido.txtpedido) Then
-            MsgBox "Não é permitido cliente consumidor para Garantia Estendida"
-            txtCodigoCliente.Text = ""
-            txtNomeCliente.Text = ""
-            txtCodigoCliente.SetFocus
-            'rsCliente.Close
-            Exit Sub
-        End If
-        rsCliente.Close
-         
-  ElseIf txtCodigoCliente >= "900000" And Val(rsCliente("condpag")) > 3 Then
-         MsgBox "Faturamento não permitido para esse cliente"
-         txtCodigoCliente.Text = ""
-         txtNomeCliente.Text = ""
-         txtCodigoCliente.SetFocus
-         rsCliente.Close
-         Exit Sub
-  ElseIf txtCodigoCliente = "" Then
-         If rsCliente("Codigo") > 0 And rsCliente("Codigo") <= 999999 Then
-                 txtCodigoCliente.Text = rsCliente("Codigo")
-                 txtNomeCliente.Text = rsCliente("Nome")
-                 txtCodigoCliente.SelStart = 0
-                 txtCodigoCliente.SelLength = Len(txtCodigoCliente.Text)
-                 If rsCliente("Entrada") > 0 Then
-                    chkEntrada.Value = 1
-                    txtEntrada.Text = rsCliente("Entrada")
-                 End If
-                 
-         Else
-                 MsgBox "Código do cliente inválido"
-                 txtCodigoCliente.Text = ""
-                 txtNomeCliente.Text = ""
-
-         End If
-         rsCliente.Close
-         Exit Sub
-  Else
-  
-         rsCliente.Close
-         
-         SQL = ""
-         SQL = "select ce_CodigoCliente,ce_razao from FIN_Cliente " & _
-               "where ce_CodigoCliente = " & txtCodigoCliente
-         
-         rsCliente.CursorLocation = adUseClient
-         rsCliente.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
-
-         If Not rsCliente.EOF Then
-                 txtCodigoCliente.Text = rsCliente("ce_CodigoCliente")
-                 txtNomeCliente.Text = rsCliente("ce_razao")
-                 If chkEntrada.Visible = True Then
-                     chkEntrada.SetFocus
-                 End If
-                 
-                 wCodigoCliente = txtCodigoCliente.Text
-         Else
-                 MsgBox "Código do cliente inválido"
-                 txtCodigoCliente.Text = ""
-                 txtNomeCliente.Text = ""
-                 txtCodigoCliente.SetFocus
-         End If
-         
-         rsCliente.Close
-
-         Exit Sub
-  End If
-End Sub
-
-Private Sub txtCodigoCliente_LostFocus()
-        Call VerificaCliente
-End Sub
-
-Private Sub txtTotalGeral_Change()
-
-End Sub
-
-Private Sub txtEntrada_Change()
-If IsNumeric(txtEntrada.Text) = False Then
-   txtEntrada.Text = ""
-   txtEntrada.SelStart = 0
-   txtEntrada.SelLength = Len(txtEntrada.Text)
-
-'ElseIf txtEntrada.Text = 0 Then
-   'txtQtdeVolume.SetFocus
-End If
-
-
-End Sub
-
-Private Sub txtEntrada_GotFocus()
-   txtEntrada.SelStart = 0
-   txtEntrada.SelLength = Len(txtEntrada.Text)
-End Sub
-
-Private Sub txtEntrada_KeyPress(KeyAscii As Integer)
-  If KeyAscii = 13 Then
-      txtQtdeVolume.SetFocus
-  End If
-End Sub
-
-Private Sub txtEntrada_LostFocus()
-txtEntrada.Text = Format(txtEntrada.Text, "###,###,###,##0.00")
- If Val(ConverteVirgula(txtEntrada.Text)) > Val(ConverteVirgula(frmPedido.cmdTotalPedido.Caption)) Then
-       txtEntrada.Text = ""
-       txtEntrada.SelStart = 0
-       txtEntrada.SelLength = Len(txtEntrada.Text)
-       txtEntrada.SetFocus
-       MsgBox "Valor da entrada maior que o valor da Nota Fiscal"
-   Else
-      txtQtdeVolume.SetFocus
-  End If
-End Sub
-
-
-
-
-Private Sub txtPesoVolume_GotFocus()
-   txtPesoVolume.SelStart = 0
-   txtPesoVolume.SelLength = Len(txtPesoVolume.Text)
-
-End Sub
-
-Private Sub txtQtdeVolume_GotFocus()
-   txtQtdeVolume.SelStart = 0
-   txtQtdeVolume.SelLength = Len(txtQtdeVolume.Text)
-End Sub
-
-Private Sub txtQtdeVolume_KeyPress(KeyAscii As Integer)
-  If KeyAscii = 13 Then
-      txtPesoVolume.SetFocus
-  End If
-End Sub
-
-Public Function pedidoComGarantia(NumeroPedido As String) As Boolean
-    Dim rsProdutoGarantiaEstendida As New ADODB.Recordset
     
-    pedidoComGarantia = False
-    SQL = "select count(*) garantiaEstendida " & _
-          "from nfcapa where numeroPed = " & NumeroPedido & " and garantiaEstendida = 'S'"
+     If txtCNPJ.Text = "" Then
+        MsgBox "Este campo não pode estar vazio", vbInformation, "ATENÇÃO"
+        txtCNPJ.SetFocus
+        Exit Function
+     End If
     
-    rsProdutoGarantiaEstendida.CursorLocation = adUseClient
-    rsProdutoGarantiaEstendida.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+       If txtInscricaoEstadual.Text = "" Then
+        MsgBox "Este campo não pode estar vazio", vbInformation, "ATENÇÃO"
+        txtInscricaoEstadual.SetFocus
+        Exit Function
+      End If
+       
+         If txtEndereco.Text = "" Then
+          MsgBox "Este campo não pode estar vazio", vbInformation, "ATENÇÃO"
+          txtEndereco.SetFocus
+          Exit Function
+      End If
     
-    If rsProdutoGarantiaEstendida("garantiaEstendida") > 0 Then
-        pedidoComGarantia = True
-    End If
-    rsProdutoGarantiaEstendida.Close
+             If txtMunicipio.Text = "" Then
+              MsgBox "Este campo não pode estar vazio", vbInformation, "ATENÇÃO"
+              txtMunicipio.SetFocus
+              Exit Function
+           End If
+             
+                If cmbEstado.Text = "" Then
+                 MsgBox "Este campo não pode estar vazio", vbInformation, "ATENÇÃO"
+                 cmbEstado.SetFocus
+                 Exit Function
+                End If
+                
+                   If txtPlaca.Text = "" Then
+                    MsgBox "Este campo não pode estar vazio", vbInformation, "ATENÇÃO"
+                    txtPlaca.SetFocus
+                    Exit Function
+                   End If
+   
 End Function
+
+Private Sub cmdGrava_Click()
+   
+   CamposVazio
+   
+  SQL = ""
+  SQL = "Insert Into Transportadora (Tra_CodigoTransp, Tra_NomeTransportadora , Tra_Placa , Tra_UF , " & _
+  " Tra_CNPJ , Tra_IE , Tra_Endereco , Tra_Municipio ) " & _
+  "Values ('" & txtNumeroTransportadora.Text & "','" & txtTransportadora.Text & "', '" & txtPlaca.Text & "', " & _
+           " '" & cmbEstado.Text & "', '" & txtCNPJ.Text & "', '" & txtInscricaoEstadual.Text & "', " & _
+           " '" & txtEndereco.Text & "', '" & txtMunicipio.Text & "')"
+           
+ adoCNLoja.Execute (SQL)
+ MsgBox "Transportadora gravada com sucesso !", vbInformation, "Obrigado"
+ 
+    SQL = ""
+    SQL = "Update Transportadora set Tra_CodigoTrans=(Tra_CodigoTransp + 1)"
+     adoCNLoja.Execute SQL
+ 
+adoCNLoja.Close
+     LimparCampos
+     Unload Me
+     
+End Sub
+
+Private Sub txtMunicipio_Change()
+
+        If txtMunicipio.Text = "'" Then
+        MsgBox "Este campo não permite caracteres especiais!", vbCritical, "ATENÇÃO"
+        txtMunicipio.Text = ""
+        txtMunicipio.SetFocus
+        Exit Sub
+    End If
+    
+    grdMunicipio.ZOrder
+    If wPreencheInicio = False Then
+       grdMunicipio.Visible = True
+       PreencheGridMunicipioPesquisa
+    End If
+    If Trim(txtMunicipio.Text) = "" Then
+       grdMunicipio.Visible = False
+    End If
+    
+End Sub
+
+
+Private Sub PreencheGridMunicipioPesquisa()
+
+If wPreencheInicio = True Then
+   Exit Sub
+End If
+
+    grdMunicipio.Rows = 0
+    
+    With grdMunicipio
+        .ExtendLastCol = True
+        .OutlineBar = flexOutlineBarComplete
+        .MergeCells = flexMergeSpill
+        .Editable = flexEDNone
+    End With
+
+ln = 0
+
+        If Len(txtMunicipio.Text) > 0 Then
+           SQL = "SP_FIN_Ler_Codigo_Municipio_Por_Parametro '" & txtMunicipio.Text & "'"
+           
+            adoCliente.CursorLocation = adUseClient
+            adoCliente.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+            
+                
+         Else
+        
+         Exit Sub
+           
+         End If
+
+         Do While Not adoCliente.EOF
+           
+                With grdMunicipio
+                     .AddItem Trim(adoCliente("Mun_nome")) & Chr(9) & Trim(adoCliente("Mun_UF"))
+                     .IsSubtotal(.Rows - 1) = True
+                     .RowOutlineLevel(.Rows - 1) = 3
+                     .Cell(flexcpFontBold, .Rows - 1, 0) = False
+                     .Redraw = flexRDBuffered
+                End With
+
+            adoCliente.MoveNext
+            ln = ln + 1
+         Loop
+     
+            ln = ln - 1
+            Do While ln >= 0
+                grdMunicipio.IsCollapsed(ln) = flexOutlineCollapsed
+                ln = ln - 1
+            Loop
+            adoCliente.Close
+End Sub
+
+Private Sub grdMunicipio_RowColChange()
+   On Error GoTo SaidaRotina
+
+    txtMunicipio.Text = UCase(grdMunicipio.TextMatrix(grdMunicipio.Row, 0))
+    cmbEstado.Text = UCase(grdMunicipio.TextMatrix(grdMunicipio.Row, 1))
+    
+SaidaRotina:
+
+    Exit Sub
+    
+End Sub
+
+Private Sub txtNumeroTransportadora_LostFocus()
+    txtNumeroTransportadora.Text = UCase(txtNumeroTransportadora.Text)
+End Sub
+Private Sub txtTransportadora_LostFocus()
+    txtTransportadora.Text = UCase(txtTransportadora.Text)
+End Sub
+Private Sub txtCNPJ_KeyPress(KeyAscii As Integer)
+    If KeyAscii > 64 Then  'Não permite letras
+    KeyAscii = 0
+  End If
+End Sub
+Private Sub txtInscricaoEstadual_LostFocus()
+    txtInscricaoEstadual.Text = UCase(txtInscricaoEstadual.Text)
+End Sub
+Private Sub txtEndereco_LostFocus()
+    txtEndereco.Text = UCase(txtEndereco.Text)
+End Sub
+Private Sub txtMunicipio_LostFocus()
+    txtMunicipio.Text = UCase(txtMunicipio.Text)
+End Sub
+Private Sub txtPlaca_LostFocus()
+    txtPlaca.Text = UCase(txtPlaca.Text)
+End Sub
+
+
+
+
+
+
+
+
