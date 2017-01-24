@@ -3,13 +3,12 @@ Begin VB.Form frmAdicionais
    BackColor       =   &H00505050&
    BorderStyle     =   0  'None
    Caption         =   "Finaliza pedido"
-   ClientHeight    =   6465
+   ClientHeight    =   6405
    ClientLeft      =   5520
    ClientTop       =   2145
    ClientWidth     =   6555
    LinkTopic       =   "Form2"
-   LockControls    =   -1  'True
-   ScaleHeight     =   6465
+   ScaleHeight     =   6405
    ScaleWidth      =   6555
    ShowInTaskbar   =   0   'False
    Begin VB.Frame Frame2 
@@ -311,6 +310,44 @@ Begin VB.Form frmAdicionais
       CHECK           =   0   'False
       VALUE           =   0   'False
    End
+   Begin Project1.chameleonButton chameleonButton1 
+      Height          =   405
+      Left            =   4200
+      TabIndex        =   18
+      Top             =   5040
+      Width           =   1095
+      _ExtentX        =   1931
+      _ExtentY        =   714
+      BTYPE           =   14
+      TX              =   "Transp"
+      ENAB            =   -1  'True
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      COLTYPE         =   2
+      FOCUSR          =   -1  'True
+      BCOL            =   5263440
+      BCOLO           =   0
+      FCOL            =   16777215
+      FCOLO           =   16777215
+      MCOL            =   5263440
+      MPTR            =   1
+      MICON           =   "frmAdicionais.frx":001C
+      UMCOL           =   -1  'True
+      SOFT            =   0   'False
+      PICPOS          =   0
+      NGREY           =   0   'False
+      FX              =   0
+      HAND            =   0   'False
+      CHECK           =   0   'False
+      VALUE           =   0   'False
+   End
    Begin VB.Label lblPagamento 
       Alignment       =   2  'Center
       BackStyle       =   0  'Transparent
@@ -340,6 +377,10 @@ Attribute VB_Exposed = False
 Option Explicit
 Dim SQL As String
 Dim wTipoFrete As Integer
+
+Private Sub chameleonButton1_Click()
+    frmTransportadora.Show 1
+End Sub
 
 Private Sub chkEntrada_Click()
  If chkEntrada.Value = 0 Then
