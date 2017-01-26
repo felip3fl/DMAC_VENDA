@@ -575,17 +575,10 @@ Private Sub Form_Load()
             
             txtNumeroTransportadora.Text = rsBuscaNumeroTransportadora("CTS_NumeroTransportadora")
             
-            If Not rsBuscaNumeroTransportadora.EOF Then
-                adoCNLoja.BeginTrans
-                Screen.MousePointer = vbHourglass
-                    SQL = ""
-                    SQL = "Update ControleSistema set CTS_NumeroTransportadora=(CTS_NumeroTransportadora + 1)"
-                          adoCNLoja.Execute SQL
-                          Screen.MousePointer = vbNormal
-                          adoCNLoja.CommitTrans
-                          
+           ' If Not rsBuscaNumeroTransportadora.EOF Then
+
                 rsBuscaNumeroTransportadora.Close
-            End If
+          '  End If
             
 End Sub
 Private Sub LimparCampos()
@@ -658,7 +651,7 @@ Private Sub cmdGrava_Click()
            " '" & cmbEstado.Text & "', '" & txtCNPJ.Text & "', '" & txtInscricaoEstadual.Text & "', " & _
            " '" & txtEndereco.Text & "', '" & txtMunicipio.Text & "')"
            
-  recebeCodigo = txtNumeroTransportadora.Text
+  'recebeCodigo = txtNumeroTransportadora.Text
   
    adoCNLoja.Execute (SQL)
    MsgBox "Transportadora gravada com sucesso !", vbInformation, "Obrigado"
@@ -667,7 +660,7 @@ Private Sub cmdGrava_Click()
   adoCNLoja.Execute (SQL)
   
   
-  SQL = "Update Transportadora set Tra_CodigoTransp=(Tra_CodigoTransp + 1)"
+  SQL = "Update ControleSistema set CTS_NumeroTransportadora=(CTS_NumeroTransportadora + 1)"
   adoCNLoja.Execute (SQL)
   
    
