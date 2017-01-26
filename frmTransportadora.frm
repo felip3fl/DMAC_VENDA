@@ -45,6 +45,7 @@ Begin VB.Form frmTransportadora
          ForeColor       =   &H00000000&
          Height          =   360
          Left            =   1365
+         MaxLength       =   60
          TabIndex        =   0
          Text            =   "DE MEO TRANSPORTADORA LTDA"
          ToolTipText     =   " "
@@ -125,6 +126,7 @@ Begin VB.Form frmTransportadora
          ForeColor       =   &H00000000&
          Height          =   360
          Left            =   150
+         MaxLength       =   60
          TabIndex        =   5
          Text            =   "SÃO PAULO"
          ToolTipText     =   " "
@@ -557,7 +559,7 @@ Dim SQL As String
 
 Dim wLimpar As Boolean
 Dim wPreencheInicio As Boolean
-Dim ln As Integer
+Dim Ln As Integer
 
 Private Sub cmdRetornar_Click()
     Unload Me
@@ -566,6 +568,7 @@ End Sub
 Private Sub Form_Load()
     Call AjustaTela(Me)
     LimparCampos
+    CarregaUF
     
     SQL = ""
     SQL = "select CTS_NumeroTransportadora from ControleSistema "
@@ -575,11 +578,9 @@ Private Sub Form_Load()
             
             txtNumeroTransportadora.Text = rsBuscaNumeroTransportadora("CTS_NumeroTransportadora")
             
-           ' If Not rsBuscaNumeroTransportadora.EOF Then
-
+        
                 rsBuscaNumeroTransportadora.Close
-          '  End If
-            
+          
 End Sub
 Private Sub LimparCampos()
 
@@ -651,8 +652,7 @@ Private Sub cmdGrava_Click()
            " '" & cmbEstado.Text & "', '" & txtCNPJ.Text & "', '" & txtInscricaoEstadual.Text & "', " & _
            " '" & txtEndereco.Text & "', '" & txtMunicipio.Text & "')"
            
-  'recebeCodigo = txtNumeroTransportadora.Text
-  
+
    adoCNLoja.Execute (SQL)
    MsgBox "Transportadora gravada com sucesso !", vbInformation, "Obrigado"
 
@@ -667,6 +667,10 @@ Private Sub cmdGrava_Click()
      LimparCampos
      Unload Me
      
+End Sub
+
+Private Sub grdMunicipio_LostFocus()
+    grdMunicipio.Visible = False
 End Sub
 
 Private Sub txtMunicipio_Change()
@@ -705,7 +709,7 @@ End If
         .Editable = flexEDNone
     End With
 
-ln = 0
+Ln = 0
 
         If Len(txtMunicipio.Text) > 0 Then
            SQL = "SP_FIN_Ler_Codigo_Municipio_Por_Parametro '" & txtMunicipio.Text & "'"
@@ -731,13 +735,13 @@ ln = 0
                 End With
 
             adoCliente.MoveNext
-            ln = ln + 1
+            Ln = Ln + 1
          Loop
      
-            ln = ln - 1
-            Do While ln >= 0
-                grdMunicipio.IsCollapsed(ln) = flexOutlineCollapsed
-                ln = ln - 1
+            Ln = Ln - 1
+            Do While Ln >= 0
+                grdMunicipio.IsCollapsed(Ln) = flexOutlineCollapsed
+                Ln = Ln - 1
             Loop
             adoCliente.Close
 End Sub
@@ -760,7 +764,7 @@ End Sub
 Private Sub txtTransportadora_LostFocus()
     txtTransportadora.Text = UCase(txtTransportadora.Text)
 End Sub
-Private Sub txtCNPJ_KeyPress(KeyAscii As Integer)
+Private Sub txtCnpj_KeyPress(KeyAscii As Integer)
     If KeyAscii > 64 Then  'Não permite letras
     KeyAscii = 0
   End If
@@ -777,6 +781,62 @@ End Sub
 Private Sub txtPlaca_LostFocus()
     txtPlaca.Text = UCase(txtPlaca.Text)
 End Sub
+
+Private Sub CarregaUF()
+Dim preencheUF As Boolean
+Dim I As Integer
+
+    SQL = "SP_FIN_Ler_Estado"
+
+    adoCliente.CursorLocation = adUseClient
+    adoCliente.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+
+    If Not adoCliente.EOF Then
+        preencheUF = True
+    Else
+        preencheUF = False
+    End If
+     
+    If preencheUF = True Then
+        Do While Not adoCliente.EOF
+            cmbEstado.AddItem UCase(adoCliente("UF_Estado"))
+            adoCliente.MoveNext
+        Loop
+        For I = 0 To cmbEstado.ListCount
+            cmbEstado.ListIndex = I
+            If cmbEstado.Text = "SP" Then
+                cmbEstado.ListIndex = I
+                Exit For
+            End If
+        Next I
+    End If
+          
+       adoCliente.Close
+End Sub
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
