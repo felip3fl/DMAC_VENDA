@@ -9,6 +9,7 @@ Begin VB.Form frmTransportadora
    ClientTop       =   2700
    ClientWidth     =   6555
    LinkTopic       =   "Form2"
+   LockControls    =   -1  'True
    ScaleHeight     =   5595
    ScaleWidth      =   6555
    ShowInTaskbar   =   0   'False
@@ -64,6 +65,7 @@ Begin VB.Form frmTransportadora
          ForeColor       =   &H00000000&
          Height          =   360
          Left            =   4305
+         MaxLength       =   8
          TabIndex        =   7
          Text            =   "YYY-1234"
          ToolTipText     =   " "
@@ -143,6 +145,7 @@ Begin VB.Form frmTransportadora
          ForeColor       =   &H00000000&
          Height          =   360
          Left            =   150
+         MaxLength       =   60
          TabIndex        =   4
          Text            =   "FLORENCIO DE ABREU 271"
          ToolTipText     =   " "
@@ -645,8 +648,8 @@ Function CamposVazio()
 End Function
 
 Private Sub cmdGrava_Click()
-   
-   CamposVazio
+
+  CamposVazio
    
   SQL = ""
   SQL = "Insert Into Transportadora (Tra_CodigoTransp, Tra_NomeTransportadora , Tra_Placa , Tra_UF , " & _
@@ -655,14 +658,19 @@ Private Sub cmdGrava_Click()
            " '" & cmbEstado.Text & "', '" & txtCNPJ.Text & "', '" & txtInscricaoEstadual.Text & "', " & _
            " '" & txtEndereco.Text & "', '" & txtMunicipio.Text & "')"
            
- adoCNLoja.Execute (SQL)
- MsgBox "Transportadora gravada com sucesso !", vbInformation, "Obrigado"
- 
-    SQL = ""
-    SQL = "Update Transportadora set Tra_CodigoTransp=(Tra_CodigoTransp + 1)"
-     adoCNLoja.Execute SQL
- 
-adoCNLoja.Close
+  recebeCodigo = txtNumeroTransportadora.Text
+  
+   adoCNLoja.Execute (SQL)
+   MsgBox "Transportadora gravada com sucesso !", vbInformation, "Obrigado"
+
+  SQL = "Update nfcapa set CodigoTransp = " & txtNumeroTransportadora.Text & " where numeroped = '" & frmPedido.txtpedido.Text & "'"
+  adoCNLoja.Execute (SQL)
+  
+  
+  SQL = "Update Transportadora set Tra_CodigoTransp=(Tra_CodigoTransp + 1)"
+  adoCNLoja.Execute (SQL)
+  
+   
      LimparCampos
      Unload Me
      
