@@ -659,7 +659,7 @@ Private Sub cmdGrava_Click()
  MsgBox "Transportadora gravada com sucesso !", vbInformation, "Obrigado"
  
     SQL = ""
-    SQL = "Update Transportadora set Tra_CodigoTrans=(Tra_CodigoTransp + 1)"
+    SQL = "Update Transportadora set Tra_CodigoTransp=(Tra_CodigoTransp + 1)"
      adoCNLoja.Execute SQL
  
 adoCNLoja.Close
