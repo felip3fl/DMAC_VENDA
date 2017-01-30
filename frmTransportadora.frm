@@ -639,7 +639,7 @@ Function CarregaTranportadora()
 End Function
 
 Private Sub Form_Load()
-    'Call AjustaTela(Me)
+    Call AjustaTela(Me)
     LimparCampos
     CarregaUF
     
