@@ -156,7 +156,6 @@ Begin VB.Form frmTransportadora
       End
       Begin VB.TextBox txtNumeroTransportadora 
          BackColor       =   &H00C0C0C0&
-         Enabled         =   0   'False
          BeginProperty Font 
             Name            =   "MS Sans Serif"
             Size            =   8.25
@@ -551,36 +550,114 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+
 Option Explicit
 Dim rsGravaTransportadora As New ADODB.Recordset
 Dim adoCliente As New ADODB.Recordset
 Dim rsBuscaNumeroTransportadora As New ADODB.Recordset
+Dim rsTransportadora As New ADODB.Recordset
+Dim rsCarregaTransportadora As New ADODB.Recordset
 Dim SQL As String
 
 Dim wLimpar As Boolean
 Dim wPreencheInicio As Boolean
-Dim Ln As Integer
+Dim ln As Integer
 
 Private Sub cmdRetornar_Click()
     Unload Me
 End Sub
+Private Sub txtNumeroTransportadora_KeyPress(KeyAscii As Integer)
+'''Dim rsNumeroTransportadora As New ADODB.Recordset
+
+    
+    If KeyAscii = 13 And txtNumeroTransportadora.Text = "" Or Trim(txtNumeroTransportadora.Text) = "0" Then
+     
+    txtTransportadora.Text = ""
+    txtCNPJ.Text = ""
+    txtInscricaoEstadual.Text = ""
+    txtEndereco.Text = ""
+    txtMunicipio.Text = ""
+    cmbEstado.Text = ""
+    txtPlaca.Text = ""
+    txtTransportadora.SetFocus
+        
+        
+        cmdGrava_Click
+         
+    ElseIf KeyAscii = 13 And txtNumeroTransportadora.Text <> "" Then
+    
+      CarregaTranportadora
+     
+    End If
+End Sub
+
+Function CarregaCodigoNovo() As String
+
+
+   SQL = ""
+   SQL = "select CTS_NumeroTransportadora from ControleSistema "
+    
+            rsBuscaNumeroTransportadora.CursorLocation = adUseClient
+            rsBuscaNumeroTransportadora.Open SQL, ADO_Cn_Dmac_Loja, adOpenForwardOnly, adLockPessimistic
+            
+             CarregaCodigoNovo = rsBuscaNumeroTransportadora("CTS_NumeroTransportadora")
+            
+            
+              SQL = "Update ControleSistema set CTS_NumeroTransportadora=(CTS_NumeroTransportadora + 1)"
+              adoCNLoja.Execute (SQL)
+                  
+                rsBuscaNumeroTransportadora.Close
+    
+    
+End Function
+
+Function CarregaTranportadora()
+
+'tratamento erro
+
+   SQL = ""
+    SQL = "select * from Transportadora where Tra_CodigoTransp=" & txtNumeroTransportadora.Text
+   
+    
+            rsTransportadora.CursorLocation = adUseClient
+            rsTransportadora.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+            
+            If Not rsTransportadora.EOF Then
+            
+            txtTransportadora.Text = rsTransportadora("Tra_NomeTransportadora")
+            txtCNPJ.Text = rsTransportadora("Tra_CNPJ")
+            txtInscricaoEstadual.Text = rsTransportadora("Tra_IE")
+            txtEndereco.Text = rsTransportadora("Tra_Endereco")
+            txtMunicipio.Text = rsTransportadora("Tra_Municipio")
+            cmbEstado.Text = rsTransportadora("Tra_UF")
+            txtPlaca.Text = rsTransportadora("Tra_Placa")
+    
+            End If
+            
+                  
+                rsTransportadora.Close
+End Function
 
 Private Sub Form_Load()
-    Call AjustaTela(Me)
+    'Call AjustaTela(Me)
     LimparCampos
     CarregaUF
     
     SQL = ""
-    SQL = "select CTS_NumeroTransportadora from ControleSistema "
+    SQL = "select Tra_CodigoTransp , Tra_NomeTransportadora , Tra_Placa , Tra_UF , Tra_CNPJ , Tra_IE , Tra_Endereco , Tra_Municipio " & _
+          "from nfcapa, Transportadora where CodigoTransp = Tra_CodigoTransp and NUMEROPED = '" & frmPedido.txtpedido.Text & "'"
     
-            rsBuscaNumeroTransportadora.CursorLocation = adUseClient
-            rsBuscaNumeroTransportadora.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
-            
-            txtNumeroTransportadora.Text = rsBuscaNumeroTransportadora("CTS_NumeroTransportadora")
-            
-        
-                rsBuscaNumeroTransportadora.Close
-          
+    
+    rsCarregaTransportadora.CursorLocation = adUseClient
+    rsCarregaTransportadora.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+    
+    If Not rsCarregaTransportadora.EOF Then
+            txtNumeroTransportadora.Text = rsCarregaTransportadora("Tra_CodigoTransp")
+            'txtNumeroTransportadora_KeyPress (13)
+    End If
+    
+           rsCarregaTransportadora.Close
+           grdMunicipio.Visible = False
 End Sub
 Private Sub LimparCampos()
 
@@ -594,56 +671,79 @@ Private Sub LimparCampos()
     txtPlaca.Text = ""
     
 End Sub
-Function CamposVazio()
+
+Private Function CamposVazio() As Boolean
     
-    'ricardo
+    CamposVazio = False
+  
+    If txtNumeroTransportadora.Text = "" Then
+        MsgBox "Este campo não pode estar vazio", vbInformation, "ATENÇÃO"
+        txtNumeroTransportadora.SetFocus
+        CamposVazio = True
+        Exit Function
+    End If
+  
+  
     If txtTransportadora.Text = "" Then
         MsgBox "Este campo não pode estar vazio", vbInformation, "ATENÇÃO"
         txtTransportadora.SetFocus
+        CamposVazio = True
         Exit Function
     End If
     
      If txtCNPJ.Text = "" Then
         MsgBox "Este campo não pode estar vazio", vbInformation, "ATENÇÃO"
         txtCNPJ.SetFocus
-        Exit Function
+        CamposVazio = True
+         Exit Function
      End If
     
        If txtInscricaoEstadual.Text = "" Then
         MsgBox "Este campo não pode estar vazio", vbInformation, "ATENÇÃO"
         txtInscricaoEstadual.SetFocus
-        Exit Function
+        CamposVazio = True
+         Exit Function
       End If
        
          If txtEndereco.Text = "" Then
           MsgBox "Este campo não pode estar vazio", vbInformation, "ATENÇÃO"
           txtEndereco.SetFocus
-          Exit Function
+         CamposVazio = True
+         Exit Function
       End If
     
              If txtMunicipio.Text = "" Then
               MsgBox "Este campo não pode estar vazio", vbInformation, "ATENÇÃO"
               txtMunicipio.SetFocus
-              Exit Function
+              CamposVazio = True
+               Exit Function
            End If
              
                 If cmbEstado.Text = "" Then
                  MsgBox "Este campo não pode estar vazio", vbInformation, "ATENÇÃO"
                  cmbEstado.SetFocus
-                 Exit Function
+                 CamposVazio = True
+                  Exit Function
                 End If
                 
                    If txtPlaca.Text = "" Then
                     MsgBox "Este campo não pode estar vazio", vbInformation, "ATENÇÃO"
                     txtPlaca.SetFocus
-                    Exit Function
+                    CamposVazio = True
+                     Exit Function
                    End If
    
 End Function
 
 Private Sub cmdGrava_Click()
+Dim rsCodigoTransportadora As New ADODB.Recordset
 
-  CamposVazio
+
+ If Not CamposVazio Then
+
+  If txtNumeroTransportadora.Text = 0 Then
+  
+    txtNumeroTransportadora.Text = CarregaCodigoNovo
    
   SQL = ""
   SQL = "Insert Into Transportadora (Tra_CodigoTransp, Tra_NomeTransportadora , Tra_Placa , Tra_UF , " & _
@@ -652,25 +752,43 @@ Private Sub cmdGrava_Click()
            " '" & cmbEstado.Text & "', '" & txtCNPJ.Text & "', '" & txtInscricaoEstadual.Text & "', " & _
            " '" & txtEndereco.Text & "', '" & txtMunicipio.Text & "')"
            
-
+  
    adoCNLoja.Execute (SQL)
-   MsgBox "Transportadora gravada com sucesso !", vbInformation, "Obrigado"
-
+   MsgBox "Transportadora gravada com sucesso numero =  " & txtNumeroTransportadora.Text & " "
+   
+ 
   SQL = "Update nfcapa set CodigoTransp = " & txtNumeroTransportadora.Text & " where numeroped = '" & frmPedido.txtpedido.Text & "'"
   adoCNLoja.Execute (SQL)
   
-  
-  SQL = "Update ControleSistema set CTS_NumeroTransportadora=(CTS_NumeroTransportadora + 1)"
-  adoCNLoja.Execute (SQL)
   
    
      LimparCampos
      Unload Me
      
-End Sub
-
-Private Sub grdMunicipio_LostFocus()
-    grdMunicipio.Visible = False
+     ElseIf txtNumeroTransportadora.Text <> 0 Then
+     
+             SQL = ""
+             SQL = "Insert Into Transportadora (Tra_CodigoTransp, Tra_NomeTransportadora , Tra_Placa , Tra_UF , " & _
+             " Tra_CNPJ , Tra_IE , Tra_Endereco , Tra_Municipio ) " & _
+             "Values ('" & txtNumeroTransportadora.Text & "','" & txtTransportadora.Text & "', '" & txtPlaca.Text & "', " & _
+                      " '" & cmbEstado.Text & "', '" & txtCNPJ.Text & "', '" & txtInscricaoEstadual.Text & "', " & _
+                      " '" & txtEndereco.Text & "', '" & txtMunicipio.Text & "')"
+                      
+             
+              adoCNLoja.Execute (SQL)
+              MsgBox "Transportadora gravada com sucesso numero =  " & txtNumeroTransportadora.Text & " "
+              
+            
+             SQL = "Update nfcapa set CodigoTransp = " & txtNumeroTransportadora.Text & " where numeroped = '" & frmPedido.txtpedido.Text & "'"
+             adoCNLoja.Execute (SQL)
+             
+             
+             LimparCampos
+             Unload Me
+                
+   End If
+  End If
+  
 End Sub
 
 Private Sub txtMunicipio_Change()
@@ -709,7 +827,7 @@ End If
         .Editable = flexEDNone
     End With
 
-Ln = 0
+ln = 0
 
         If Len(txtMunicipio.Text) > 0 Then
            SQL = "SP_FIN_Ler_Codigo_Municipio_Por_Parametro '" & txtMunicipio.Text & "'"
@@ -735,13 +853,13 @@ Ln = 0
                 End With
 
             adoCliente.MoveNext
-            Ln = Ln + 1
+            ln = ln + 1
          Loop
      
-            Ln = Ln - 1
-            Do While Ln >= 0
-                grdMunicipio.IsCollapsed(Ln) = flexOutlineCollapsed
-                Ln = Ln - 1
+            ln = ln - 1
+            Do While ln >= 0
+                grdMunicipio.IsCollapsed(ln) = flexOutlineCollapsed
+                ln = ln - 1
             Loop
             adoCliente.Close
 End Sub
@@ -764,10 +882,46 @@ End Sub
 Private Sub txtTransportadora_LostFocus()
     txtTransportadora.Text = UCase(txtTransportadora.Text)
 End Sub
-Private Sub txtCnpj_KeyPress(KeyAscii As Integer)
+Private Sub txtCNPJ_KeyPress(KeyAscii As Integer)
+Dim rsCNPJ As New ADODB.Recordset
+
     If KeyAscii > 64 Then  'Não permite letras
     KeyAscii = 0
   End If
+  
+  If KeyAscii = 13 Then
+  
+    txtTransportadora.Text = ""
+    txtInscricaoEstadual.Text = ""
+    txtEndereco.Text = ""
+    txtMunicipio.Text = ""
+    cmbEstado.Text = ""
+    txtPlaca.Text = ""
+  
+    SQL = ""
+    SQL = "Select * from Transportadora where Tra_CNPJ like '" & txtCNPJ & "'"
+    
+            rsCNPJ.CursorLocation = adUseClient
+            rsCNPJ.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+            
+            If Not rsCNPJ.EOF Then
+            'existe
+            txtTransportadora.Text = rsCNPJ("Tra_NomeTransportadora")
+            txtCNPJ.Text = rsCNPJ("Tra_CNPJ")
+            txtInscricaoEstadual.Text = rsCNPJ("Tra_IE")
+            txtEndereco.Text = rsCNPJ("Tra_Endereco")
+            txtMunicipio.Text = rsCNPJ("Tra_Municipio")
+            cmbEstado.Text = rsCNPJ("Tra_UF")
+            txtPlaca.Text = rsCNPJ("Tra_Placa")
+            grdMunicipio.Visible = False
+    
+            End If
+            
+                  
+                rsCNPJ.Close
+    
+  End If
+  
 End Sub
 Private Sub txtInscricaoEstadual_LostFocus()
     txtInscricaoEstadual.Text = UCase(txtInscricaoEstadual.Text)
@@ -781,7 +935,9 @@ End Sub
 Private Sub txtPlaca_LostFocus()
     txtPlaca.Text = UCase(txtPlaca.Text)
 End Sub
-
+Private Sub grdMunicipio_LostFocus()
+    grdMunicipio.Visible = False
+End Sub
 Private Sub CarregaUF()
 Dim preencheUF As Boolean
 Dim I As Integer
@@ -813,29 +969,6 @@ Dim I As Integer
           
        adoCliente.Close
 End Sub
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
