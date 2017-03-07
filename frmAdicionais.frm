@@ -8,8 +8,9 @@ Begin VB.Form frmAdicionais
    ClientTop       =   2145
    ClientWidth     =   6555
    LinkTopic       =   "Form2"
-   ScaleHeight     =   6405
-   ScaleWidth      =   6555
+   LockControls    =   -1  'True
+   ScaleHeight     =   0
+   ScaleWidth      =   0
    ShowInTaskbar   =   0   'False
    Begin VB.Frame Frame2 
       BackColor       =   &H00505050&
@@ -312,14 +313,14 @@ Begin VB.Form frmAdicionais
    End
    Begin Project1.chameleonButton chameleonButton1 
       Height          =   405
-      Left            =   4200
+      Left            =   3795
       TabIndex        =   18
       Top             =   5040
-      Width           =   1095
-      _ExtentX        =   1931
+      Width           =   1455
+      _ExtentX        =   2566
       _ExtentY        =   714
       BTYPE           =   14
-      TX              =   "Transp"
+      TX              =   "Transportadora"
       ENAB            =   -1  'True
       BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "MS Sans Serif"

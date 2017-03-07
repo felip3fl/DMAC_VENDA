@@ -1233,8 +1233,8 @@ Private Sub cmbPessoa_KeyPress(KeyAscii As Integer)
     ElseIf KeyAscii = 27 Then
         Call Limpar
         Unload Me
-        ProximoCampo txtCnpj
-        SelecionaCampo txtCnpj
+        ProximoCampo txtCNPJ
+        SelecionaCampo txtCNPJ
     End If
 End Sub
 
@@ -1246,24 +1246,24 @@ Private Sub cmbPessoa_LostFocus()
             txtInscricaoEstadual.Locked = True
             txtInscricaoEstadual.Locked = False
             'txtInscricaoEstadual.Text = ""
-            txtCnpj.MaxLength = 14
+            txtCNPJ.MaxLength = 14
             mskDataNascimento.Enabled = False
         ElseIf Mid(UCase(cmbPessoa.Text), 1, 1) = "U" Or Mid(UCase(cmbPessoa), 1, 2) = "FU" Then
             txtInscricaoEstadual.Text = "ISENTO"
             cmbPessoa.Text = "FUNCIONÁRIO"
             txtInscricaoEstadual.Locked = False
-            txtCnpj.MaxLength = 11
+            txtCNPJ.MaxLength = 11
         ElseIf Mid(UCase(cmbPessoa.Text), 1, 1) = "F" Then
             txtInscricaoEstadual.Text = "ISENTO"
             cmbPessoa.Text = "FÍSICA"
             txtInscricaoEstadual.Locked = False
-            txtCnpj.MaxLength = 11
+            txtCNPJ.MaxLength = 11
         ElseIf Mid(UCase(cmbPessoa.Text), 1, 1) = "Ó" Then
             cmbPessoa.Text = "ÓRGÃO PÚBLICO"
             txtInscricaoEstadual.Locked = True
             txtInscricaoEstadual.Locked = False
             txtInscricaoEstadual.Text = ""
-            txtCnpj.MaxLength = 14
+            txtCNPJ.MaxLength = 14
             mskDataNascimento.Enabled = False
         Else
             cmbPessoa.SelStart = 0
@@ -1460,10 +1460,10 @@ lblClite(3).ForeColor = &HE0E0E0
                 Call AtualizaCliente(txtCodigo.Text)
             Else
                 MsgBox "CNPJ/CPJ já possui cadastro"
-                txtCnpj.Locked = True
-                txtCnpj.SetFocus
-                txtCnpj.SelStart = 0
-                txtCnpj.SelLength = Len(txtCnpj.Text)
+                txtCNPJ.Locked = True
+                txtCNPJ.SetFocus
+                txtCNPJ.SelStart = 0
+                txtCNPJ.SelLength = Len(txtCNPJ.Text)
            End If
        End If
        adoClienteCNPJ.Close
@@ -1473,7 +1473,7 @@ lblClite(3).ForeColor = &HE0E0E0
 End Sub
 Private Sub lerClientePorCNPJ()
 
- SQL = " exec SP_FIN_Ler_Clientes_Por_Parametro_Cnpj '" & txtCnpj.Text & "'"
+ SQL = " exec SP_FIN_Ler_Clientes_Por_Parametro_Cnpj '" & txtCNPJ.Text & "'"
     
      adoClienteCNPJ.CursorLocation = adUseClient
      adoClienteCNPJ.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
@@ -1495,9 +1495,9 @@ End Sub
 Private Sub Limpar()
     wLimpar = True
     txtRazaoSocial.Text = ""
-    txtCnpj.Text = ""
-    txtCnpj.Locked = False
-    txtCnpj.Locked = True
+    txtCNPJ.Text = ""
+    txtCNPJ.Locked = False
+    txtCNPJ.Locked = True
     cmbPessoa.Enabled = False
     cmbPessoa.Text = ""
     cmbSituacao.Text = "ATIVO"
@@ -1542,11 +1542,11 @@ Private Sub Form_Activate()
     If wNumeroClientePedido <> 0 Then
         Cliente = wNumeroClientePedido
         wPreencherCliente = True
-        txtCnpj.Locked = True
+        txtCNPJ.Locked = True
     Else
         Cliente = 0
         wPreencherCliente = False
-        txtCnpj.Locked = False
+        txtCNPJ.Locked = False
     End If
 
     If wPreencherCliente = True Then
@@ -1831,7 +1831,12 @@ Ln = 0
 
         If Len(txtMunicipio.Text) > 0 Then
            SQL = "SP_FIN_Ler_Codigo_Municipio_Por_Parametro '" & txtMunicipio.Text & "'"
-           
+                       
+            If adoCliente.State Then
+                adoCliente.Close
+            End If
+            
+                       
             adoCliente.CursorLocation = adUseClient
             adoCliente.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
             
@@ -2204,13 +2209,13 @@ Private Sub txtClienteFidelidade_KeyPress(KeyAscii As Integer)
 End Sub
 
 Private Sub txtCNPJ_Change()
-    Numeros (txtCnpj.Text)
-    txtCnpj.Text = wNumeros
+    Numeros (txtCNPJ.Text)
+    txtCNPJ.Text = wNumeros
 End Sub
 
 Private Sub txtCnpj_KeyPress(KeyAscii As Integer)
     If KeyAscii = 13 Then
-        If txtCnpj.Text <> "" And IsNumeric(txtCnpj) = True Then
+        If txtCNPJ.Text <> "" And IsNumeric(txtCNPJ) = True Then
             ProximoCampo txtRazaoSocial
         'Else
             'txtCnpj.SetFocus
@@ -2229,41 +2234,41 @@ Private Sub txtCNPJ_LostFocus()
     lblClite(4).ForeColor = &HE0E0E0
     
     If cmbPessoa.Text = "FÍSICA" Or cmbPessoa.Text = "FUNCIONÁRIO" Then
-        If Len(txtCnpj.Text) < 11 And txtCnpj.Text <> "" Then
+        If Len(txtCNPJ.Text) < 11 And txtCNPJ.Text <> "" Then
             'MsgBox "Digite todos os dígitos do CPF!", vbCritical, "ATENÇÃO"
             'txtCnpj.SetFocus
             lblClite(4).ForeColor = vbRed
-            txtCnpj.SelStart = 0
-            txtCnpj.SelLength = Len(txtCnpj.Text)
+            txtCNPJ.SelStart = 0
+            txtCNPJ.SelLength = Len(txtCNPJ.Text)
             Screen.MousePointer = 0
             Exit Sub
         End If
     ElseIf cmbPessoa.Text = "JURÍDICA" Or cmbPessoa.Text = "ÓRGÃO PÚBLICO" Then
-        If Len(txtCnpj.Text) < 14 And txtCnpj.Text <> "" Then
+        If Len(txtCNPJ.Text) < 14 And txtCNPJ.Text <> "" Then
             'MsgBox "Digite todos os dígitos do CNPJ!", vbCritical, "ATENÇÃO"
             'txtCnpj.SetFocus
             lblClite(4).ForeColor = vbRed
-            txtCnpj.SelStart = 0
-            txtCnpj.SelLength = Len(txtCnpj.Text)
+            txtCNPJ.SelStart = 0
+            txtCNPJ.SelLength = Len(txtCNPJ.Text)
             Screen.MousePointer = 0
             Exit Sub
         End If
     End If
     
-    If txtCnpj.Text <> "" Then
-        If Not IsNumeric(txtCnpj.Text) Then
+    If txtCNPJ.Text <> "" Then
+        If Not IsNumeric(txtCNPJ.Text) Then
             'MsgBox "Digite apenas números!", vbCritical, "ATENÇÃO"
             lblClite(4).ForeColor = vbRed
-            txtCnpj.Text = ""
-            txtCnpj.SetFocus
+            txtCNPJ.Text = ""
+            txtCNPJ.SetFocus
             Exit Sub
         End If
-        If VerificaClienteExisteCNPJ(txtCnpj.Text) = True Then
+        If VerificaClienteExisteCNPJ(txtCNPJ.Text) = True Then
             cmbSituacao.Locked = False
-            If txtCodigo.Text <> "" And txtCnpj.Text <> "" Then
-                txtCnpj.Locked = False
+            If txtCodigo.Text <> "" And txtCNPJ.Text <> "" Then
+                txtCNPJ.Locked = False
             End If
-        ElseIf VerificaClienteExisteCNPJ(txtCnpj.Text) = False Then
+        ElseIf VerificaClienteExisteCNPJ(txtCNPJ.Text) = False Then
             cmbSituacao.Locked = True
             cmbSituacao.Text = "0 - ATIVO"
         End If
@@ -2279,8 +2284,8 @@ End Sub
 Private Sub txtCodigo_KeyPress(KeyAscii As Integer)
    If KeyAscii = 13 Then
         If txtCodigo.Text <> "" And IsNumeric(txtCodigo.Text) = True Then
-            ProximoCampo txtCnpj
-            SelecionaCampo txtCnpj
+            ProximoCampo txtCNPJ
+            SelecionaCampo txtCNPJ
         Else
             ProximoCampo txtCodigo
             SelecionaCampo txtCodigo
@@ -2840,8 +2845,8 @@ Function PreencheDadosCliente(ByVal Cliente As String)
         txtComplemento.Text = IIf(IsNull(adoCliente("CE_Complemento")), "", adoCliente("CE_Complemento"))
         txtEndereco.Text = adoCliente("CE_Endereco")
         txtBairro.Text = adoCliente("CE_Bairro")
-        txtCnpj.Text = adoCliente("CE_CGC")
-        txtCnpj.Locked = False
+        txtCNPJ.Text = adoCliente("CE_CGC")
+        txtCNPJ.Locked = False
         txtInscricaoEstadual.Text = adoCliente("CE_InscricaoEstadual")
         txtMunicipio.Text = adoCliente("CE_Municipio")
         txtEMail.Text = IIf(IsNull(adoCliente("CE_Email")), "", adoCliente("CE_Email"))
@@ -2953,7 +2958,7 @@ Function PreencheDadosClienteCNPJ(ByVal Cliente As String)
         txtComplemento.Text = IIf(IsNull(adoCliente("CE_Complemento")), "", adoCliente("CE_Complemento"))
         txtEndereco.Text = adoCliente("CE_Endereco")
         txtBairro.Text = adoCliente("CE_Bairro")
-        txtCnpj.Text = adoCliente("CE_CGC")
+        txtCNPJ.Text = adoCliente("CE_CGC")
         txtInscricaoEstadual.Text = adoCliente("CE_InscricaoEstadual")
         txtMunicipio.Text = adoCliente("CE_Municipio")
         txtEMail.Text = IIf(IsNull(adoCliente("CE_Email")), "", adoCliente("CE_Email"))
@@ -3264,11 +3269,11 @@ Function verificaCamposNulos() As Boolean
         ProximoCampo txtBairro
         SelecionaCampo txtBairro
         
-    ElseIf txtCnpj.Text = "" Then
+    ElseIf txtCNPJ.Text = "" Then
         lblClite(4).ForeColor = vbRed
         verificaCamposNulos = False
-        ProximoCampo txtCnpj
-        SelecionaCampo txtCnpj
+        ProximoCampo txtCNPJ
+        SelecionaCampo txtCNPJ
         
     ElseIf txtInscricaoEstadual.Text = "" Then
         lblClite(6).ForeColor = vbRed
@@ -3346,47 +3351,47 @@ Function AtualizaCliente(ByVal codigo As Double) As Boolean
         AtualizaCliente = False
     End If
 
-    If Trim(txtCnpj.Text) <> "" Then
+    If Trim(txtCNPJ.Text) <> "" Then
 
-        If Len(txtCnpj.Text) = 11 And UCase(Mid(cmbPessoa.Text, 1, 1)) <> "F" Then
+        If Len(txtCNPJ.Text) = 11 And UCase(Mid(cmbPessoa.Text, 1, 1)) <> "F" Then
               lblClite(4).ForeColor = vbRed
               'txtCnpj.SetFocus
-              txtCnpj.SelStart = 0
-              txtCnpj.SelLength = Len(txtCnpj.Text)
+              txtCNPJ.SelStart = 0
+              txtCNPJ.SelLength = Len(txtCNPJ.Text)
               Screen.MousePointer = 0
               AtualizaCliente = False
         End If
         
-        If Len(txtCnpj.Text) = 14 And UCase(Mid(cmbPessoa.Text, 1, 1)) = "F" Then
+        If Len(txtCNPJ.Text) = 14 And UCase(Mid(cmbPessoa.Text, 1, 1)) = "F" Then
               lblClite(4).ForeColor = vbRed
               'txtCnpj.Locked = True
-              txtCnpj.SetFocus
-              txtCnpj.SelStart = 0
-              txtCnpj.SelLength = Len(txtCnpj.Text)
+              txtCNPJ.SetFocus
+              txtCNPJ.SelStart = 0
+              txtCNPJ.SelLength = Len(txtCNPJ.Text)
               Screen.MousePointer = 0
               AtualizaCliente = False
         End If
     
-        If Len(txtCnpj.Text) = 11 Then
-           If FU_ValidaCPF(txtCnpj.Text) = False Then
+        If Len(txtCNPJ.Text) = 11 Then
+           If FU_ValidaCPF(txtCNPJ.Text) = False Then
               lblClite(4).ForeColor = vbRed
-              txtCnpj.Locked = True
-              txtCnpj.SetFocus
-              txtCnpj.SelStart = 0
-              txtCnpj.SelLength = Len(txtCnpj.Text)
+              txtCNPJ.Locked = True
+              txtCNPJ.SetFocus
+              txtCNPJ.SelStart = 0
+              txtCNPJ.SelLength = Len(txtCNPJ.Text)
               Screen.MousePointer = 0
               AtualizaCliente = False
            End If
         End If
 
-        If Len(txtCnpj.Text) = 14 Then
-           If FU_ValidaCGC(txtCnpj.Text) = False Then
+        If Len(txtCNPJ.Text) = 14 Then
+           If FU_ValidaCGC(txtCNPJ.Text) = False Then
               lblClite(4).ForeColor = vbRed
-              txtCnpj.Locked = True
-              txtCnpj.SetFocus
+              txtCNPJ.Locked = True
+              txtCNPJ.SetFocus
 
-              txtCnpj.SelStart = 0
-              txtCnpj.SelLength = Len(txtCnpj.Text)
+              txtCNPJ.SelStart = 0
+              txtCNPJ.SelLength = Len(txtCNPJ.Text)
               Screen.MousePointer = 0
            AtualizaCliente = False
            End If
@@ -3395,11 +3400,11 @@ Function AtualizaCliente(ByVal codigo As Double) As Boolean
         End If
       End If
 
-      If Trim(txtCnpj.Text) = "" Then
-         txtCnpj.Text = right(String(14, "0") & txtCnpj.Text, 15)
+      If Trim(txtCNPJ.Text) = "" Then
+         txtCNPJ.Text = right(String(14, "0") & txtCNPJ.Text, 15)
       End If
-      If txtCnpj.Text = 0 Then
-         txtCnpj.Text = right(String(14, "0") & txtCnpj.Text, 15)
+      If txtCNPJ.Text = 0 Then
+         txtCNPJ.Text = right(String(14, "0") & txtCNPJ.Text, 15)
       End If
     
     If cmbPessoa.Text = "FÍSICA" Then
@@ -3472,7 +3477,7 @@ Function AtualizaCliente(ByVal codigo As Double) As Boolean
 
         Err.Number = 0
         adoCNLoja.BeginTrans
-        SQL = "SP_FIN_Altera_Cliente " & Val(codigo) & ",'" & txtRazaoSocial.Text & "','" & txtCnpj.Text & "','" _
+        SQL = "SP_FIN_Altera_Cliente " & Val(codigo) & ",'" & txtRazaoSocial.Text & "','" & txtCNPJ.Text & "','" _
                                         & Mid(Pessoa, 1, 2) & "', " & Val(cmbSituacao.Text) & ",'" _
                                         & pagamentoCarteira & "', '" _
                                         & txtInscricaoEstadual.Text & "','" & mskCep.Text & "','" _
@@ -3529,50 +3534,50 @@ Function GravaCliente() As Boolean
 
 
 
-    If Trim(txtCnpj.Text) <> "" Then
+    If Trim(txtCNPJ.Text) <> "" Then
 
-        If Len(txtCnpj.Text) = 11 And UCase(Mid(cmbPessoa.Text, 1, 1)) <> "F" Then
+        If Len(txtCNPJ.Text) = 11 And UCase(Mid(cmbPessoa.Text, 1, 1)) <> "F" Then
               lblClite(4).ForeColor = vbRed
-              txtCnpj.SelStart = 0
-              txtCnpj.SelLength = Len(txtCnpj.Text)
+              txtCNPJ.SelStart = 0
+              txtCNPJ.SelLength = Len(txtCNPJ.Text)
               GravaCliente = False
               msgErroCadastro = msgErroCadastro & "TIPO PESSOA OU CPF/CNPJ, "
         End If
         
-        If Len(txtCnpj.Text) = 14 And UCase(Mid(cmbPessoa.Text, 1, 1)) = "F" Then
+        If Len(txtCNPJ.Text) = 14 And UCase(Mid(cmbPessoa.Text, 1, 1)) = "F" Then
               lblClite(4).ForeColor = vbRed
-              txtCnpj.SelStart = 0
-              txtCnpj.SelLength = Len(txtCnpj.Text)
+              txtCNPJ.SelStart = 0
+              txtCNPJ.SelLength = Len(txtCNPJ.Text)
               Screen.MousePointer = 0
               GravaCliente = False
               msgErroCadastro = msgErroCadastro & "TIPO PESSOA OU CPF/CNPJ, "
         End If
     
-        If Len(txtCnpj.Text) = 11 Then
-           If FU_ValidaCPF(txtCnpj.Text) = False Then
+        If Len(txtCNPJ.Text) = 11 Then
+           If FU_ValidaCPF(txtCNPJ.Text) = False Then
               lblClite(4).ForeColor = vbRed
-              txtCnpj.SelStart = 0
-              txtCnpj.SelLength = Len(txtCnpj.Text)
+              txtCNPJ.SelStart = 0
+              txtCNPJ.SelLength = Len(txtCNPJ.Text)
               Screen.MousePointer = 0
               GravaCliente = False
               msgErroCadastro = msgErroCadastro & "CPF/CNPJ, "
            End If
         End If
 
-        If Len(txtCnpj.Text) = 14 Then
-           If FU_ValidaCGC(txtCnpj.Text) = False Then
+        If Len(txtCNPJ.Text) = 14 Then
+           If FU_ValidaCGC(txtCNPJ.Text) = False Then
               lblClite(4).ForeColor = vbRed
-              txtCnpj.SelStart = 0
-              txtCnpj.SelLength = Len(txtCnpj.Text)
+              txtCNPJ.SelStart = 0
+              txtCNPJ.SelLength = Len(txtCNPJ.Text)
               Screen.MousePointer = 0
            GravaCliente = False
            msgErroCadastro = msgErroCadastro & "CPF/CNPJ, "
            End If
         Else
-           If Len(txtCnpj.Text) <> 11 Then
+           If Len(txtCNPJ.Text) <> 11 Then
               lblClite(4).ForeColor = vbRed
-              txtCnpj.SelStart = 0
-              txtCnpj.SelLength = Len(txtCnpj.Text)
+              txtCNPJ.SelStart = 0
+              txtCNPJ.SelLength = Len(txtCNPJ.Text)
               Screen.MousePointer = 0
            GravaCliente = False
            msgErroCadastro = msgErroCadastro & "CPF/CNPJ, "
@@ -3580,11 +3585,11 @@ Function GravaCliente() As Boolean
         End If
       End If
 
-      If Trim(txtCnpj.Text) = "" Then
-         txtCnpj.Text = right(String(14, "0") & txtCnpj.Text, 15)
+      If Trim(txtCNPJ.Text) = "" Then
+         txtCNPJ.Text = right(String(14, "0") & txtCNPJ.Text, 15)
       End If
-      If txtCnpj.Text = 0 Then
-         txtCnpj.Text = right(String(14, "0") & txtCnpj.Text, 15)
+      If txtCNPJ.Text = 0 Then
+         txtCNPJ.Text = right(String(14, "0") & txtCNPJ.Text, 15)
       End If
     
     If cmbPessoa.Text = "FÍSICA" Then
@@ -3662,7 +3667,7 @@ Function GravaCliente() As Boolean
         Err.Number = 0
         adoCNLoja.BeginTrans
         'SQL = ""
-        SQL = "SP_FIN_Grava_Cliente_Loja '" & Val(txtCodigo.Text) & "','" & txtRazaoSocial.Text & "','" & txtCnpj.Text & "','" _
+        SQL = "SP_FIN_Grava_Cliente_Loja '" & Val(txtCodigo.Text) & "','" & txtRazaoSocial.Text & "','" & txtCNPJ.Text & "','" _
                                             & Pessoa & "'," & Mid(cmbSituacao.Text, 1, 2) & ",'" & pagamentoCarteira _
                                             & "','" _
                                             & txtInscricaoEstadual.Text & "','" & mskCep.Text & "','" _

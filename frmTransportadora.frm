@@ -5,8 +5,8 @@ Begin VB.Form frmTransportadora
    BorderStyle     =   0  'None
    Caption         =   "Transportadora"
    ClientHeight    =   5595
-   ClientLeft      =   6780
-   ClientTop       =   2700
+   ClientLeft      =   4980
+   ClientTop       =   3045
    ClientWidth     =   6555
    LinkTopic       =   "Form2"
    LockControls    =   -1  'True
@@ -20,16 +20,16 @@ Begin VB.Form frmTransportadora
       ScaleHeight     =   45
       ScaleWidth      =   6165
       TabIndex        =   12
-      Top             =   5355
+      Top             =   4875
       Width           =   6165
    End
    Begin VB.Frame fraPagamento 
       BackColor       =   &H00505050&
       ForeColor       =   &H00FFFFFF&
-      Height          =   4185
-      Left            =   165
+      Height          =   4275
+      Left            =   135
       TabIndex        =   8
-      Top             =   570
+      Top             =   495
       Width           =   6195
       Begin VB.TextBox txtTransportadora 
          BackColor       =   &H00C0C0C0&
@@ -43,7 +43,7 @@ Begin VB.Form frmTransportadora
             Strikethrough   =   0   'False
          EndProperty
          ForeColor       =   &H00000000&
-         Height          =   360
+         Height          =   315
          Left            =   1365
          MaxLength       =   60
          TabIndex        =   0
@@ -64,7 +64,7 @@ Begin VB.Form frmTransportadora
             Strikethrough   =   0   'False
          EndProperty
          ForeColor       =   &H00000000&
-         Height          =   360
+         Height          =   315
          Left            =   4305
          MaxLength       =   8
          TabIndex        =   7
@@ -85,7 +85,7 @@ Begin VB.Form frmTransportadora
             Strikethrough   =   0   'False
          EndProperty
          ForeColor       =   &H00000000&
-         Height          =   360
+         Height          =   315
          Left            =   2640
          MaxLength       =   12
          TabIndex        =   3
@@ -124,7 +124,7 @@ Begin VB.Form frmTransportadora
             Strikethrough   =   0   'False
          EndProperty
          ForeColor       =   &H00000000&
-         Height          =   360
+         Height          =   315
          Left            =   150
          MaxLength       =   60
          TabIndex        =   5
@@ -145,7 +145,7 @@ Begin VB.Form frmTransportadora
             Strikethrough   =   0   'False
          EndProperty
          ForeColor       =   &H00000000&
-         Height          =   360
+         Height          =   315
          Left            =   150
          MaxLength       =   60
          TabIndex        =   4
@@ -166,7 +166,7 @@ Begin VB.Form frmTransportadora
             Strikethrough   =   0   'False
          EndProperty
          ForeColor       =   &H00000000&
-         Height          =   360
+         Height          =   315
          Left            =   150
          TabIndex        =   20
          Text            =   "Codigo"
@@ -186,7 +186,7 @@ Begin VB.Form frmTransportadora
             Strikethrough   =   0   'False
          EndProperty
          ForeColor       =   &H00000000&
-         Height          =   360
+         Height          =   315
          Left            =   150
          MaxLength       =   14
          TabIndex        =   2
@@ -195,14 +195,14 @@ Begin VB.Form frmTransportadora
          Width           =   2370
       End
       Begin VSFlex7DAOCtl.VSFlexGrid grdMunicipio 
-         Height          =   480
+         Height          =   780
          Left            =   120
          TabIndex        =   21
-         Top             =   3720
+         Top             =   3600
          Visible         =   0   'False
-         Width           =   3135
-         _cx             =   5530
-         _cy             =   847
+         Width           =   3000
+         _cx             =   5292
+         _cy             =   1376
          _ConvInfo       =   1
          Appearance      =   0
          BorderStyle     =   1
@@ -450,9 +450,9 @@ Begin VB.Form frmTransportadora
    End
    Begin Project1.chameleonButton cmdGrava 
       Height          =   405
-      Left            =   5280
+      Left            =   5250
       TabIndex        =   9
-      Top             =   4800
+      Top             =   5055
       Width           =   1095
       _ExtentX        =   1931
       _ExtentY        =   714
@@ -488,9 +488,9 @@ Begin VB.Form frmTransportadora
    End
    Begin Project1.chameleonButton cmdRetornar 
       Height          =   405
-      Left            =   4200
+      Left            =   4125
       TabIndex        =   10
-      Top             =   4800
+      Top             =   5055
       Width           =   1095
       _ExtentX        =   1931
       _ExtentY        =   714
@@ -566,6 +566,28 @@ Dim ln As Integer
 Private Sub cmdRetornar_Click()
     Unload Me
 End Sub
+
+Private Sub txtEndereco_KeyPress(KeyAscii As Integer)
+    If KeyAscii = 27 Then
+        Unload Me
+    End If
+
+End Sub
+
+Private Sub txtInscricaoEstadual_KeyPress(KeyAscii As Integer)
+    If KeyAscii = 27 Then
+        Unload Me
+    End If
+
+End Sub
+
+Private Sub txtMunicipio_KeyPress(KeyAscii As Integer)
+    If KeyAscii = 27 Then
+        Unload Me
+    End If
+
+End Sub
+
 Private Sub txtNumeroTransportadora_KeyPress(KeyAscii As Integer)
 '''Dim rsNumeroTransportadora As New ADODB.Recordset
 
@@ -582,13 +604,18 @@ Private Sub txtNumeroTransportadora_KeyPress(KeyAscii As Integer)
     txtTransportadora.SetFocus
         
         
-        cmdGrava_Click
+        'cmdGrava_Click
          
     ElseIf KeyAscii = 13 And txtNumeroTransportadora.Text <> "" Then
     
       CarregaTranportadora
      
     End If
+    
+    If KeyAscii = 27 Then
+        Unload Me
+    End If
+    
 End Sub
 
 Function CarregaCodigoNovo() As String
@@ -598,7 +625,7 @@ Function CarregaCodigoNovo() As String
    SQL = "select CTS_NumeroTransportadora from ControleSistema "
     
             rsBuscaNumeroTransportadora.CursorLocation = adUseClient
-            rsBuscaNumeroTransportadora.Open SQL, ADO_Cn_Dmac_Loja, adOpenForwardOnly, adLockPessimistic
+            rsBuscaNumeroTransportadora.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
             
              CarregaCodigoNovo = rsBuscaNumeroTransportadora("CTS_NumeroTransportadora")
             
@@ -640,6 +667,7 @@ End Function
 
 Private Sub Form_Load()
     Call AjustaTela(Me)
+    
     LimparCampos
     CarregaUF
     
@@ -653,7 +681,9 @@ Private Sub Form_Load()
     
     If Not rsCarregaTransportadora.EOF Then
             txtNumeroTransportadora.Text = rsCarregaTransportadora("Tra_CodigoTransp")
-            'txtNumeroTransportadora_KeyPress (13)
+            If Val(txtNumeroTransportadora.Text) > 0 Then
+                txtNumeroTransportadora_KeyPress (13)
+            End If
     End If
     
            rsCarregaTransportadora.Close
@@ -661,7 +691,7 @@ Private Sub Form_Load()
 End Sub
 Private Sub LimparCampos()
 
-    txtNumeroTransportadora.Text = ""
+    txtNumeroTransportadora.Text = "0"
     txtTransportadora.Text = ""
     txtCNPJ.Text = ""
     txtInscricaoEstadual.Text = ""
@@ -743,40 +773,29 @@ Dim rsCodigoTransportadora As New ADODB.Recordset
 
   If txtNumeroTransportadora.Text = 0 Then
   
-    txtNumeroTransportadora.Text = CarregaCodigoNovo
-   
-  SQL = ""
-  SQL = "Insert Into Transportadora (Tra_CodigoTransp, Tra_NomeTransportadora , Tra_Placa , Tra_UF , " & _
-  " Tra_CNPJ , Tra_IE , Tra_Endereco , Tra_Municipio ) " & _
-  "Values ('" & txtNumeroTransportadora.Text & "','" & txtTransportadora.Text & "', '" & txtPlaca.Text & "', " & _
-           " '" & cmbEstado.Text & "', '" & txtCNPJ.Text & "', '" & txtInscricaoEstadual.Text & "', " & _
-           " '" & txtEndereco.Text & "', '" & txtMunicipio.Text & "')"
-           
-  
-   adoCNLoja.Execute (SQL)
-   MsgBox "Transportadora gravada com sucesso numero =  " & txtNumeroTransportadora.Text & " "
-   
- 
-  SQL = "Update nfcapa set CodigoTransp = " & txtNumeroTransportadora.Text & " where numeroped = '" & frmPedido.txtpedido.Text & "'"
-  adoCNLoja.Execute (SQL)
-  
-  
-   
-     LimparCampos
-     Unload Me
+           txtNumeroTransportadora.Text = CarregaCodigoNovo
+          
+         SQL = ""
+         SQL = "Insert Into Transportadora (Tra_CodigoTransp, Tra_NomeTransportadora , Tra_Placa , Tra_UF , " & _
+         " Tra_CNPJ , Tra_IE , Tra_Endereco , Tra_Municipio ) " & _
+         "Values ('" & txtNumeroTransportadora.Text & "','" & txtTransportadora.Text & "', '" & txtPlaca.Text & "', " & _
+                  " '" & cmbEstado.Text & "', '" & txtCNPJ.Text & "', '" & txtInscricaoEstadual.Text & "', " & _
+                  " '" & txtEndereco.Text & "', '" & txtMunicipio.Text & "')"
+                  
+         
+          adoCNLoja.Execute (SQL)
+          MsgBox "Transportadora gravada com sucesso! código " & txtNumeroTransportadora.Text & " ", vbInformation
+          
+        
+         SQL = "Update nfcapa set CodigoTransp = " & txtNumeroTransportadora.Text & " where numeroped = '" & frmPedido.txtpedido.Text & "'"
+         adoCNLoja.Execute (SQL)
+          
+            LimparCampos
+            Unload Me
      
      ElseIf txtNumeroTransportadora.Text <> 0 Then
-     
-             SQL = ""
-             SQL = "Insert Into Transportadora (Tra_CodigoTransp, Tra_NomeTransportadora , Tra_Placa , Tra_UF , " & _
-             " Tra_CNPJ , Tra_IE , Tra_Endereco , Tra_Municipio ) " & _
-             "Values ('" & txtNumeroTransportadora.Text & "','" & txtTransportadora.Text & "', '" & txtPlaca.Text & "', " & _
-                      " '" & cmbEstado.Text & "', '" & txtCNPJ.Text & "', '" & txtInscricaoEstadual.Text & "', " & _
-                      " '" & txtEndereco.Text & "', '" & txtMunicipio.Text & "')"
-                      
-             
-              adoCNLoja.Execute (SQL)
-              MsgBox "Transportadora gravada com sucesso numero =  " & txtNumeroTransportadora.Text & " "
+
+             MsgBox "Transportadora gravada com sucesso!", vbInformation
               
             
              SQL = "Update nfcapa set CodigoTransp = " & txtNumeroTransportadora.Text & " where numeroped = '" & frmPedido.txtpedido.Text & "'"
@@ -879,11 +898,30 @@ End Sub
 Private Sub txtNumeroTransportadora_LostFocus()
     txtNumeroTransportadora.Text = UCase(txtNumeroTransportadora.Text)
 End Sub
+
+Private Sub txtPlaca_KeyPress(KeyAscii As Integer)
+    If KeyAscii = 27 Then
+        Unload Me
+    End If
+
+End Sub
+
+Private Sub txtTransportadora_KeyPress(KeyAscii As Integer)
+    If KeyAscii = 27 Then
+        Unload Me
+    End If
+
+End Sub
+
 Private Sub txtTransportadora_LostFocus()
     txtTransportadora.Text = UCase(txtTransportadora.Text)
 End Sub
 Private Sub txtCNPJ_KeyPress(KeyAscii As Integer)
 Dim rsCNPJ As New ADODB.Recordset
+
+    If KeyAscii = 27 Then
+        Unload Me
+    End If
 
     If KeyAscii > 64 Then  'Não permite letras
     KeyAscii = 0
