@@ -5,8 +5,8 @@ Begin VB.Form frmTransportadora
    BorderStyle     =   0  'None
    Caption         =   "Transportadora"
    ClientHeight    =   5595
-   ClientLeft      =   4980
-   ClientTop       =   3045
+   ClientLeft      =   5265
+   ClientTop       =   3645
    ClientWidth     =   6555
    LinkTopic       =   "Form2"
    LockControls    =   -1  'True

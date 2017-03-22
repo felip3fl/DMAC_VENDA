@@ -9,8 +9,8 @@ Begin VB.Form frmPedido
    BorderStyle     =   0  'None
    Caption         =   "DMAC Venda"
    ClientHeight    =   11040
-   ClientLeft      =   22350
-   ClientTop       =   570
+   ClientLeft      =   2655
+   ClientTop       =   465
    ClientWidth     =   15120
    ControlBox      =   0   'False
    FillColor       =   &H00404040&
@@ -25,6 +25,11 @@ Begin VB.Form frmPedido
    ScaleWidth      =   15120
    ShowInTaskbar   =   0   'False
    WindowState     =   2  'Maximized
+   Begin VB.Timer tmrBloqueio 
+      Interval        =   750
+      Left            =   7515
+      Top             =   5175
+   End
    Begin VB.Frame frmClienteConsumidorCEP 
       Appearance      =   0  'Flat
       BackColor       =   &H00505050&
@@ -111,13 +116,13 @@ Begin VB.Form frmPedido
       EndProperty
       ForeColor       =   &H00000080&
       Height          =   285
-      Left            =   6075
+      Left            =   5370
       Locked          =   -1  'True
       TabIndex        =   52
       Text            =   "BLOQUEIO"
       Top             =   4980
       Visible         =   0   'False
-      Width           =   1725
+      Width           =   2445
    End
    Begin VB.Timer Timer4 
       Left            =   15660
@@ -623,7 +628,7 @@ Begin VB.Form frmPedido
             GridLinesFixed  =   2
             GridLineWidth   =   1
             Rows            =   14
-            Cols            =   21
+            Cols            =   22
             FixedRows       =   1
             FixedCols       =   0
             RowHeightMin    =   0
@@ -870,7 +875,7 @@ Begin VB.Form frmPedido
          ColWidthMin     =   0
          ColWidthMax     =   0
          ExtendLastCol   =   0   'False
-         FormatString    =   $"frmPedido.frx":12027
+         FormatString    =   $"frmPedido.frx":12047
          ScrollTrack     =   0   'False
          ScrollBars      =   3
          ScrollTips      =   0   'False
@@ -913,7 +918,7 @@ Begin VB.Form frmPedido
       End
       Begin ACTIVESKINLibCtl.Skin Skin1 
          Left            =   330
-         OleObjectBlob   =   "frmPedido.frx":1210C
+         OleObjectBlob   =   "frmPedido.frx":1212C
          Top             =   5310
       End
       Begin VB.Label lblPesquisa 
@@ -967,8 +972,8 @@ Begin VB.Form frmPedido
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
-      MICON           =   "frmPedido.frx":12340
-      PICN            =   "frmPedido.frx":1235C
+      MICON           =   "frmPedido.frx":12360
+      PICN            =   "frmPedido.frx":1237C
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -1009,8 +1014,8 @@ Begin VB.Form frmPedido
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
-      MICON           =   "frmPedido.frx":12A94
-      PICN            =   "frmPedido.frx":12AB0
+      MICON           =   "frmPedido.frx":12AB4
+      PICN            =   "frmPedido.frx":12AD0
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -1051,8 +1056,8 @@ Begin VB.Form frmPedido
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
-      MICON           =   "frmPedido.frx":130F8
-      PICN            =   "frmPedido.frx":13114
+      MICON           =   "frmPedido.frx":13118
+      PICN            =   "frmPedido.frx":13134
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -1093,8 +1098,8 @@ Begin VB.Form frmPedido
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
-      MICON           =   "frmPedido.frx":138AE
-      PICN            =   "frmPedido.frx":138CA
+      MICON           =   "frmPedido.frx":138CE
+      PICN            =   "frmPedido.frx":138EA
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -1135,8 +1140,8 @@ Begin VB.Form frmPedido
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
-      MICON           =   "frmPedido.frx":13F31
-      PICN            =   "frmPedido.frx":13F4D
+      MICON           =   "frmPedido.frx":13F51
+      PICN            =   "frmPedido.frx":13F6D
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -1177,8 +1182,8 @@ Begin VB.Form frmPedido
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
-      MICON           =   "frmPedido.frx":14697
-      PICN            =   "frmPedido.frx":146B3
+      MICON           =   "frmPedido.frx":146B7
+      PICN            =   "frmPedido.frx":146D3
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -1219,8 +1224,8 @@ Begin VB.Form frmPedido
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
-      MICON           =   "frmPedido.frx":14EA6
-      PICN            =   "frmPedido.frx":14EC2
+      MICON           =   "frmPedido.frx":14EC6
+      PICN            =   "frmPedido.frx":14EE2
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -1261,8 +1266,8 @@ Begin VB.Form frmPedido
       FCOLO           =   15258293
       MCOL            =   12632256
       MPTR            =   1
-      MICON           =   "frmPedido.frx":15695
-      PICN            =   "frmPedido.frx":156B1
+      MICON           =   "frmPedido.frx":156B5
+      PICN            =   "frmPedido.frx":156D1
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -1302,8 +1307,8 @@ Begin VB.Form frmPedido
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
-      MICON           =   "frmPedido.frx":15DE9
-      PICN            =   "frmPedido.frx":15E05
+      MICON           =   "frmPedido.frx":15E09
+      PICN            =   "frmPedido.frx":15E25
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -1344,8 +1349,8 @@ Begin VB.Form frmPedido
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
-      MICON           =   "frmPedido.frx":16583
-      PICN            =   "frmPedido.frx":1659F
+      MICON           =   "frmPedido.frx":165A3
+      PICN            =   "frmPedido.frx":165BF
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -1383,8 +1388,8 @@ Begin VB.Form frmPedido
       FCOLO           =   16777215
       MCOL            =   12632256
       MPTR            =   1
-      MICON           =   "frmPedido.frx":16CF6
-      PICN            =   "frmPedido.frx":16D12
+      MICON           =   "frmPedido.frx":16D16
+      PICN            =   "frmPedido.frx":16D32
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -1424,8 +1429,8 @@ Begin VB.Form frmPedido
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
-      MICON           =   "frmPedido.frx":18874
-      PICN            =   "frmPedido.frx":18890
+      MICON           =   "frmPedido.frx":18894
+      PICN            =   "frmPedido.frx":188B0
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -1466,8 +1471,8 @@ Begin VB.Form frmPedido
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
-      MICON           =   "frmPedido.frx":19084
-      PICN            =   "frmPedido.frx":190A0
+      MICON           =   "frmPedido.frx":190A4
+      PICN            =   "frmPedido.frx":190C0
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -1506,7 +1511,7 @@ Begin VB.Form frmPedido
       FCOLO           =   16777215
       MCOL            =   12632256
       MPTR            =   1
-      MICON           =   "frmPedido.frx":19639
+      MICON           =   "frmPedido.frx":19659
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -1546,8 +1551,8 @@ Begin VB.Form frmPedido
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
-      MICON           =   "frmPedido.frx":19655
-      PICN            =   "frmPedido.frx":19671
+      MICON           =   "frmPedido.frx":19675
+      PICN            =   "frmPedido.frx":19691
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -1613,8 +1618,8 @@ Begin VB.Form frmPedido
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
-      MICON           =   "frmPedido.frx":19D79
-      PICN            =   "frmPedido.frx":19D95
+      MICON           =   "frmPedido.frx":19D99
+      PICN            =   "frmPedido.frx":19DB5
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -1627,7 +1632,7 @@ Begin VB.Form frmPedido
    Begin VB.Image imgIconBandeja 
       Height          =   240
       Left            =   375
-      Picture         =   "frmPedido.frx":1A60B
+      Picture         =   "frmPedido.frx":1A62B
       Top             =   255
       Visible         =   0   'False
       Width           =   240
@@ -1742,7 +1747,7 @@ Begin VB.Form frmPedido
    Begin VB.Image webInternet3 
       Height          =   2475
       Left            =   90
-      Picture         =   "frmPedido.frx":1A995
+      Picture         =   "frmPedido.frx":1A9B5
       Stretch         =   -1  'True
       Top             =   100
       Width           =   15180
@@ -2088,6 +2093,7 @@ Timer4.Enabled = True
 cmdVersao.Height = 615
 cmdBotoes(0).Height = 460
 tempoRestante = "00:00:10"
+lblBloqueio.Text = ""
 
 picLimitadorBanner.ZOrder 0
 picLimitadorBanner.Height = 2025
@@ -2424,7 +2430,7 @@ Private Sub grdItensProduto_KeyDown(KeyCode As Integer, Shift As Integer)
        'If grdPrecos.Enabled = True Then
           'grdPrecos.SetFocus
           'grdPrecos.Row = 1
-       If lblBloqueio.Text = "BLOQUEADO" And lblBloqueio.Visible = True Then
+       If lblBloqueio.Text = "BLOQUEADO" Then
           MsgBox "Você não pode vende produto com o Bloqueio 9", vbExclamation, "DMAC Venda"
        Else
           txtQuantidade.Enabled = True
@@ -2459,19 +2465,16 @@ tempoRestante = "00:00:10"
  wIndicePreco = grdItensProduto.TextMatrix(grdItensProduto.Row, 14)                     'indicePreco
  wValorVenda = Format(grdItensProduto.TextMatrix(grdItensProduto.Row, 2), "0.00")
 
-lblBloqueio.Visible = True
- Select Case grdDadosProduto.TextMatrix(1, 3)
-    Case "1"
-        lblBloqueio.Text = "Encomenda"
-    Case "2"
-        lblBloqueio.Text = "Fora de Linha"
-    Case "4"
-        lblBloqueio.Text = "Especial"
-    Case "9"
-        lblBloqueio.Text = "BLOQUEADO"
-    Case Else
-        lblBloqueio.Visible = False
- End Select
+lblBloqueio.Text = ""
+lblBloqueio.Visible = False
+ If (grdDadosProduto.TextMatrix(1, 3)) = "1" Then lblBloqueio.Text = "Encomenda"
+ If (grdDadosProduto.TextMatrix(1, 3)) = "2" Then lblBloqueio.Text = "Fora de Linha"
+ If (grdDadosProduto.TextMatrix(1, 3)) = "4" Then lblBloqueio.Text = "Especial"
+ If (grdDadosProduto.TextMatrix(1, 3)) = "9" Then lblBloqueio.Text = "BLOQUEADO"
+ If (grdItensProduto.TextMatrix(grdItensProduto.Row, 21)) > 0 Then lblBloqueio.Text = "De R$" & Format(grdItensProduto.TextMatrix(grdItensProduto.Row, 21), "###,###,###,##0.00") & " Por"
+ 
+ If lblBloqueio.Text <> "" Then lblBloqueio.Visible = True
+    
  
  End If
  
@@ -2624,6 +2627,10 @@ Private Sub timerDescricaoBotoes_Timer()
         lblDescricaoBotao.Visible = True
         timerDescricaoBotoes.Enabled = False
     End If
+End Sub
+
+Private Sub tmrBloqueio_Timer()
+    lblBloqueio.Visible = Not (lblBloqueio.Visible)
 End Sub
 
 Private Sub tmrRefresh_Timer()
@@ -3245,7 +3252,7 @@ Else
           "(CASE WHEN PR_SubstituicaoTributaria = 'N' THEN PR_IcmPdv ELSE PR_ICMSPDVSaidaIva End) as IcmsPdv," & _
           "PRB_CodigoBarras,PR_Referencia,PR_Descricao,PR_PrecoVenda1,EL_Estoque,PR_Classe,pr_CodigoProdutoNoFornecedor," & _
           "PR_Bloqueio,PR_SubstituicaoTributaria,LPR_Linha,LPR_Descricao,pr_indicePreco, pr_classeFiscal,PR_ST,PR_GarantiaEstendida ,FO_NOMEFANTASIA, " & _
-          "EL_NaoComercializado, EL_NaoComercializadoCONSO " & _
+          "EL_NaoComercializado, EL_NaoComercializadoCONSO, PR_PrecoPromocao " & _
           "From ProdutoLoja, Produtobarras, EstoqueLoja, LinhaProduto,fornecedor " & _
           "Where EL_Referencia=PR_Referencia and " & wWhere & " and PR_Situacao not in('E') and PRB_Referencia = PR_Referencia " & _
           "and (Case When PR_LinhaProduto IS NULL Then  '990100' Else PR_LinhaProduto End) = LPR_Linha  and pr_codigofornecedor=fo_codigofornecedor " & _
@@ -3293,7 +3300,9 @@ End If
                 & rsPesquisaPed("PR_ST") & Chr(9) _
                 & rsPesquisaPed("PR_GarantiaEstendida") & Chr(9) _
                 & rsPesquisaPed("EL_NaoComercializado") & Chr(9) _
-                & rsPesquisaPed("EL_NaoComercializadoCONSO")
+                & rsPesquisaPed("EL_NaoComercializadoCONSO") & Chr(9) _
+                & rsPesquisaPed("PR_PrecoPromocao")
+                
                 wValorVenda = Format(rsPesquisaPed("PR_PrecoVenda1"), "0.00")
                 
   

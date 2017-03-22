@@ -4,13 +4,13 @@ Begin VB.Form frmAdicionais
    BorderStyle     =   0  'None
    Caption         =   "Finaliza pedido"
    ClientHeight    =   6405
-   ClientLeft      =   5520
-   ClientTop       =   2145
+   ClientLeft      =   12405
+   ClientTop       =   3525
    ClientWidth     =   6555
    LinkTopic       =   "Form2"
    LockControls    =   -1  'True
-   ScaleHeight     =   0
-   ScaleWidth      =   0
+   ScaleHeight     =   6405
+   ScaleWidth      =   6555
    ShowInTaskbar   =   0   'False
    Begin VB.Frame Frame2 
       BackColor       =   &H00505050&
@@ -86,6 +86,24 @@ Begin VB.Form frmAdicionais
          TabIndex        =   16
          Top             =   1095
          Width           =   5940
+         Begin VB.TextBox txtClientePedido 
+            BackColor       =   &H00C0C0C0&
+            BeginProperty Font 
+               Name            =   "MS Sans Serif"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   360
+            Left            =   3750
+            MaxLength       =   11
+            TabIndex        =   19
+            Top             =   555
+            Width           =   2055
+         End
          Begin VB.TextBox txtEntrada 
             Alignment       =   1  'Right Justify
             BackColor       =   &H00C0C0C0&
@@ -125,6 +143,25 @@ Begin VB.Form frmAdicionais
             TabIndex        =   7
             Top             =   195
             Width           =   1365
+         End
+         Begin VB.Label lblPedido 
+            BackStyle       =   0  'Transparent
+            Caption         =   "Pedido Cliente"
+            BeginProperty Font 
+               Name            =   "MS Sans Serif"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            ForeColor       =   &H00FFFFFF&
+            Height          =   255
+            Left            =   3720
+            TabIndex        =   20
+            Top             =   195
+            Width           =   1935
          End
       End
       Begin VB.TextBox txtCodigoCliente 
@@ -482,9 +519,13 @@ Private Sub Form_Activate()
   If Val(rsCliente("condpag")) > 1 Then
          'lblPagamento.Caption = frmPedido.grdPrecos.TextMatrix(0, 0)
          chkEntrada.Visible = True
+         txtClientePedido.Visible = True
+         lblPedido.Visible = True
          chkEntrada.Value = 0
   Else
      chkEntrada.Visible = False
+       txtClientePedido.Visible = False
+         lblPedido.Visible = False
   End If
   
   rsCliente.Close
@@ -520,6 +561,39 @@ End Sub
 
 Private Sub Form_Load()
     Call AjustaTela(Me)
+End Sub
+
+Private Sub txtClientePedido_LostFocus()
+Dim SqlItem As String
+Dim rsItensPedido As New ADODB.Recordset
+Dim XiitensPed As String
+If txtClientePedido.Text <> "" Then
+
+SqlItem = "Update nfitens set xpedido='" & txtClientePedido.Text & "' where numeroped =" & frmPedido.txtpedido.Text
+
+adoCNLoja.BeginTrans
+adoCNLoja.Execute SqlItem
+adoCNLoja.CommitTrans
+
+SqlItem = ""
+
+SqlItem = "select REFERENCIA,ITEM from nfitens where numeroped =" & frmPedido.txtpedido.Text
+          rsItensPedido.CursorLocation = adUseClient
+          rsItensPedido.Open SqlItem, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+    Do While Not rsItensPedido.EOF
+    
+    XiitensPed = ""
+    XiitensPed = rsItensPedido("ITEM") * 10
+    XiitensPed = Format(XiitensPed, "0000")
+    SqlItem = "Update nfitens set XItemPedido='" & XiitensPed & "' where numeroped =" & frmPedido.txtpedido.Text & "and referencia= '" & rsItensPedido("REFERENCIA") & "'"
+        
+        adoCNLoja.BeginTrans
+        adoCNLoja.Execute SqlItem
+        adoCNLoja.CommitTrans
+   rsItensPedido.MoveNext
+Loop
+End If
+
 End Sub
 
 Private Sub txtCodigoCliente_GotFocus()
@@ -733,6 +807,18 @@ End Sub
 
 
 
+
+Private Sub txtPedido_Change()
+
+End Sub
+
+Private Sub txtPedido_LinkOpen(Cancel As Integer)
+
+End Sub
+
+Private Sub txtPedido_LostFocus()
+
+End Sub
 
 Private Sub txtPesoVolume_GotFocus()
    txtPesoVolume.SelStart = 0
