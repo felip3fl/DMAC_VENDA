@@ -432,7 +432,7 @@ Private Sub MontaPrecos(CodigoCrediario As String)
              & " From produtoloja, CondicaoPagamento, nfitens " _
              & " where PR_IndicePreco=CP_ID and CP_Tipo='" & CodigoCrediario _
              & "' and PR_Referencia = REFERENCIA and NUMEROPED =" & wNroPedido _
-             & "group by cp_tipo,CP_Codigo,CP_TipoCondicao,cp_parcelas,CP_Condicao, PR_PrecoPromocao"
+             & "group by cp_tipo,CP_Codigo,CP_TipoCondicao,cp_parcelas,CP_Condicao"
         
          rsCondicaoFaturado.CursorLocation = adUseClient
          rsCondicaoFaturado.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
@@ -446,7 +446,7 @@ Private Sub MontaPrecos(CodigoCrediario As String)
              & " From produtoloja, CondicaoPagamento, nfitens " _
              & " where PR_IndicePreco=CP_ID and CP_Tipo='" & CodigoCrediario _
              & "' and PR_Referencia = REFERENCIA and NUMEROPED =" & wNroPedido _
-             & "group by cp_tipo,CP_Codigo,CP_TipoCondicao,cp_parcelas,CP_Condicao,PR_PrecoPromocao"
+             & "group by cp_tipo,CP_Codigo,CP_TipoCondicao,cp_parcelas,CP_Condicao"
         
          rsCondicaoFaturado.CursorLocation = adUseClient
          rsCondicaoFaturado.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic

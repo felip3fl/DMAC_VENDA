@@ -64,16 +64,16 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 
-Private Declare Function ShellExecute Lib "shell32.dll" Alias "ShellExecuteA" (ByVal Hwnd As Long, ByVal lpOperation As String, ByVal lpFile As String, ByVal lpParameters As String, ByVal lpDirectory As String, ByVal nShowCmd As Long) As Long
+Private Declare Function ShellExecute Lib "shell32.dll" Alias "ShellExecuteA" (ByVal hwnd As Long, ByVal lpOperation As String, ByVal lpFile As String, ByVal lpParameters As String, ByVal lpDirectory As String, ByVal nShowCmd As Long) As Long
 
 
 Private Sub cmb_loja_Click()
 
 
-SQL = "Select CXA_NumeroCaixa from ParametroSistema order by CXA_NumeroCaixa"
+Sql = "Select CXA_NumeroCaixa from ParametroSistema order by CXA_NumeroCaixa"
 
 rdoParametroINI.CursorLocation = adUseClient
-rdoParametroINI.Open SQL, adoCNAccess, adOpenForwardOnly, adLockPessimistic
+rdoParametroINI.Open Sql, adoCNAccess, adOpenForwardOnly, adLockPessimistic
 
         If Not rdoParametroINI.EOF Then
             cmb_Caixa.Clear
@@ -98,10 +98,10 @@ End Sub
 
 Private Sub Command1_Click()
 
-SQL = "Select * from ConexaoSistema where GLB_Loja = '" & Trim(cmb_loja.Text) & "'"
+Sql = "Select * from ConexaoSistema where GLB_Loja = '" & Trim(cmb_loja.Text) & "'"
 
 rdoConexaoINI.CursorLocation = adUseClient
-rdoConexaoINI.Open SQL, adoCNAccess, adOpenForwardOnly, adLockPessimistic
+rdoConexaoINI.Open Sql, adoCNAccess, adOpenForwardOnly, adLockPessimistic
 
   If Not rdoConexaoINI.EOF Then
        GLB_Servidor = Trim(rdoConexaoINI("GLB_ServidorRetaguarda"))
@@ -116,7 +116,7 @@ rdoConexaoINI.Open SQL, adoCNAccess, adOpenForwardOnly, adLockPessimistic
 
   ConectaODBC
   
-  ShellExecute Hwnd, "open", ("C:\Sistemas\DMAC Venda\limpaCache"), "", "", 1
+  ShellExecute hwnd, "open", ("C:\Sistemas\DMAC Venda\limpaCache"), "", "", 1
     
 Continua:
 
@@ -124,6 +124,7 @@ Continua:
        'Me.Visible = False
        Call DadosLoja
        'frmPedido.Show
+       frmTrocaVersao.Show
        frmBandeja.Show
        frmPedido.ZOrder
        Unload Me
@@ -144,10 +145,10 @@ Private Sub Form_Load()
 'Skin1.LoadSkin "c:\WINDOWS\system\skin.skn"
 'Skin1.ApplySkin Me.Hwnd
 
-SQL = "Select GLB_LOJA from ConexaoSistema GROUP BY GLB_LOJA"
+Sql = "Select GLB_LOJA from ConexaoSistema GROUP BY GLB_LOJA"
  
 rdoConexaoINI.CursorLocation = adUseClient
-rdoConexaoINI.Open SQL, adoCNAccess, adOpenForwardOnly, adLockPessimistic
+rdoConexaoINI.Open Sql, adoCNAccess, adOpenForwardOnly, adLockPessimistic
  
         If Not rdoConexaoINI.EOF Then
             cmb_loja.Clear

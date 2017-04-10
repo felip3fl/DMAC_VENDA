@@ -1,6 +1,6 @@
 Attribute VB_Name = "ModuloInicial"
 
-Private Declare Function ShellExecute Lib "shell32.dll" Alias "ShellExecuteA" (ByVal Hwnd As Long, ByVal lpOperation As String, ByVal lpFile As String, ByVal lpParameters As String, ByVal lpDirectory As String, ByVal nShowCmd As Long) As Long
+Private Declare Function ShellExecute Lib "shell32.dll" Alias "ShellExecuteA" (ByVal hwnd As Long, ByVal lpOperation As String, ByVal lpFile As String, ByVal lpParameters As String, ByVal lpDirectory As String, ByVal nShowCmd As Long) As Long
 
 Sub Main()
 
@@ -12,16 +12,16 @@ lsDSN = "Driver={Microsoft Access Driver (*.mdb)};" & _
   adoCNAccess.Open lsDSN
 
 
-  SQL = "Select count(*) as QtdeDeLojasINI from ConexaoSistema"
+  Sql = "Select count(*) as QtdeDeLojasINI from ConexaoSistema"
    
   rdoConexaoINI.CursorLocation = adUseClient
-  rdoConexaoINI.Open SQL, adoCNAccess, adOpenForwardOnly, adLockPessimistic
+  rdoConexaoINI.Open Sql, adoCNAccess, adOpenForwardOnly, adLockPessimistic
  
         If Not rdoConexaoINI.EOF Then
             
-          SQL = "Select * from ParametroSistema"
+          Sql = "Select * from ParametroSistema"
           rdoParametroINI.CursorLocation = adUseClient
-          rdoParametroINI.Open SQL, adoCNAccess, adOpenForwardOnly, adLockPessimistic
+          rdoParametroINI.Open Sql, adoCNAccess, adOpenForwardOnly, adLockPessimistic
            
           If Not rdoParametroINI.EOF Then
           
@@ -46,9 +46,9 @@ lsDSN = "Driver={Microsoft Access Driver (*.mdb)};" & _
            
               rdoConexaoINI.Close
               
-              SQL = "Select * from ConexaoSistema"
+              Sql = "Select * from ConexaoSistema"
                      rdoConexaoINI.CursorLocation = adUseClient
-                     rdoConexaoINI.Open SQL, adoCNAccess, adOpenForwardOnly, adLockPessimistic
+                     rdoConexaoINI.Open Sql, adoCNAccess, adOpenForwardOnly, adLockPessimistic
                      
                      If Not rdoConexaoINI.EOF Then
                     
@@ -88,7 +88,8 @@ If GLB_ConectouOK = True Then
 '       mdiTraderBalcao.Show
        
           'frmPedido.Show
-          ShellExecute Hwnd, "open", ("C:\Sistemas\DMAC Venda\limpaCache"), "", "", sw_hide
+          ShellExecute hwnd, "open", ("C:\Sistemas\DMAC Venda\limpaCache"), "", "", sw_hide
+          frmTrocaVersao.Show
           frmBandeja.Show
           'On Error Resume Next
           'tmrTroca.Interval = 1
