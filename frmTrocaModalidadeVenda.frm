@@ -306,7 +306,7 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
-Dim SQL As String
+Dim Sql As String
 Dim wValorVenda As Double
 Dim wIndicePreco As String * 1
 Dim wPrecoCalculado As Double
@@ -330,16 +330,16 @@ Private Sub cmbGravar_Click()
       wPagamento = grdPrecos.TextMatrix(grdPrecos.RowSel, 0)
       wPagamentototal = grdPrecos.TextMatrix(grdPrecos.RowSel, 2)
       
-      SQL = "Exec SP_Atualiza_Modalidade_Venda_Pedido " & wNroPedido & ",'" & LTrim(RTrim(wTipo)) & "','" _
+      Sql = "Exec SP_Atualiza_Modalidade_Venda_Pedido " & wNroPedido & ",'" & LTrim(RTrim(wTipo)) & "','" _
              & LTrim(RTrim(wCodigo)) & "','" & LTrim(RTrim(wTipoCondicao)) & "'"
-      adoCNLoja.Execute SQL
+      adoCNLoja.Execute Sql
       frmPedido.cmdTotalPedido.Caption = Format(wTotalPedido, "###,###,##0.00")
       wGravaModalidade = True
 
 'If Not mskDataInf.Visible Then
 If wdata <> "" Then
- SQL = "Update   nfcapa set DataPag='" & Format(wdata, "mm/dd/yyyy") & "' Where NumeroPed = " & wNroPedido & ""
-      adoCNLoja.Execute SQL
+ Sql = "Update   nfcapa set DataPag='" & Format(wdata, "mm/dd/yyyy") & "' Where NumeroPed = " & wNroPedido & ""
+      adoCNLoja.Execute Sql
 End If
       
       Unload Me
@@ -371,23 +371,23 @@ wPagamentototal = ""
 
     If wLiberaBloqueioPreco Then
     
-        SQL = "update nfitens set VLUNIT = PrecoUnitAlternativa,  VLTOTITEM = (PrecoUnitAlternativa * QTDE) " & _
+        Sql = "update nfitens set VLUNIT = PrecoUnitAlternativa,  VLTOTITEM = (PrecoUnitAlternativa * QTDE) " & _
               "from produtoloja " & _
               "where numeroped = " & frmPedido.txtpedido.Text & " and pr_referencia = referencia"
-        adoCNLoja.Execute SQL
+        adoCNLoja.Execute Sql
         
-        SQL = "update nfcapa set condpag = 1 where numeroped = " & frmPedido.txtpedido.Text & ""
-        adoCNLoja.Execute SQL
+        Sql = "update nfcapa set condpag = 1 where numeroped = " & frmPedido.txtpedido.Text & ""
+        adoCNLoja.Execute Sql
     
     Else
     
-        SQL = "update nfitens set VLUNIT = PR_PrecoVenda1, VLTOTITEM = (PR_PrecoVenda1 * QTDE) " & _
+        Sql = "update nfitens set VLUNIT = PR_PrecoVenda1, VLTOTITEM = (PR_PrecoVenda1 * QTDE) " & _
               "from produtoloja " & _
               "where numeroped = " & frmPedido.txtpedido.Text & " and pr_referencia = referencia"
-        adoCNLoja.Execute SQL
+        adoCNLoja.Execute Sql
         
-        SQL = "update nfcapa set condpag = 1 where numeroped = " & frmPedido.txtpedido.Text & ""
-        adoCNLoja.Execute SQL
+        Sql = "update nfcapa set condpag = 1 where numeroped = " & frmPedido.txtpedido.Text & ""
+        adoCNLoja.Execute Sql
     
     End If
     
@@ -425,9 +425,8 @@ Private Sub MontaPrecos(CodigoCrediario As String)
      
      If wLiberaBloqueioPreco Then
      
-         SQL = "Select cp_tipo,CP_Codigo,CP_Condicao,CP_TipoCondicao,cp_parcelas,round(SUM(PrecoUnitAlternativa * qtde), 1)," _
+         Sql = "Select cp_tipo,CP_Codigo,CP_Condicao,CP_TipoCondicao,cp_parcelas,round(SUM(PrecoUnitAlternativa * qtde), 1)," _
              & " round (sum(((PrecoUnitAlternativa * qtde) * cp_coeficiente)), 1) as PrecoID," _
-             & " round (sum((((PrecoUnitAlternativa * qtde) * cp_coeficiente)/cp_parcelas)),1) as ValorParcela " _
              & " round (sum((((PrecoUnitAlternativa * qtde) * cp_coeficiente)/cp_parcelas)),1) as ValorParcela " _
              & " From produtoloja, CondicaoPagamento, nfitens " _
              & " where PR_IndicePreco=CP_ID and CP_Tipo='" & CodigoCrediario _
@@ -435,12 +434,12 @@ Private Sub MontaPrecos(CodigoCrediario As String)
              & "group by cp_tipo,CP_Codigo,CP_TipoCondicao,cp_parcelas,CP_Condicao"
         
          rsCondicaoFaturado.CursorLocation = adUseClient
-         rsCondicaoFaturado.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+         rsCondicaoFaturado.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
      
      
      Else
      
-         SQL = "Select cp_tipo,CP_Codigo,CP_Condicao,CP_TipoCondicao,cp_parcelas,round(SUM(pr_precovenda1 * qtde), 1)," _
+         Sql = "Select cp_tipo,CP_Codigo,CP_Condicao,CP_TipoCondicao,cp_parcelas,round(SUM(pr_precovenda1 * qtde), 1)," _
              & " round (sum(((pr_precovenda1 * qtde) * cp_coeficiente)), 1) as PrecoID," _
              & " round (sum((((pr_precovenda1 * qtde) * cp_coeficiente)/cp_parcelas)),1) as ValorParcela " _
              & " From produtoloja, CondicaoPagamento, nfitens " _
@@ -449,7 +448,7 @@ Private Sub MontaPrecos(CodigoCrediario As String)
              & "group by cp_tipo,CP_Codigo,CP_TipoCondicao,cp_parcelas,CP_Condicao"
         
          rsCondicaoFaturado.CursorLocation = adUseClient
-         rsCondicaoFaturado.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+         rsCondicaoFaturado.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
      
      End If
     

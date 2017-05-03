@@ -283,7 +283,7 @@ Begin VB.Form frmCliente
          ForeColor       =   &H00000000&
          Height          =   315
          Left            =   10005
-         MaxLength       =   10
+         MaxLength       =   11
          TabIndex        =   16
          Top             =   1890
          Width           =   1530
@@ -1040,7 +1040,7 @@ Dim WMunicipio As String
 Dim Cliente As Double
 Dim auxCMBUF As String
 Dim wPreencheInicio As Boolean
-Dim Ln As Integer
+Dim ln As Integer
 Dim wMskInscEst As String
 Dim wNumeros As String
 Dim adoBuscaClienteFaturado As New ADODB.Recordset
@@ -1056,7 +1056,7 @@ Dim I As Integer
 Dim pagamentoCarteira As String
 Dim dataNascimento As String
 Dim wLimpar As Boolean
-Dim SQL As String
+Dim Sql As String
 
 
 Function FU_ValidaCPF(CPF As String) As Integer
@@ -1155,14 +1155,14 @@ End Function
 Private Sub validaDados(codigoCliente As Double)
 
     Dim adoValidaCliente As New ADODB.Recordset
-    Dim SQL As String
+    Dim Sql As String
     
-    SQL = "exec SP_GLB_Valida_Cliente '" & wNumeroClientePedido & "'"
-    adoCNLoja.Execute SQL
+    Sql = "exec SP_GLB_Valida_Cliente '" & wNumeroClientePedido & "'"
+    adoCNLoja.Execute Sql
     
-    SQL = "select campoErrado as campoErrado from temp_Fin_Cliente_Erro"
+    Sql = "select campoErrado as campoErrado from temp_Fin_Cliente_Erro"
     adoValidaCliente.CursorLocation = adUseClient
-    adoValidaCliente.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+    adoValidaCliente.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
     
     Do While Not adoValidaCliente.EOF
         If adoValidaCliente("campoErrado") = "CGC" Then lblClite(4).ForeColor = vbRed
@@ -1346,10 +1346,10 @@ End Sub
 Private Sub cmbTipoCliente_LostFocus()
     If Mid(cmbTipoCliente.Text, 1, 1) = "F" Then
     
-        SQL = "Exec SP_Busca_Codigo_Cliente_Faturado"
+        Sql = "Exec SP_Busca_Codigo_Cliente_Faturado"
     
         adoCodigoCliente.CursorLocation = adUseClient
-        adoCodigoCliente.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+        adoCodigoCliente.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
         
         Call BuscaClienteFaturado
     End If
@@ -1357,10 +1357,10 @@ End Sub
 
 Private Sub BuscaClienteFaturado()
 
-    SQL = "Select cts_codigoclientefaturado from controlesistema"
+    Sql = "Select cts_codigoclientefaturado from controlesistema"
  
     adoBuscaClienteFaturado.CursorLocation = adUseClient
-    adoBuscaClienteFaturado.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+    adoBuscaClienteFaturado.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
     txtCodigo.Text = adoBuscaClienteFaturado("cts_codigoclientefaturado")
     adoBuscaClienteFaturado.Close
     
@@ -1406,12 +1406,12 @@ Private Sub CmdFichaFinanc_Click()
 
         
         Cliente = Val(txtCodigo.Text)
-        SQL = "exec SP_fin_Ler_Cliente_Limite_Credito " & Cliente & ", '" & Trim(GLB_Loja) & "'"
-        rdoCNMatriz.Execute (SQL)
+        Sql = "exec SP_fin_Ler_Cliente_Limite_Credito " & Cliente & ", '" & Trim(GLB_Loja) & "'"
+        rdoCNMatriz.Execute (Sql)
         
-        SQL = " Exec SP_FIN_Pesquisa_Cliente_Ficha_Financeira_Por_Codigo '" & Cliente & "'"
+        Sql = " Exec SP_FIN_Pesquisa_Cliente_Ficha_Financeira_Por_Codigo '" & Cliente & "'"
         adoCliente.CursorLocation = adUseClient
-        adoCliente.Open SQL, rdoCNMatriz, adOpenForwardOnly, adLockPessimistic
+        adoCliente.Open Sql, rdoCNMatriz, adOpenForwardOnly, adLockPessimistic
 '
 '   If adoCliente.EOF = True Then
 '         MsgBox "Este cliente não possue ficha finaceira", vbCritical, "Atenção"
@@ -1473,19 +1473,19 @@ lblClite(3).ForeColor = &HE0E0E0
 End Sub
 Private Sub lerClientePorCNPJ()
 
- SQL = " exec SP_FIN_Ler_Clientes_Por_Parametro_Cnpj '" & txtCNPJ.Text & "'"
+ Sql = " exec SP_FIN_Ler_Clientes_Por_Parametro_Cnpj '" & txtCNPJ.Text & "'"
     
      adoClienteCNPJ.CursorLocation = adUseClient
-     adoClienteCNPJ.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+     adoClienteCNPJ.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
 
 End Sub
 
 Private Sub lerClientePorCodigo()
 
- SQL = " exec SP_FIN_Pesquisa_Codigo '" & txtCodigo.Text & "'"
+ Sql = " exec SP_FIN_Pesquisa_Codigo '" & txtCodigo.Text & "'"
     
      adoClienteCNPJ.CursorLocation = adUseClient
-     adoClienteCNPJ.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+     adoClienteCNPJ.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
 
 End Sub
 
@@ -1554,15 +1554,15 @@ Private Sub Form_Activate()
         PreencheDadosCliente wNumeroClientePedido
         DescricaoOperacao "Pronto"
     Else
-        SQL = "SP_FIN_Pesquisa_Ultimo_Numero_Cliente"
+        Sql = "SP_FIN_Pesquisa_Ultimo_Numero_Cliente"
         
         rsNumeroCliente.CursorLocation = adUseClient
-        rsNumeroCliente.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+        rsNumeroCliente.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
 
-        SQL = "SP_FIN_Atualizando_Codigo " & rsNumeroCliente("UltNumCliente")
+        Sql = "SP_FIN_Atualizando_Codigo " & rsNumeroCliente("UltNumCliente")
         
         adoCliente.CursorLocation = adUseClient
-        adoCliente.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+        adoCliente.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
 
         If Not rsNumeroCliente.EOF Then
             txtCodigo.Text = rsNumeroCliente("UltNumCliente")
@@ -1628,10 +1628,10 @@ If cmbPessoa.Text = "FÍSICA" Then
   cmbPessoa.TabIndex = 4
 End If
 
-  SQL = "SP_FIN_Situacao_Cliente"
+  Sql = "SP_FIN_Situacao_Cliente"
 
     adoCliente.CursorLocation = adUseClient
-    adoCliente.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+    adoCliente.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
 
     If Not adoCliente.EOF Then
       Do While Not adoCliente.EOF
@@ -1650,10 +1650,10 @@ End If
     Dim rsNumeroCliente As New ADODB.Recordset
     Dim preencheUF As Boolean
 
-    SQL = "SP_FIN_Ler_Estado"
+    Sql = "SP_FIN_Ler_Estado"
 
     adoCliente.CursorLocation = adUseClient
-    adoCliente.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+    adoCliente.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
 
     If Not adoCliente.EOF Then
         preencheUF = True
@@ -1698,9 +1698,9 @@ End Sub
 
 Function preencheUF() As Boolean
 
-    SQL = "SP_FIN_Ler_Estado"
+    Sql = "SP_FIN_Ler_Estado"
     adoCliente.CursorLocation = adUseClient
-    adoCliente.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+    adoCliente.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
     If Not adoCliente.EOF Then
         preencheUF = True
     Else
@@ -1781,12 +1781,12 @@ Private Sub PreencheGridMunicipio()
         .Editable = flexEDNone
     End With
  
-Ln = 0
+ln = 0
 
-    SQL = "SP_FIN_Pesquisa_Municipio"
+    Sql = "SP_FIN_Pesquisa_Municipio"
 
         adoCliente.CursorLocation = adUseClient
-        adoCliente.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+        adoCliente.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
 
          Do While Not adoCliente.EOF
 
@@ -1800,12 +1800,12 @@ Ln = 0
                 End With
         
             adoCliente.MoveNext
-            Ln = Ln + 1
+            ln = ln + 1
          Loop
-            Ln = Ln - 1
-            Do While Ln > 0
-                grdMunicipio.IsCollapsed(Ln) = flexOutlineCollapsed
-                Ln = Ln - 1
+            ln = ln - 1
+            Do While ln > 0
+                grdMunicipio.IsCollapsed(ln) = flexOutlineCollapsed
+                ln = ln - 1
             Loop
         adoCliente.Close
 
@@ -1827,10 +1827,10 @@ End If
     End With
 
 
-Ln = 0
+ln = 0
 
         If Len(txtMunicipio.Text) > 0 Then
-           SQL = "SP_FIN_Ler_Codigo_Municipio_Por_Parametro '" & txtMunicipio.Text & "'"
+           Sql = "SP_FIN_Ler_Codigo_Municipio_Por_Parametro '" & txtMunicipio.Text & "'"
                        
             If adoCliente.State Then
                 adoCliente.Close
@@ -1838,7 +1838,7 @@ Ln = 0
             
                        
             adoCliente.CursorLocation = adUseClient
-            adoCliente.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+            adoCliente.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
             
                 
          Else
@@ -1859,13 +1859,13 @@ Ln = 0
                 End With
 
             adoCliente.MoveNext
-            Ln = Ln + 1
+            ln = ln + 1
          Loop
      
-            Ln = Ln - 1
-            Do While Ln >= 0
-                grdMunicipio.IsCollapsed(Ln) = flexOutlineCollapsed
-                Ln = Ln - 1
+            ln = ln - 1
+            Do While ln >= 0
+                grdMunicipio.IsCollapsed(ln) = flexOutlineCollapsed
+                ln = ln - 1
             Loop
             adoCliente.Close
 End Sub
@@ -2213,7 +2213,7 @@ Private Sub txtCNPJ_Change()
     txtCNPJ.Text = wNumeros
 End Sub
 
-Private Sub txtCnpj_KeyPress(KeyAscii As Integer)
+Private Sub txtCNPJ_KeyPress(KeyAscii As Integer)
     If KeyAscii = 13 Then
         If txtCNPJ.Text <> "" And IsNumeric(txtCNPJ) = True Then
             ProximoCampo txtRazaoSocial
@@ -2752,10 +2752,10 @@ Function SelecionaCampo(ByRef NomeCampo)
 End Function
 
 Function VerificaClienteExiste(ByVal Cliente As Double) As Boolean
-    SQL = "SP_FIN_Pesquisa_Codigo " & Cliente & ""
+    Sql = "SP_FIN_Pesquisa_Codigo " & Cliente & ""
     
     adoCliente.CursorLocation = adUseClient
-    adoCliente.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+    adoCliente.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
     
     If Not adoCliente.EOF Then
         VerificaClienteExiste = True
@@ -2766,10 +2766,10 @@ Function VerificaClienteExiste(ByVal Cliente As Double) As Boolean
     
 End Function
 Function VerificaClienteExisteCNPJ(ByVal Cliente As Double) As Boolean
-    SQL = "SP_FIN_Ler_Clientes_Por_Parametro_Cnpj'" & Cliente & "'"
+    Sql = "SP_FIN_Ler_Clientes_Por_Parametro_Cnpj'" & Cliente & "'"
     
     adoCliente.CursorLocation = adUseClient
-    adoCliente.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+    adoCliente.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
     
     If Not adoCliente.EOF Then
         VerificaClienteExisteCNPJ = True
@@ -2855,10 +2855,10 @@ Function PreencheDadosCliente(ByVal Cliente As String)
            txtInscricaoEstadual.Locked = True
         End If
 
-        SQL = "Exec SP_FIN_Ler_Municipio '" & adoCliente("CE_CodigoMunicipio") & "'"
+        Sql = "Exec SP_FIN_Ler_Municipio '" & adoCliente("CE_CodigoMunicipio") & "'"
 
         adoMunicipio.CursorLocation = adUseClient
-        adoMunicipio.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+        adoMunicipio.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
 
         If adoMunicipio.EOF = False Then
            txtMunicipio.Text = Trim(adoMunicipio("Mun_Nome"))
@@ -2967,10 +2967,10 @@ Function PreencheDadosClienteCNPJ(ByVal Cliente As String)
            txtInscricaoEstadual.Locked = True
         End If
 
-        SQL = "Exec SP_FIN_Ler_Municipio '" & adoCliente("CE_CodigoMunicipio") & "'"
+        Sql = "Exec SP_FIN_Ler_Municipio '" & adoCliente("CE_CodigoMunicipio") & "'"
 
         adoMunicipio.CursorLocation = adUseClient
-        adoMunicipio.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+        adoMunicipio.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
 
         If adoMunicipio.EOF = False Then
            txtMunicipio.Text = Trim(adoMunicipio("Mun_Nome"))
@@ -3030,35 +3030,35 @@ End Function
 
 Function PesquisaCliente(ByVal tipoPesquisa As Integer, ByVal Cliente As String) As Boolean
     If tipoPesquisa = 1 Then
-        SQL = "SP_FIN_Pesquisa_Codigo_Cliente " & Cliente & ""
+        Sql = "SP_FIN_Pesquisa_Codigo_Cliente " & Cliente & ""
         
         adoCliente.CursorLocation = adUseClient
-        adoCliente.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+        adoCliente.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
       
     
 'Pesquisa por cgc ou cpf (2)
 
     ElseIf tipoPesquisa = 2 Then
-        SQL = "SP_FIN_Ler_Clientes_Por_Parametro_Cnpj '" & Cliente & "'"
+        Sql = "SP_FIN_Ler_Clientes_Por_Parametro_Cnpj '" & Cliente & "'"
         
         adoCliente.CursorLocation = adUseClient
-        adoCliente.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+        adoCliente.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
     
 'Pesquisa Pelo Nome Cliente (3)
 
     ElseIf tipoPesquisa = 3 Then
-        SQL = "SP_FIN_Pesquisa_Razao_Cliente '" & Cliente & "'"
+        Sql = "SP_FIN_Pesquisa_Razao_Cliente '" & Cliente & "'"
     
         adoCliente.CursorLocation = adUseClient
-        adoCliente.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+        adoCliente.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
     
 'Pesquisa Cliente Tela frmCadCliente(4)
 
     ElseIf tipoPesquisa = 4 Then
-        SQL = "SP_FIN_Ler_Clientes_Por_Código " & Cliente & ""
+        Sql = "SP_FIN_Ler_Clientes_Por_Código " & Cliente & ""
         
         adoCliente.CursorLocation = adUseClient
-        adoCliente.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+        adoCliente.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
 
     Else
         Exit Function
@@ -3089,15 +3089,15 @@ Function CarregaRamo(ByVal Pessoa As String, ByVal codigo As String)
         Pessoa = "O"
     End If
     
-    SQL = "SP_FIN_Pesquisa_Ramo_Atividade_Por_Pessoa '" & Pessoa & "'"
+    Sql = "SP_FIN_Pesquisa_Ramo_Atividade_Por_Pessoa '" & Pessoa & "'"
 
     adoRamo.CursorLocation = adUseClient
-    adoRamo.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+    adoRamo.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
      
-    SQL = "SP_FIN_Pesquisa_Ramo_Atividade_Por_Codigo '" & codigo & "'"
+    Sql = "SP_FIN_Pesquisa_Ramo_Atividade_Por_Codigo '" & codigo & "'"
                       
     adoRamo2.CursorLocation = adUseClient
-    adoRamo2.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+    adoRamo2.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
    
     If Not adoRamo.EOF Then
         Do While Not adoRamo.EOF
@@ -3131,15 +3131,15 @@ Function carregaSegmento(ByVal RamoAtividade As String, ByVal codigoCliente As S
     
     cmbSegmento.Clear
     
-    SQL = "SP_FIN_Pesquisa_Segmento_Por_Ramo_Atividade '" & RamoAtividade & "'"
+    Sql = "SP_FIN_Pesquisa_Segmento_Por_Ramo_Atividade '" & RamoAtividade & "'"
     
     adoSegmento.CursorLocation = adUseClient
-    adoSegmento.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+    adoSegmento.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
   
-    SQL = "SP_FIN_Pesquisa_Segmento_Por_Codigo_Cliente '" & codigoCliente & "'"
+    Sql = "SP_FIN_Pesquisa_Segmento_Por_Codigo_Cliente '" & codigoCliente & "'"
     
     adoSegmento2.CursorLocation = adUseClient
-    adoSegmento2.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+    adoSegmento2.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
     
     If Not adoSegmento.EOF Then
         Do While Not adoSegmento.EOF
@@ -3161,7 +3161,7 @@ Function carregaSegmento(ByVal RamoAtividade As String, ByVal codigoCliente As S
     End If
     adoSegmento.Close
     adoSegmento2.Close
-    adoSegmento2.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+    adoSegmento2.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
 
 End Function
 
@@ -3182,10 +3182,10 @@ Function ConsultaCep(ByVal Cep As String) As Boolean
 Dim adoCodigo As New ADODB.Recordset
     
     
-    SQL = " SP_FIN_Pesquisa_Cep '" & Cep & "'"
+    Sql = " SP_FIN_Pesquisa_Cep '" & Cep & "'"
     
     adoCliente.CursorLocation = adUseClient
-    adoCliente.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+    adoCliente.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
     
     If Not adoCliente.EOF Then
         ConsultaCep = True
@@ -3212,12 +3212,12 @@ Dim adoCodigo As New ADODB.Recordset
     '''SQL = "SP_FIN_Pesquisa_Municipio_Por_Parametro '" & txtMunicipio.Text & "'"
     
      'ricardo 09/08/2016
-    SQL = "SP_FIN_Pesquisa_Municipio_Por_Parametro '" & txtMunicipio.Text & "', '" & txtEstadoCobranca.Text & "'"
+    Sql = "SP_FIN_Pesquisa_Municipio_Por_Parametro '" & txtMunicipio.Text & "', '" & txtEstadoCobranca.Text & "'"
      
         adoCodigo.CursorLocation = adUseClient
-        adoCodigo.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+        adoCodigo.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
         
-    adoCNLoja.Execute (SQL)
+    adoCNLoja.Execute (Sql)
     adoCNLoja.CommitTrans
          
      If Not adoCodigo.EOF Then
@@ -3477,7 +3477,7 @@ Function AtualizaCliente(ByVal codigo As Double) As Boolean
 
         Err.Number = 0
         adoCNLoja.BeginTrans
-        SQL = "SP_FIN_Altera_Cliente " & Val(codigo) & ",'" & txtRazaoSocial.Text & "','" & txtCNPJ.Text & "','" _
+        Sql = "SP_FIN_Altera_Cliente " & Val(codigo) & ",'" & txtRazaoSocial.Text & "','" & txtCNPJ.Text & "','" _
                                         & Mid(Pessoa, 1, 2) & "', " & Val(cmbSituacao.Text) & ",'" _
                                         & pagamentoCarteira & "', '" _
                                         & txtInscricaoEstadual.Text & "','" & mskCep.Text & "','" _
@@ -3495,7 +3495,7 @@ Function AtualizaCliente(ByVal codigo As Double) As Boolean
                                         
 
             adoCliente.CursorLocation = adUseClient
-            adoCliente.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+            adoCliente.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
             
          If Err.Number = 0 Then
             adoCNLoja.CommitTrans
@@ -3667,7 +3667,7 @@ Function GravaCliente() As Boolean
         Err.Number = 0
         adoCNLoja.BeginTrans
         'SQL = ""
-        SQL = "SP_FIN_Grava_Cliente_Loja '" & Val(txtCodigo.Text) & "','" & txtRazaoSocial.Text & "','" & txtCNPJ.Text & "','" _
+        Sql = "SP_FIN_Grava_Cliente_Loja '" & Val(txtCodigo.Text) & "','" & txtRazaoSocial.Text & "','" & txtCNPJ.Text & "','" _
                                             & Pessoa & "'," & Mid(cmbSituacao.Text, 1, 2) & ",'" & pagamentoCarteira _
                                             & "','" _
                                             & txtInscricaoEstadual.Text & "','" & mskCep.Text & "','" _
@@ -3688,21 +3688,21 @@ Function GravaCliente() As Boolean
                                             & left(frmPedido.txtVendedor.Text, 3) & "', '" _
                                             & Trim(GLB_Loja) & "'"
     
-        adoCNLoja.Execute (SQL)
+        adoCNLoja.Execute (Sql)
         adoCNLoja.CommitTrans
         
         If Err.Number = 0 Then
          
-                SQL = "SP_FIN_Atualizando_Tela_De_Cadastro"
+                Sql = "SP_FIN_Atualizando_Tela_De_Cadastro"
             
                 adoCliente.CursorLocation = adUseClient
-                adoCliente.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+                adoCliente.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
                 adoCliente.Close ' SDSDSD
                 
                 
                 If Mid(cmbTipoCliente.Text, 1, 1) = "F" Then
-                    SQL = "SP_FIN_Grava_Cliente_Loja_Retaguarda '" & Val(txtCodigo.Text) & "'"
-                    adoCNLoja.Execute (SQL)
+                    Sql = "SP_FIN_Grava_Cliente_Loja_Retaguarda '" & Val(txtCodigo.Text) & "'"
+                    adoCNLoja.Execute (Sql)
                 End If
                 
                 Screen.MousePointer = 0
@@ -3754,9 +3754,9 @@ End Function
 
 Function preencheStatus() As Boolean
    
-    SQL = "SP_FIN_Ler_Situacao"
+    Sql = "SP_FIN_Ler_Situacao"
     rsSituacaoCliente.CursorLocation = adUseClient
-    rsSituacaoCliente.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+    rsSituacaoCliente.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
     If Not rsSituacaoCliente.EOF Then
         preencheStatus = True
     Else

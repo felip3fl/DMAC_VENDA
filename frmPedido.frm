@@ -2381,8 +2381,8 @@ Private Sub pintaGridDesbloqueio()
             grdItensProduto.CellForeColor = vbWhite
             grdItensProduto.BackColorSel = RGB(11, 36, 74)
         Next I
-    
-        grdItensProduto.Row = 1
+            
+        If (grdItensProduto.Row) > 0 Then grdItensProduto.Row = 1
         
         alterandoCORGrid = False
     
