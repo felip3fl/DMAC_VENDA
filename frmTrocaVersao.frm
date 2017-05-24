@@ -182,7 +182,7 @@ Private Sub lblAtualiza_Click()
     lblMensagem.Refresh
     
     criaTXTComando montaComandoCMD
-    Shell endPastaLocal & nomeArquivoBAT
+    Shell endPastaLocal & nomeArquivoBAT, vbHide
     
     Esperar 3
     
