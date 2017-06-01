@@ -1,7 +1,7 @@
 VERSION 5.00
-Object = "{D76D7130-4A96-11D3-BD95-D296DC2DD072}#1.0#0"; "vsflex7d.ocx"
-Object = "{C932BA88-4374-101B-A56C-00AA003668DC}#1.1#0"; "MSMASK32.OCX"
+Object = "{D76D7130-4A96-11D3-BD95-D296DC2DD072}#1.0#0"; "Vsflex7d.ocx"
 Object = "{EAB22AC0-30C1-11CF-A7EB-0000C05BAE0B}#1.1#0"; "ieframe.dll"
+Object = "{C932BA88-4374-101B-A56C-00AA003668DC}#1.1#0"; "MSMASK32.OCX"
 Begin VB.Form frmReativacaoCliente 
    BackColor       =   &H00505050&
    BorderStyle     =   0  'None
@@ -348,7 +348,7 @@ Begin VB.Form frmReativacaoCliente
       NoFolders       =   0   'False
       Transparent     =   0   'False
       ViewID          =   "{0057D0E0-3573-11CF-AE69-08002B2E1262}"
-      Location        =   ""
+      Location        =   "http:///"
    End
    Begin VB.ComboBox cmbLojas 
       BackColor       =   &H8000000A&
@@ -1348,7 +1348,7 @@ End Sub
 
 Private Sub cmdGrava_Click()
     
-    Dim SQL As String
+    Dim Sql As String
     
     If Trim(txtCodCliente.Text) = "" Then
        MsgBox "Nenhuma ficha selecionada.", vbInformation, Me.Caption
@@ -1359,10 +1359,10 @@ Private Sub cmdGrava_Click()
     If cmdGrava.Caption = "Iniciar" Then
        cmdGrava.Caption = "Gravar"
        txtMascara.Visible = False
-       SQL = "Update CRM_Cliente Set crm_TempoInicial = '" & Format(Time, "hh:mm:ss") & "' Where crm_Loja = '" & txtLoja.Text & "' " & _
+       Sql = "Update CRM_Cliente Set crm_TempoInicial = '" & Format(Time, "hh:mm:ss") & "' Where crm_Loja = '" & txtLoja.Text & "' " & _
              "and crm_Vendedor = " & txtVendedor.Text & " and crm_CodigoCliente = " & txtCodCliente.Text
     
-       rdoCNMatriz.Execute (SQL)
+       rdoCNMatriz.Execute (Sql)
        cmdAvancar.Enabled = False
        cmdRetornar.Enabled = False
        Call BloqueiaLiberaForm
@@ -1396,14 +1396,14 @@ Private Sub cmdGrava_Click()
        txtMascara.Visible = True
        wOcorrencia = Mid(cmbOcorrencia.Text, 1, 2)
        
-       SQL = ""
-       SQL = "Update CRM_Cliente Set crm_TempoFinal = '" & Format(Time, "hh:mm:ss") & "', crm_NomeCliente = '" & txtCliente.Text & "', " & _
+       Sql = ""
+       Sql = "Update CRM_Cliente Set crm_TempoFinal = '" & Format(Time, "hh:mm:ss") & "', crm_NomeCliente = '" & txtCliente.Text & "', " & _
              "crm_Endereco = '" & txtEndereco.Text & "', crm_Cidade = '" & txtCidade.Text & "', crm_UF = '" & cmbUF.Text & "'," & _
              "crm_Telefone = '" & txtTelefone.Text & "', crm_Contato = '" & txtContato.Text & "', crm_Ocorrencia1 = '" & cmbOcorrencia.Text & "', crm_DataContato = '" & Format(txtData.Text, "yyyy/mm/dd") & "'," & _
              "crm_Comentario = '" & txtComentario.Text & "', crm_Email = '" & txtEMail.Text & "', crm_EMarketing  = '" & wMarketing & "', crm_Status = '" & Mid(cmbOcorrencia.Text, 1, 2) & "' " & _
              "Where crm_Loja = '" & txtLoja.Text & "' and crm_Vendedor = " & txtVendedor.Text & " and crm_CodigoCliente = " & txtCodCliente.Text
        
-       rdoCNMatriz.Execute (SQL)
+       rdoCNMatriz.Execute (Sql)
         
        grdDados.RemoveItem wRetorna
        I = grdDados.Row
@@ -1586,17 +1586,17 @@ Public Sub montaComboLoja(comboLojas As ComboBox)
 '        Loop
 '        RdoRsloja.Close
 
-On Error GoTo trataerro
+On Error GoTo TrataErro
     Dim RdoRsloja As New ADODB.Recordset
-    Dim SQL As String
+    Dim Sql As String
     With adoCNLoja
     
     
-      SQL = ""
-      SQL = "select CTS_lOJA from ControleSistema"
+      Sql = ""
+      Sql = "select CTS_lOJA from ControleSistema"
         
         RdoRsloja.CursorLocation = adUseClient
-        RdoRsloja.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+        RdoRsloja.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
      
         Do While Not RdoRsloja.EOF
             
@@ -1607,7 +1607,7 @@ On Error GoTo trataerro
     End With
 
     Exit Sub
-trataerro:
+TrataErro:
     Select Case Err.Number
         Case Else
             'mensagemErroDesconhecido Err, "Erro na leitura de lista de lojas"
@@ -1626,7 +1626,7 @@ Private Sub PreencheComboLojas(comboLoja As ComboBox)
 
 Dim RdoRslojas As New ADODB.Recordset
 
-Dim SQL As String
+Dim Sql As String
 'ricardo
 '  SQL = ""
 '  SQL = "select lo_loja from loja where lo_situacao = 'A' and " & _
@@ -1637,11 +1637,11 @@ Dim SQL As String
 '        RdoRslojas.Open SQL, rdoCNMatriz, adOpenForwardOnly, adLockPessimistic
                                        
                                        
-    SQL = ""
-    SQL = "select CTS_lOJA from ControleSistema"
+    Sql = ""
+    Sql = "select CTS_lOJA from ControleSistema"
         
         RdoRslojas.CursorLocation = adUseClient
-        RdoRslojas.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+        RdoRslojas.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
      
         Do While Not RdoRslojas.EOF
             
@@ -1666,15 +1666,15 @@ Private Sub PreencheTXTLoja(txtLoja As TextBox)
 
 Dim RdoRstxtloja As New ADODB.Recordset
 
-Dim SQL As String
+Dim Sql As String
 'ricardo
 
                                                                      
-    SQL = ""
-    SQL = "select CTS_lOJA from ControleSistema"
+    Sql = ""
+    Sql = "select CTS_lOJA from ControleSistema"
         
         RdoRstxtloja.CursorLocation = adUseClient
-        RdoRstxtloja.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+        RdoRstxtloja.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
      
         Do While Not RdoRstxtloja.EOF
             
@@ -1689,7 +1689,7 @@ Dim SQL As String
 End Sub
 Private Sub cmdPesquisa_Click()
 'ricardo
-Dim SQL As String
+Dim Sql As String
 Dim rdoLoja As New ADODB.Recordset
 
 '    If Trim(cmbLoja.Text) = "" Then
@@ -1698,11 +1698,11 @@ Dim rdoLoja As New ADODB.Recordset
 '    Exit Sub
 'End If
   
-    SQL = ""
-      SQL = "select CTS_lOJA from ControleSistema"
+    Sql = ""
+      Sql = "select CTS_lOJA from ControleSistema"
         
         rdoLoja.CursorLocation = adUseClient
-        rdoLoja.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+        rdoLoja.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
      
         Do While Not rdoLoja.EOF
             
@@ -1720,13 +1720,13 @@ Dim rdoLoja As New ADODB.Recordset
       
   Screen.MousePointer = vbHourglass
     
-      SQL = ""
-      SQL = "Select Distinct CRM_Vendedor, Count(*) as TotalRegistros From CRM_Cliente " & _
+      Sql = ""
+      Sql = "Select Distinct CRM_Vendedor, Count(*) as TotalRegistros From CRM_Cliente " & _
             "Where CRM_Loja = '" & txtLoja.Text & "' Group By CRM_Vendedor Order By CRM_Vendedor"
             
       'Set RdoRsVendedor = rdoCNMatriz.OpenResultset(SQL)
       RdoRsVendedor.CursorLocation = adUseClient
-      RdoRsVendedor.Open SQL, rdoCNMatriz, adOpenForwardOnly, adLockPessimistic
+      RdoRsVendedor.Open Sql, rdoCNMatriz, adOpenForwardOnly, adLockPessimistic
       
       
       
@@ -1735,13 +1735,13 @@ Dim rdoLoja As New ADODB.Recordset
             '************ Total de Fichas ************
             wTotalFichas = RdoRsVendedor("TotalRegistros")
             '************ Total de Fichas Abertas ************
-            SQL = ""
-            SQL = "Select Count(*) as Abertas From CRM_Cliente " & _
+            Sql = ""
+            Sql = "Select Count(*) as Abertas From CRM_Cliente " & _
                   "Where crm_Loja = '" & txtLoja.Text & "' and crm_Vendedor = " & RdoRsVendedor("CRM_Vendedor") & " and crm_Status = 'A'"
                        
             'Set RdoRsDados = rdoCNMatriz.OpenResultset(SQL)
              RdoRsDados.CursorLocation = adUseClient
-             RdoRsDados.Open SQL, rdoCNMatriz, adOpenForwardOnly, adLockPessimistic
+             RdoRsDados.Open Sql, rdoCNMatriz, adOpenForwardOnly, adLockPessimistic
             
             If RdoRsDados.EOF = False Then
                wTotalFichasAbertas = RdoRsDados("Abertas")
@@ -1749,13 +1749,13 @@ Dim rdoLoja As New ADODB.Recordset
             RdoRsDados.Close
             
             '************ Total de Fichas Finalizadas ************
-            SQL = ""
-            SQL = "Select Count(*) as Fechadas From CRM_Cliente " & _
+            Sql = ""
+            Sql = "Select Count(*) as Fechadas From CRM_Cliente " & _
                   "Where crm_Loja = '" & txtLoja.Text & "' and crm_Vendedor = " & RdoRsVendedor("CRM_Vendedor") & " and crm_Status not in('A','VL','CR')"
                        
             'Set RdoRsDados = rdoCNMatriz.OpenResultset(SQL)
             RdoRsDados.CursorLocation = adUseClient
-            RdoRsDados.Open SQL, rdoCNMatriz, adOpenForwardOnly, adLockPessimistic
+            RdoRsDados.Open Sql, rdoCNMatriz, adOpenForwardOnly, adLockPessimistic
             
             If RdoRsDados.EOF = False Then
                wTotalFichasFechadas = RdoRsDados("Fechadas")
@@ -1763,13 +1763,13 @@ Dim rdoLoja As New ADODB.Recordset
             RdoRsDados.Close
             
             '************ Total de Fichas Aguardando Retorno ************
-            SQL = ""
-            SQL = "Select Count(*) as Retorna From CRM_Cliente " & _
+            Sql = ""
+            Sql = "Select Count(*) as Retorna From CRM_Cliente " & _
                   "Where crm_Loja = '" & txtLoja.Text & "' and crm_Vendedor = " & RdoRsVendedor("CRM_Vendedor") & " and crm_Status in('VL','CR')"
                        
             'Set RdoRsDados = rdoCNMatriz.OpenResultset(SQL)
             RdoRsDados.CursorLocation = adUseClient
-            RdoRsDados.Open SQL, rdoCNMatriz, adOpenForwardOnly, adLockPessimistic
+            RdoRsDados.Open Sql, rdoCNMatriz, adOpenForwardOnly, adLockPessimistic
             
             If RdoRsDados.EOF = False Then
                wTotalFichasRetorno = RdoRsDados("Retorna")
@@ -1870,7 +1870,7 @@ Private Sub Form_Click()
 End Sub
 
 Private Sub Form_Load()
-Dim SQL As String
+Dim Sql As String
 'Dim adoCNLoja As ADODB.Connection
 'Dim rdoCnSup As New adodb.Connection
 
@@ -1893,11 +1893,11 @@ Call LimpaForm
 Call PreencheComboUF
 Call BloqueiaLiberaForm
 
-SQL = ""
-SQL = "Select * From Usuario Where US_Grupo = 13  and US_Nome = 'gerentes'"
+Sql = ""
+Sql = "Select * From Usuario Where US_Grupo = 13  and US_Nome = 'gerentes'"
 
      RdoRsDados.CursorLocation = adUseClient
-     RdoRsDados.Open SQL, rdoCNMatriz, adOpenForwardOnly, adLockPessimistic
+     RdoRsDados.Open Sql, rdoCNMatriz, adOpenForwardOnly, adLockPessimistic
 
 
     'Set RdoRsDados = rdoCNMatriz.OpenResultset(SQL)
@@ -1926,14 +1926,14 @@ SQL = "Select * From Usuario Where US_Grupo = 13  and US_Nome = 'gerentes'"
 End Sub
 
 Private Sub PreencheComboUF()
-Dim SQL As String
+Dim Sql As String
     cmbUF.AddItem ""
     
-    SQL = ""
-    SQL = "select UF_Estado from Estados Order By UF_Estado"
+    Sql = ""
+    Sql = "select UF_Estado from Estados Order By UF_Estado"
     
      RdoRsDados.CursorLocation = adUseClient
-     RdoRsDados.Open SQL, rdoCNMatriz, adOpenForwardOnly, adLockPessimistic
+     RdoRsDados.Open Sql, rdoCNMatriz, adOpenForwardOnly, adLockPessimistic
     
     'Set RdoRsDados = adoCNLoja.OpenResultset("Select UF_Estado From Estados Order By UF_Estado")
      If RdoRsDados.EOF = False Then
@@ -1976,23 +1976,23 @@ Dim wProdutoCRM2 As String
 Dim wProdutoCRM3 As String
 Dim wCodigoCliente As Long
 Dim wCodigoVendedor As Integer
-Dim SQL As String
+Dim Sql As String
 
 
 On Error GoTo ErroRegistro
 
-    SQL = ""
-    SQL = "Select CRM_Vendedor, CRM_CodigoCliente, CRM_PeriodoInicial, CRM_PeriodoFinal From CRM_Cliente " & _
+    Sql = ""
+    Sql = "Select CRM_Vendedor, CRM_CodigoCliente, CRM_PeriodoInicial, CRM_PeriodoFinal From CRM_Cliente " & _
           "Where CRM_Loja = '" & txtLoja.Text & "'"
           
-    Set RdoRsDados = adoCNLoja.OpenResultset(SQL)
+    Set RdoRsDados = adoCNLoja.OpenResultset(Sql)
       
     Do While Not RdoRsDados.EOF
         wCodigoCliente = RdoRsDados("CRM_CodigoCliente")
         wCodigoVendedor = RdoRsDados("CRM_Vendedor")
     
-        SQL = ""
-        SQL = "Select Top 3 PR_Referencia, PR_Descricao, VI_PrecoLista " & _
+        Sql = ""
+        Sql = "Select Top 3 PR_Referencia, PR_Descricao, VI_PrecoLista " & _
               "From CapanfVenda, ItemNfVenda, Produto " & _
               "Where vi_referencia = pr_referencia And vc_serie = vi_serie And vc_tiponota = vi_tiponota " & _
               "and vc_notafiscal = vi_notafiscal and vc_dataemissao = vi_dataemissao " & _
@@ -2001,7 +2001,7 @@ On Error GoTo ErroRegistro
               "and vc_vendedorlojavenda = " & wCodigoVendedor & " and vc_cliente = " & wCodigoCliente
         
         
-        Set RdoRsCRM = adoCNLoja.OpenResultset(SQL)
+        Set RdoRsCRM = adoCNLoja.OpenResultset(Sql)
         wProdutoCRM1 = ""
         wProdutoCRM2 = ""
         wProdutoCRM3 = ""
@@ -2022,12 +2022,12 @@ On Error GoTo ErroRegistro
         End If
         
         RdoRsCRM.Close
-        SQL = ""
-        SQL = "UPDATE CRM_Cliente SET CRM_Ocorrencia2 = '" & wProdutoCRM1 & "', CRM_Ocorrencia3 = '" & wProdutoCRM2 & "', CRM_Ocorrencia4 = '" & wProdutoCRM3 & "' WHERE " & _
+        Sql = ""
+        Sql = "UPDATE CRM_Cliente SET CRM_Ocorrencia2 = '" & wProdutoCRM1 & "', CRM_Ocorrencia3 = '" & wProdutoCRM2 & "', CRM_Ocorrencia4 = '" & wProdutoCRM3 & "' WHERE " & _
               "CRM_CodigoCliente = " & RdoRsDados("CRM_CodigoCliente") & " and CRM_Vendedor = " & RdoRsDados("CRM_Vendedor") & " and " & _
               "CRM_Loja = '" & Trim(txtLoja.Text) & "'"
         
-        adoCNLoja.Execute (SQL)
+        adoCNLoja.Execute (Sql)
         
         RdoRsDados.MoveNext
         
@@ -2049,7 +2049,7 @@ End Sub
 
 Private Sub txtVendedor_KeyPress(KeyAscii As Integer)
 Dim rdoLojas As New ADODB.Recordset
-Dim SQL As String
+Dim Sql As String
 
 
     Screen.MousePointer = 11
@@ -2061,11 +2061,11 @@ Dim SQL As String
 '          Exit Sub
 '       End If
 
-      SQL = ""
-      SQL = "select CTS_lOJA from ControleSistema"
+      Sql = ""
+      Sql = "select CTS_lOJA from ControleSistema"
         
         rdoLojas.CursorLocation = adUseClient
-        rdoLojas.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+        rdoLojas.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
      
         Do While Not rdoLojas.EOF
             
