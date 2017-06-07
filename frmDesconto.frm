@@ -6,8 +6,8 @@ Begin VB.Form frmDesconto
    BorderStyle     =   0  'None
    Caption         =   "Desconto"
    ClientHeight    =   7260
-   ClientLeft      =   24645
-   ClientTop       =   2595
+   ClientLeft      =   4935
+   ClientTop       =   1680
    ClientWidth     =   13260
    ControlBox      =   0   'False
    LinkTopic       =   "Form2"
@@ -373,7 +373,7 @@ Begin VB.Form frmDesconto
       GridLinesFixed  =   1
       GridLineWidth   =   1
       Rows            =   2
-      Cols            =   13
+      Cols            =   14
       FixedRows       =   1
       FixedCols       =   0
       RowHeightMin    =   0
@@ -797,7 +797,7 @@ Private Sub Form_Activate()
             Else
                  optPedido.Value = True
                  For I = 1 To grdItensPedido.Rows - 1
-                    If grdItensPedido.TextMatrix(I, 0) = "N" Then
+                    If grdItensPedido.TextMatrix(I, 0) = "N" And grdItensPedido.TextMatrix(I, 12) = "S" Then
                       grdItensPedido.TextMatrix(I, 0) = "S"
                     End If
                  Next I
@@ -854,7 +854,12 @@ Private Sub grdItensPedido_DblClick()
     If (Trim(grdItensPedido.TextMatrix(grdItensPedido.Row, 0)) = "S" Or Trim(grdItensPedido.TextMatrix(grdItensPedido.Row, 0)) = "T") Then
        grdItensPedido.TextMatrix(grdItensPedido.Row, 0) = "N"
     ElseIf Trim(grdItensPedido.TextMatrix(grdItensPedido.Row, 0)) = "N" Then
-       grdItensPedido.TextMatrix(grdItensPedido.Row, 0) = "S"
+        If grdItensPedido.TextMatrix(grdItensPedido.Row, 12) = "S" Then
+            grdItensPedido.TextMatrix(grdItensPedido.Row, 0) = "S"
+        Else
+            MsgBox "Desconto totalmente bloqueado nessa referência", vbExclamation
+        End If
+       
     End If
   End If
     
@@ -1032,6 +1037,7 @@ Private Sub txtDesconto_KeyPress(KeyAscii As Integer)
 Dim wDif As Double
 Dim Linha As Integer
 Dim wValorAuxDesc As Double
+Dim bloqueioID As Boolean
 wDif = 0
 wValorAuxDesc = 0
 
@@ -1202,6 +1208,10 @@ If rsComplementoVenda.State = 1 Then
                 grdItensPedido.TextMatrix(I, 6) = Format((grdItensPedido.TextMatrix(I, 3) - ((grdItensPedido.TextMatrix(I, 3) * wDesconto) / 100)), "##0.00")
                 grdItensPedido.TextMatrix(I, 5) = Format(((grdItensPedido.TextMatrix(I, 3) * wDesconto) / 100), "##0.00")
                 Linha = I
+                
+                If grdItensPedido.TextMatrix(I, 12) = "N" Then
+                    bloqueioID = True
+                End If
             'End If
         Next I
         'If wLimiteDescontoAtingido Then
@@ -1228,6 +1238,9 @@ If rsComplementoVenda.State = 1 Then
              grdItensPedido.TextMatrix(I, 5) = Format(((grdItensPedido.TextMatrix(I, 3) * txtDesconto) / 100), "##0.00")
              wValorAuxDesc = wValorAuxDesc + grdItensPedido.TextMatrix(I, 5)
              Linha = I
+             If grdItensPedido.TextMatrix(I, 12) = "N" Then
+                  bloqueioID = True
+             End If
         Next I
         
         wDesconto = wValorAuxDesc
@@ -1261,7 +1274,11 @@ If ChcSimula.Value = 0 Then
             senhaGerente
         End If
    Else
-        senhaGerente
+        If bloqueioID Then
+            MsgBox "Há item(s) totalmente bloqueado nesse pedido", vbExclamation
+        Else
+            senhaGerente
+        End If
    End If
 End If
    rdoControle.Close
@@ -1374,7 +1391,7 @@ Private Sub CarregaItensPedido()
     grdItensPedido.Rows = 1
     
     Sql = "Select i.Referencia, PR_Descricao, i.VLUNIT,pr_customedioliquido1,pr_precovendaliquido1, i.desconto, i.vltotitem, i.Qtde, " _
-          & "pr_classe, c.liberabloqueio, i.DESCRAT AS CP_DESCONTO " _
+          & "pr_classe, c.liberabloqueio, i.DESCRAT AS CP_DESCONTO, CP_PermitirDesconto as PermitirDesconto " _
           & "From NFItens as i, NFCapa as c, ProdutoLoja, CondicaoPagamento " _
           & "Where PR_Referencia = i.Referencia and i.TipoNota = 'PD' and " _
           & "i.NumeroPed = " & txtpedido.Text & " and c.numeroped = i.numeroped and " _
@@ -1421,7 +1438,8 @@ Private Sub CarregaItensPedido()
                 Chr(9) & Format(rsComplementoVenda("pr_precovendaliquido1"), "###,###,###,##0.00") & _
                 Chr(9) & Format(rsComplementoVenda("pr_customedioliquido1"), "###,###,###,##0.00") & _
                 Chr(9) & Format(rsComplementoVenda("cp_desconto"), "###,###,###,##0.00") & _
-                Chr(9) & Format(rsComplementoVenda("cp_desconto"), "###,###,###,##0.00")
+                Chr(9) & Format(rsComplementoVenda("cp_desconto"), "###,###,###,##0.00") & _
+                Chr(9) & rsComplementoVenda("PermitirDesconto")
 
 
            'if rsComplementoVenda("cp_desconto") > (rsComplementoVenda("cp_desconto"))
@@ -1681,7 +1699,7 @@ prcusto = 0
                            prliquido = prliquido - desc
                     End If
                    
-              grdItensPedido.TextMatrix(I, 12) = Format((((qtde * prliquido) - (qtde * prcusto)) * 100) / totaliq, "###,###,###,##0.00")
+              grdItensPedido.TextMatrix(I, 13) = Format((((qtde * prliquido) - (qtde * prcusto)) * 100) / totaliq, "###,###,###,##0.00")
               Tliqpre = (Tliqpre + (qtde * prliquido))
               Tliqcus = (Tliqcus + (qtde * prcusto))
     I = I + 1
