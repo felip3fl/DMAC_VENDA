@@ -2094,7 +2094,7 @@ Timer4.Enabled = True
 
 cmdVersao.Height = 615
 cmdBotoes(0).Height = 460
-tempoRestante = "00:00:10"
+tempoRestante = "00:10:00"
 lblBloqueio.Text = ""
 
 picLimitadorBanner.ZOrder 0
@@ -2451,7 +2451,7 @@ Private Sub grdItensProduto_RowColChange()
 
     If alterandoCORGrid = False Then
 
-tempoRestante = "00:00:10"
+tempoRestante = "00:10:00"
 
  txtPesquisar.Text = grdItensProduto.TextMatrix(grdItensProduto.Row, 1)
  grdDadosProduto.TextMatrix(1, 0) = grdItensProduto.TextMatrix(grdItensProduto.Row, 16)  'Fornecedor
@@ -2851,7 +2851,7 @@ End Sub
 
 Private Sub txtPesquisar_Change()
 
-tempoRestante = "00:00:10"
+tempoRestante = "00:10:00"
 
  If txtPesquisar.Text = "'" Then
      MsgBox "Este campo não permite caracteres especiais!", vbCritical, "ATENÇÃO"
@@ -4186,7 +4186,7 @@ End Sub
 Private Sub Form_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
 
   Dim MSG As Long
-  tempoRestante = "00:00:10"
+  tempoRestante = "00:10:00"
   
 If (Button + Shift + Y) = 0 Then
     MSG = X / Screen.TwipsPerPixelX
@@ -4247,7 +4247,7 @@ End Sub
 Private Sub WebBrowser1_LostFocus()
     picLimitadorBanner.Height = 2025
     WebBrowser1.Navigate (wBanner2)
-    tempoRestante = "00:00:10"
+    tempoRestante = "00:10:00"
 End Sub
 
 Private Sub webInternet3_Click()
