@@ -1352,6 +1352,7 @@ Private Sub cmbTipoCliente_LostFocus()
         adoCodigoCliente.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
         
         Call BuscaClienteFaturado
+        
     End If
 End Sub
 

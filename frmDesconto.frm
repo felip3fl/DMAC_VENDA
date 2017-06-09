@@ -6,8 +6,8 @@ Begin VB.Form frmDesconto
    BorderStyle     =   0  'None
    Caption         =   "Desconto"
    ClientHeight    =   7260
-   ClientLeft      =   4935
-   ClientTop       =   1680
+   ClientLeft      =   2985
+   ClientTop       =   2190
    ClientWidth     =   13260
    ControlBox      =   0   'False
    LinkTopic       =   "Form2"
@@ -571,6 +571,7 @@ Dim wLimiteDescontoAtingido As Boolean
 Dim wLiberaBloqueio As Boolean
   Dim rsMargem As New ADODB.Recordset
   Dim margemB As String
+  Dim wTipoBloqueio As String
 
 
 Private Sub ChcSimula_Click()
@@ -854,7 +855,7 @@ Private Sub grdItensPedido_DblClick()
     If (Trim(grdItensPedido.TextMatrix(grdItensPedido.Row, 0)) = "S" Or Trim(grdItensPedido.TextMatrix(grdItensPedido.Row, 0)) = "T") Then
        grdItensPedido.TextMatrix(grdItensPedido.Row, 0) = "N"
     ElseIf Trim(grdItensPedido.TextMatrix(grdItensPedido.Row, 0)) = "N" Then
-        If grdItensPedido.TextMatrix(grdItensPedido.Row, 12) = "S" Then
+        If (grdItensPedido.TextMatrix(grdItensPedido.Row, 12) = "S" Or wTipoBloqueio = "E") Then
             grdItensPedido.TextMatrix(grdItensPedido.Row, 0) = "S"
         Else
             MsgBox "Desconto totalmente bloqueado nessa referência", vbExclamation
@@ -1127,6 +1128,7 @@ If rsComplementoVenda.State = 1 Then
             
         For I = 1 To grdItensPedido.Rows - 1
  '         If grdItensPedido.Cell(flexcpChecked, i, 0) = 1 Then
+          
           If (grdItensPedido.TextMatrix(I, 0) = "S" Or grdItensPedido.TextMatrix(I, 0) = "T") Then
              grdItensPedido.TextMatrix(I, 6) = Format((grdItensPedido.TextMatrix(I, 3) - ((grdItensPedido.TextMatrix(I, 3) * wDesconto) / 100)), "###,###,###,##0.00")
              grdItensPedido.TextMatrix(I, 5) = Format(((grdItensPedido.TextMatrix(I, 3) * wDesconto) / 100), "##0.00")
@@ -1209,7 +1211,7 @@ If rsComplementoVenda.State = 1 Then
                 grdItensPedido.TextMatrix(I, 5) = Format(((grdItensPedido.TextMatrix(I, 3) * wDesconto) / 100), "##0.00")
                 Linha = I
                 
-                If grdItensPedido.TextMatrix(I, 12) = "N" Then
+                If grdItensPedido.TextMatrix(I, 12) = "N" Or wTipoBloqueio <> "E" Then
                     bloqueioID = True
                 End If
             'End If
@@ -1238,7 +1240,7 @@ If rsComplementoVenda.State = 1 Then
              grdItensPedido.TextMatrix(I, 5) = Format(((grdItensPedido.TextMatrix(I, 3) * txtDesconto) / 100), "##0.00")
              wValorAuxDesc = wValorAuxDesc + grdItensPedido.TextMatrix(I, 5)
              Linha = I
-             If grdItensPedido.TextMatrix(I, 12) = "N" Then
+             If grdItensPedido.TextMatrix(I, 12) = "N" Or wTipoBloqueio <> "E" Then
                   bloqueioID = True
              End If
         Next I
@@ -1411,12 +1413,14 @@ Private Sub CarregaItensPedido()
     rsComplementoVenda.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
 
     If rsComplementoVenda.EOF = False Then
-    
-       If (rsComplementoVenda("liberabloqueio") = "S" Or rsComplementoVenda("liberabloqueio") = "T") Then wLiberaBloqueio = True
+        
+       wTipoBloqueio = rsComplementoVenda("liberabloqueio")
+       If (rsComplementoVenda("liberabloqueio") = "S" Or rsComplementoVenda("liberabloqueio") = "T" Or rsComplementoVenda("liberabloqueio") = "E") Then wLiberaBloqueio = True
+        wTipoBloqueio = rsComplementoVenda("liberabloqueio")
         
        Do While Not rsComplementoVenda.EOF
          If rsComplementoVenda("PR_Classe") = "P" And ChcSimula.Value = 0 Then
-            If (rsComplementoVenda("liberabloqueio") = "S" Or rsComplementoVenda("liberabloqueio") = "T") Then
+            If (wTipoBloqueio = "S" Or wTipoBloqueio = "T" Or wTipoBloqueio = "E") Then
                 wComDesconto = "N"
             Else
                 wComDesconto = "P"
@@ -1629,7 +1633,7 @@ If grdItensPedido.Row <> 0 Then
             'Preço  Total  da venda por  Linha
             totaliq = CDbl(grdItensPedido.TextMatrix(grdItensPedido.Row, 6))
             
-             If (grdItensPedido.TextMatrix(grdItensPedido.Row, 0) = "S" Or (grdItensPedido.TextMatrix(grdItensPedido.Row, 0) = "N")) Then
+             If (wTipoBloqueio = "S" Or wTipoBloqueio = "N" Or wTipoBloqueio = "E") Then
                     If txtDesconto.Text <> "" And optPercentual.Value = True Then 'verefica  se o  campo não  está vizio e o Option do  Prescentual  esta  true
                         desc = (prliquido * txtDesconto.Text) / 100
                         prliquido = prliquido - desc

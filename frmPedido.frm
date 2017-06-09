@@ -3643,7 +3643,7 @@ End Sub
 
 Private Sub LerControleSistema()
 
-  Sql = "Select CTS_CaminhoWeb2,CTS_Loja,CTS_CaminhoWeb1,CTS_CaminhoBanner,CTS_CaminhoWeb2,CTS_LogoPedido from ControleSistema"
+  Sql = "Select CTS_CaminhoWeb2,CTS_Loja,CTS_CaminhoBanner,CTS_CaminhoWeb2,CTS_LogoPedido from ControleSistema"
   rdoControle.CursorLocation = adUseClient
   rdoControle.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
     
@@ -3653,7 +3653,6 @@ Private Sub LerControleSistema()
      End
   Else
      wLoja = rdoControle("CTS_Loja")
-     wBanner = Trim(rdoControle("CTS_CaminhoWeb1"))
      wBanner2 = Trim(rdoControle("CTS_CaminhoBanner"))
      wFichaTec = Trim(rdoControle("CTS_CaminhoWeb2"))
      GLB_logoPedido = Trim(rdoControle("CTS_LogoPedido"))
