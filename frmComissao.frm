@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{D76D7130-4A96-11D3-BD95-D296DC2DD072}#1.0#0"; "vsflex7d.ocx"
+Object = "{D76D7130-4A96-11D3-BD95-D296DC2DD072}#1.0#0"; "Vsflex7d.ocx"
 Object = "{C932BA88-4374-101B-A56C-00AA003668DC}#1.1#0"; "MSMASK32.OCX"
 Begin VB.Form frmComissao 
    BackColor       =   &H00505050&
@@ -1257,7 +1257,7 @@ Dim GLB_Senha As String
 Dim rsComissao As New ADODB.Recordset
 Dim rsComissaoCapa As New ADODB.Recordset
 
-Dim SQL As String
+Dim Sql As String
 Dim wTotalVenda As Double
 Dim wTotalDevolucao As Double
 Dim wTotalComissaoVenda As Double
@@ -1286,7 +1286,6 @@ Private Sub chkReativacao_Click()
             frmReativacaoCliente.Show 1
             frmReativacaoCliente.ZOrder
             Unload Me
-        
 End Sub
 
 Private Sub chkReativacao_KeyDown(KeyCode As Integer, Shift As Integer)
@@ -1336,9 +1335,9 @@ Private Sub carregaSenhaVendedor()
 
    wVendedor = Mid(frmPedido.txtVendedor.Text, 1, 3)
   
-   SQL = "select ve_Nome,ve_senha from vende where ve_codigo = '" & wVendedor & "'"
+   Sql = "select ve_Nome,ve_senha from vende where ve_codigo = '" & wVendedor & "'"
    rsSenha.CursorLocation = adUseClient
-   rsSenha.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+   rsSenha.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
    
    'ricardo
    GLB_Senha = Trim(rsSenha("ve_Senha"))
@@ -1609,7 +1608,7 @@ grdNotaCliente.Visible = False
 grdComissao.Visible = True
 
 
-    SQL = "select vi_dataemissao,sum(vi_valormercadoria) as vi_valormercadoria, " & _
+    Sql = "select vi_dataemissao,sum(vi_valormercadoria) as vi_valormercadoria, " & _
           "sum(vi_valorComissao) as vi_valorComissao ,sum(vi_vendacomissao) as vi_vendacomissao " & _
           "From itemnfvenda, capanfvenda " & _
           "where vi_lojaorigem = vc_lojaorigem and vi_notafiscal = vc_notafiscal and vi_serie = vc_serie and " & _
@@ -1617,17 +1616,17 @@ grdComissao.Visible = True
           "vi_dataemissao between '" & Format(mskDataInicial.Text, "yyyy/mm/dd") & "' and '" & Format(mskDataFinal.Text, "yyyy/mm/dd") & "' " & _
           "group by vi_dataemissao"
    rsComissao.CursorLocation = adUseClient
-   rsComissao.Open SQL, rdoCNMatriz, adOpenForwardOnly, adLockPessimistic
+   rsComissao.Open Sql, rdoCNMatriz, adOpenForwardOnly, adLockPessimistic
    
 
    If rsComissao.EOF = False Then
       Do While rsComissao.EOF = False
            
-           SQL = "select sum(vc_totalnota) as vc_totalnota From capanfvenda " & _
+           Sql = "select sum(vc_totalnota) as vc_totalnota From capanfvenda " & _
                  "where vc_tiponota = 'v' and vc_dataemissao = '" & Format(rsComissao("vi_dataemissao"), "yyyy/mm/dd") & "' and " & _
                  "vc_vendedorlojavenda = '" & wVendedor & "' "
            rsComissaoCapa.CursorLocation = adUseClient
-           rsComissaoCapa.Open SQL, rdoCNMatriz, adOpenForwardOnly, adLockPessimistic
+           rsComissaoCapa.Open Sql, rdoCNMatriz, adOpenForwardOnly, adLockPessimistic
            
            wTotalVenda = wTotalVenda + rsComissaoCapa("vc_totalnota")
            wTotalComissaoVenda = wTotalComissaoVenda + rsComissao("vi_valorComissao")
@@ -1650,23 +1649,23 @@ grdComissao.Visible = True
     End If
 
 
-    SQL = "select sum(vc_totalnota) as vc_totalnota From capanfvenda " & _
+    Sql = "select sum(vc_totalnota) as vc_totalnota From capanfvenda " & _
           "where vc_tiponota = 'E' and vc_vendedorlojavenda = '" & wVendedor & "' and " & _
           "vc_dataemissao between '" & Format(mskDataInicial.Text, "yyyy/mm/dd") & "' and '" & Format(mskDataFinal.Text, "yyyy/mm/dd") & "' "
     rsComissaoCapa.CursorLocation = adUseClient
-    rsComissaoCapa.Open SQL, rdoCNMatriz, adOpenForwardOnly, adLockPessimistic
+    rsComissaoCapa.Open Sql, rdoCNMatriz, adOpenForwardOnly, adLockPessimistic
 
     
     lblValortotalDevolucao.Caption = IIf(IsNull(rsComissaoCapa("vc_totalnota")), "0,00", Format(rsComissaoCapa("vc_totalnota"), "###,###,###,##0.00"))
     rsComissaoCapa.Close
     
-    SQL = "select sum(vi_valorComissao) as vi_valorComissao " & _
+    Sql = "select sum(vi_valorComissao) as vi_valorComissao " & _
           "From itemnfvenda, capanfvenda " & _
           "where vi_lojaorigem = vc_lojaorigem and vi_notafiscal = vc_notafiscal and vi_serie = vc_serie and " & _
           "vc_vendedorlojavenda = '" & wVendedor & "' and vi_tiponota = 'E' and " & _
           "vi_dataemissao between '" & Format(mskDataInicial.Text, "yyyy/mm/dd") & "' and '" & Format(mskDataFinal.Text, "yyyy/mm/dd") & "' "
           rsComissaoCapa.CursorLocation = adUseClient
-          rsComissaoCapa.Open SQL, rdoCNMatriz, adOpenForwardOnly, adLockPessimistic
+          rsComissaoCapa.Open Sql, rdoCNMatriz, adOpenForwardOnly, adLockPessimistic
     
     lblValorTotalComissao.Caption = Format(wTotalComissaoVenda - IIf(IsNull(rsComissaoCapa("vi_ValorComissao")), 0, rsComissaoCapa("vi_ValorComissao")), "###,###,###,##0.00")
     lblValorTotalVendas.Caption = Format(wTotalVenda, "###,###,###,##0.00")
@@ -1767,12 +1766,12 @@ End Sub
 Private Sub CarregagrdNotaFiscal()
 wNomeCliente = ""
 grdNotaFiscal.Rows = 1
-    SQL = "select VC_NotaFiscal,VC_Serie,VC_TotalNota, VC_Cliente,VC_NomeCliente " & _
+    Sql = "select VC_NotaFiscal,VC_Serie,VC_TotalNota, VC_Cliente,VC_NomeCliente " & _
           "From  capanfvenda " & _
           "where vc_vendedorlojavenda= '" & wVendedor & "' and  vc_dataemissao = '" & Format(grdComissao.TextMatrix(wLinhagrd, 0), "yyyy/mm/dd") & "'" & _
           " and vc_tiponota = 'v' order by VC_NotaFiscal"
    rsComissaoCapa.CursorLocation = adUseClient
-   rsComissaoCapa.Open SQL, rdoCNMatriz, adOpenForwardOnly, adLockPessimistic
+   rsComissaoCapa.Open Sql, rdoCNMatriz, adOpenForwardOnly, adLockPessimistic
        Do While rsComissaoCapa.EOF = False
         
         '------- Cliente Loja-------
@@ -1800,11 +1799,11 @@ grdNotaFiscal.Rows = 1
 End Sub
 Private Sub CarregagrditensNf()
 grdItensNF.Rows = 1
-    SQL = "select VI_Referencia,VI_Quantidade,VI_ValorMercadoria,PR_Descricao from  itemnfvenda,Produto " & _
+    Sql = "select VI_Referencia,VI_Quantidade,VI_ValorMercadoria,PR_Descricao from  itemnfvenda,Produto " & _
           " where VI_NotaFiscal=" & grdNotaFiscal.TextMatrix(wLinhagrd, 0) & "   and  VI_Serie ='" & grdNotaFiscal.TextMatrix(wLinhagrd, 1) & "'" & _
           "  and PR_Referencia=VI_Referencia and vi_tiponota = 'V' and vi_lojaorigem='" & wLoja & "' order by vi_referencia"
    rsComissaoCapa.CursorLocation = adUseClient
-   rsComissaoCapa.Open SQL, rdoCNMatriz, adOpenForwardOnly, adLockPessimistic
+   rsComissaoCapa.Open Sql, rdoCNMatriz, adOpenForwardOnly, adLockPessimistic
        Do While rsComissaoCapa.EOF = False
          grdItensNF.AddItem rsComissaoCapa("VI_Referencia") & Chr(9) & _
                               rsComissaoCapa("VI_Quantidade") & Chr(9) & _
@@ -1928,23 +1927,23 @@ Function PesquisaCliente(ByVal tipoPesquisa As Integer, ByVal Cliente As String)
 '--------------------------------Pesquisa Pelo Codigo do Cliente (1)-------------------------
 
     If tipoPesquisa = 1 Then
-        SQL = ""
-        SQL = "select NF.cliente as Codigo_Cliente, NF.Nomcli as Nome_do_Cliente " & _
+        Sql = ""
+        Sql = "select NF.cliente as Codigo_Cliente, NF.Nomcli as Nome_do_Cliente " & _
         "from nfcapa as NF, fin_cliente as FIN " & _
         "where NF.vendedor = '" & Mid(frmPedido.txtVendedor, 1, 2) & "' and DataEmi between '" & Format(mskDataInicial1.Text, "yyyy/mm/dd") & "' and '" & Format(mskDataFinal1.Text, "yyyy/mm/dd") & "' and NF.Cliente <> '999999' and NF.cliente = FIN.ce_codigoCliente " & _
         "and NF.nf <> 0  and FIN.ce_codigoCliente =  '" & txtPesquisaCliente.Text & "' "
 
         rsCodigoCliente.CursorLocation = adUseClient
-        rsCodigoCliente.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+        rsCodigoCliente.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
 ''
 '''
 '''-------------------------------Pesquisa por cgc ou cpf (2) ---------------------------------
 '''
     ElseIf tipoPesquisa = 2 Then
-        SQL = ""
-        SQL = ""
+        Sql = ""
+        Sql = ""
         
-        SQL = "SELECT CAP.VC_CLIENTE as Codigo_Cliente, NF.Nomcli as Nome_do_Cliente  FROM CAPANFVENDA as CAP, FIN_CLIENTE as FIN, NFCAPA as NF " & _
+        Sql = "SELECT CAP.VC_CLIENTE as Codigo_Cliente, NF.Nomcli as Nome_do_Cliente  FROM CAPANFVENDA as CAP, FIN_CLIENTE as FIN, NFCAPA as NF " & _
         "Where VC_CLIENTE = Nf.Cliente " & _
         "AND Vc_VendedorLojaVenda = '" & Mid(frmPedido.txtVendedor.Text, 1, 2) & "' " & _
         "AND CAP.VC_DATAEMISSAO BETWEEN '" & Format(mskDataInicial1.Text, "yyyy/mm/dd") & "' and '" & Format(mskDataFinal1.Text, "yyyy/mm/dd") & "' " & _
@@ -1955,15 +1954,15 @@ Function PesquisaCliente(ByVal tipoPesquisa As Integer, ByVal Cliente As String)
 
         ConectaODBCMatriz
         rsCodigoCliente.CursorLocation = adUseClient
-        rsCodigoCliente.Open SQL, rdoCNMatriz, adOpenForwardOnly, adLockPessimistic
+        rsCodigoCliente.Open Sql, rdoCNMatriz, adOpenForwardOnly, adLockPessimistic
 
 
 '''
 '''-------------------------------Pesquisa Pelo Nome Cliente (3) ---------------------------------
 '''
     ElseIf tipoPesquisa = 3 Then
-        SQL = ""
-        SQL = "select NF.cliente as Codigo_Cliente, NF.Nomcli as Nome_do_Cliente " & _
+        Sql = ""
+        Sql = "select NF.cliente as Codigo_Cliente, NF.Nomcli as Nome_do_Cliente " & _
         "from nfcapa as NF, fin_cliente as FIN " & _
         "where NF.vendedor = '" & Mid(frmPedido.txtVendedor.Text, 1, 3) & "' " & _
         "and DataEmi between '" & Format(mskDataInicial.Text, "yyyy/mm/dd") & "' and " & _
@@ -1971,7 +1970,7 @@ Function PesquisaCliente(ByVal tipoPesquisa As Integer, ByVal Cliente As String)
         "and NF.nf <> 0 and NF.NomCli like '" & txtPesquisaCliente.Text & "%' order by NF.nf "
         
         rsCodigoCliente.CursorLocation = adUseClient
-        rsCodigoCliente.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+        rsCodigoCliente.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
 
     Else
         Exit Function
@@ -2144,10 +2143,10 @@ Dim resultadoNota As String
     
     '--------------------------------Pesquisa Pela Nota do Cliente -------------------------
     
-    SQL = ""
-    SQL = ""
-    SQL = ""
-    SQL = "select  vc_NotaFiscal,vc_serie,vc_dataemissao,vc_TotalNota, vc_Desconto from capanfvenda, itemnfvenda " & _
+    Sql = ""
+    Sql = ""
+    Sql = ""
+    Sql = "select  vc_NotaFiscal,vc_serie,vc_dataemissao,vc_TotalNota, vc_Desconto from capanfvenda, itemnfvenda " & _
     "Where vc_NotaFiscal = VI_NotaFiscal And vc_serie = vi_serie And VI_LojaOrigem = VC_LojaOrigem " & _
     "and vc_DataEmissao between '" & Format(mskDataInicial1.Text, "yyyy/mm/dd") & "' and '" & Format(mskDataFinal1.Text, "yyyy/mm/dd") & "' " & _
     "and VC_VendedorLojaVenda = '" & Mid(frmPedido.txtVendedor, 1, 2) & "' " & _
@@ -2160,7 +2159,7 @@ Dim resultadoNota As String
          
     ConectaODBCMatriz
     rsNotaCliente.CursorLocation = adUseClient
-    rsNotaCliente.Open SQL, rdoCNMatriz, adOpenForwardOnly, adLockPessimistic
+    rsNotaCliente.Open Sql, rdoCNMatriz, adOpenForwardOnly, adLockPessimistic
     
     Do While Not rsNotaCliente.EOF
         grdNotaCliente.AddItem rsNotaCliente("vc_NotaFiscal") & Chr(9) & _
@@ -2183,14 +2182,14 @@ Public Sub SomaNota()
 Dim rsLabelValorNota As New ADODB.Recordset
 Dim resultado As String
 
-    SQL = "select sum(vc_totalNota) as ValorNota from capanfvenda " & _
+    Sql = "select sum(vc_totalNota) as ValorNota from capanfvenda " & _
     "where vc_DataEmissao between '" & Format(mskDataInicial1.Text, "yyyy/mm/dd") & "' and '" & Format(mskDataFinal1.Text, "yyyy/mm/dd") & "' " & _
     "and VC_VendedorLojaVenda = '" & Mid(frmPedido.txtVendedor.Text, 1, 2) & "' " & _
     "and vc_cliente = '" & grdCliente1.TextMatrix(grdCliente1.Row, 0) & "' "
     
     'ConectaODBCMatriz
     rsLabelValorNota.CursorLocation = adUseClient
-    rsLabelValorNota.Open SQL, rdoCNMatriz, adOpenForwardOnly, adLockPessimistic
+    rsLabelValorNota.Open Sql, rdoCNMatriz, adOpenForwardOnly, adLockPessimistic
     
      resultado = rsLabelValorNota("ValorNota")
      lblValorTotalVendas.Caption = resultado
@@ -2208,8 +2207,8 @@ Dim rsItensCliente As New ADODB.Recordset
    
     
      '--------------------------------Pesquisa Pela Itens do Cliente -------------------------
-    SQL = ""
-    SQL = ""
+    Sql = ""
+    Sql = ""
 ''    SQL = "select  NFI.Referencia as Referencia, NFI.QTDE as Qtda, NFI.VLTOTITEM as Valor ,pr_Descricao " & _
 ''    "from nfitens as NFI, fin_cliente as FIN, ProdutoLoja " & _
 ''    "where NFI.nf = '" & grdNotaCliente.TextMatrix(grdNotaCliente.Row, 0) & "' and NFI.referencia = pr_referencia " & _
@@ -2217,7 +2216,7 @@ Dim rsItensCliente As New ADODB.Recordset
 ''    "and NFI.vendedor = '" & Mid(frmPedido.txtVendedor, 1, 2) & "'" & _
 ''    "and NFI.cliente = '" & grdCliente1.TextMatrix(grdCliente1.Row, 0) & "' and NFI.cliente = FIN.ce_codigoCliente"
 
-    SQL = "select vi_referencia,vi_quantidade,vi_valorMercadoria,pr_Descricao  from itemnfvenda , capanfvenda, produto " & _
+    Sql = "select vi_referencia,vi_quantidade,vi_valorMercadoria,pr_Descricao  from itemnfvenda , capanfvenda, produto " & _
     "Where VC_NotaFiscal = VI_NotaFiscal And vc_serie = vi_serie And VI_LojaOrigem = VC_LojaOrigem And pr_referencia = vi_referencia " & _
     "and vi_DataEmissao between '" & Format(mskDataInicial1.Text, "yyyy/mm/dd") & "' and '" & Format(mskDataFinal1.Text, "yyyy/mm/dd") & "'" & _
     "and Vc_VendedorLojaVenda = '" & Mid(frmPedido.txtVendedor, 1, 2) & "'" & _
@@ -2228,7 +2227,7 @@ Dim rsItensCliente As New ADODB.Recordset
 
    'ConectaODBCMatriz
     rsItensCliente.CursorLocation = adUseClient
-    rsItensCliente.Open SQL, rdoCNMatriz, adOpenForwardOnly, adLockPessimistic
+    rsItensCliente.Open Sql, rdoCNMatriz, adOpenForwardOnly, adLockPessimistic
 
 
     Do While Not rsItensCliente.EOF
@@ -2252,8 +2251,8 @@ Public Sub SomaItens()
     
     lblValorTotalVendas.Caption = ""
     
-   SQL = ""
-   SQL = "select sum(vi_valorMercadoria) as ValorNota from itemnfvenda,capanfvenda, produto " & _
+   Sql = ""
+   Sql = "select sum(vi_valorMercadoria) as ValorNota from itemnfvenda,capanfvenda, produto " & _
    "Where VC_NotaFiscal = VI_NotaFiscal And vc_serie = vi_serie And VI_LojaOrigem = VC_LojaOrigem And pr_referencia = vi_referencia " & _
    "and vi_DataEmissao between '" & Format(mskDataInicial1.Text, "yyyy/mm/dd") & "' and '" & Format(mskDataFinal1.Text, "yyyy/mm/dd") & "' " & _
    "and Vc_VendedorLojaVenda = '" & Mid(frmPedido.txtVendedor.Text, 1, 2) & "'" & _
@@ -2261,7 +2260,7 @@ Public Sub SomaItens()
         
     'ConectaODBCMatriz
     rsLabelValor.CursorLocation = adUseClient
-    rsLabelValor.Open SQL, rdoCNMatriz, adOpenForwardOnly, adLockPessimistic
+    rsLabelValor.Open Sql, rdoCNMatriz, adOpenForwardOnly, adLockPessimistic
     
     resultado = rsLabelValor("ValorNota")
     lblValorTotalVendas.Caption = resultado

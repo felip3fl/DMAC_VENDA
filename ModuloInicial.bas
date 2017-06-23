@@ -112,10 +112,10 @@ On Error GoTo ConexaoErro:
 'adoCNLoja.Properties("User ID").Value = GLB_Usuario
 'adoCNLoja.Properties("Password").Value = GLB_Senha
 
-If ConexaoDLLAdo.abrirConexaoADO(adoCNLoja, GLB_Servidorlocal, Glb_BancoLocal) Then
-    GLB_ConectouOK = True
-    Exit Sub
-End If
+    If ConexaoDLLAdo.abrirConexaoADO(adoCNLoja, GLB_Servidorlocal, Glb_BancoLocal) Then
+        GLB_ConectouOK = True
+        Exit Sub
+    End If
 
 'adoCNLoja.Open
 
@@ -125,8 +125,7 @@ End If
 ConexaoErro:
 MsgBox "Erro ao abrir banco de localizacao! "
 
-
-GLB_ConectouOK = False
+    GLB_ConectouOK = False
   
    
 Exit Sub

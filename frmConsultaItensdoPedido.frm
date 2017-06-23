@@ -6,8 +6,8 @@ Begin VB.Form frmConsultaItensdoPedido
    BorderStyle     =   0  'None
    Caption         =   "Compras"
    ClientHeight    =   5880
-   ClientLeft      =   7485
-   ClientTop       =   2460
+   ClientLeft      =   6270
+   ClientTop       =   2250
    ClientWidth     =   6600
    ControlBox      =   0   'False
    LinkTopic       =   "Form2"
@@ -193,7 +193,7 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 'Dim rsItensVenda As rdoResultset
-Dim SQL As String
+Dim Sql As String
 Dim wTotalitens As Integer
 Private Sub cmdRetorna_Click()
   Unload Me
@@ -219,11 +219,11 @@ Private Sub CarregaItens()
 
   grdItensProduto.Rows = 1
   
-  SQL = "Select NFItens.*, PR_Descricao From NFItens,ProdutoLoja " _
+  Sql = "Select NFItens.*, PR_Descricao From NFItens,ProdutoLoja " _
         & "Where Referencia = PR_Referencia and NumeroPed = " & txtpedido.Text _
         & " Order By Item"
   rsItensVenda.CursorLocation = adUseClient
-  rsItensVenda.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+  rsItensVenda.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
   
   If Not rsItensVenda.EOF Then
      Do While Not rsItensVenda.EOF
@@ -244,7 +244,7 @@ End Sub
 
 Private Sub grdItensProduto_DblClick()
 
-Dim i As Byte
+Dim I As Byte
 
 On Error GoTo erronaUpdate
 
@@ -256,11 +256,11 @@ On Error GoTo erronaUpdate
 '*************************** ItensVenda TraderCaixa
 
          
-    SQL = "Delete NFItens Where NumeroPed = " & txtpedido.Text & " and " _
+    Sql = "Delete NFItens Where NumeroPed = " & txtpedido.Text & " and " _
           & "Item = " & grdItensProduto.TextMatrix(grdItensProduto.Row, 0) & " and " _
           & "Referencia = '" & Mid(grdItensProduto.TextMatrix(grdItensProduto.Row, 1), 1, 7) & "'"
          
-         adoCNLoja.Execute (SQL)
+         adoCNLoja.Execute (Sql)
          
          Screen.MousePointer = vbNormal
          adoCNLoja.CommitTrans
@@ -268,12 +268,12 @@ On Error GoTo erronaUpdate
     Call SomaItensVenda
     Call CarregaItens
     
-        For i = grdItensProduto.FixedRows To grdItensProduto.Rows - 1
-            SQL = "update NFItens set item = " & i & " Where NumeroPed = " & txtpedido.Text & " and " _
-            & "Referencia = '" & Mid(grdItensProduto.TextMatrix(i, 1), 1, 7) & "'"
-            grdItensProduto.TextMatrix(i, 0) = i
-            adoCNLoja.Execute (SQL)
-        Next i
+        For I = grdItensProduto.FixedRows To grdItensProduto.Rows - 1
+            Sql = "update NFItens set item = " & I & " Where NumeroPed = " & txtpedido.Text & " and " _
+            & "Referencia = '" & Mid(grdItensProduto.TextMatrix(I, 1), 1, 7) & "'"
+            grdItensProduto.TextMatrix(I, 0) = I
+            adoCNLoja.Execute (Sql)
+        Next I
     
     If wTotalitens = 0 Then
        frmPedido.cmdTotalPedido.Caption = Format(0, "0.00") '+ "           "
@@ -297,12 +297,12 @@ End Sub
 
 Private Sub SomaItensVenda()
 
-SQL = ""
-SQL = "Select Sum(VLUNIT * Qtde) as TotalVenda, Count(*) as TotalItens From NFItens " _
+Sql = ""
+Sql = "Select Sum(VLUNIT * Qtde) as TotalVenda, Count(*) as TotalItens From NFItens " _
       & "Where Numeroped = " & txtpedido.Text & " and TipoNota = 'PD'"
  
   rsItensVenda.CursorLocation = adUseClient
-  rsItensVenda.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+  rsItensVenda.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
   
   frmPedido.cmdTotalPedido.Caption = Format(rsItensVenda("TotalVenda") + GBL_Frete, "###,###,##0.00")
   frmPedido.cmdQtdeItens.Caption = rsItensVenda("TotalItens")
