@@ -190,24 +190,24 @@ End Sub
 
 Private Sub FechaCotacao()
     
-    Dim SQL As String
+    Dim Sql As String
     
-    SQL = "Select sum(vltotitem) as vlrmercadoria, sum(vltotitem - desconto) as totalnota " & _
+    Sql = "Select sum(vltotitem) as vlrmercadoria, sum(vltotitem - desconto) as totalnota " & _
     "from nfitens where numeroped = " & txtpedido.Text
     rsComplementoVenda.CursorLocation = adUseClient
-    rsComplementoVenda.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+    rsComplementoVenda.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
     
-    SQL = ""
-    SQL = "Update NFCapa set TipoNota = 'PD', vlrmercadoria = " & ConverteVirgula(Format(rsComplementoVenda("vlrmercadoria"), "##0.00")) & _
+    Sql = ""
+    Sql = "Update NFCapa set TipoNota = 'PD', vlrmercadoria = " & ConverteVirgula(Format(rsComplementoVenda("vlrmercadoria"), "##0.00")) & _
     ", TotalNota = " & ConverteVirgula(Format(rsComplementoVenda("Totalnota"), "##0.00")) & _
     " Where NumeroPed = " & txtpedido.Text
-    adoCNLoja.Execute SQL
+    adoCNLoja.Execute Sql
     
-    SQL = ""
-    SQL = "Update NFItens Set TipoNota = 'PD' Where NumeroPed = " & txtpedido.Text
-    adoCNLoja.Execute SQL
+    Sql = ""
+    Sql = "Update NFItens Set TipoNota = 'PD' Where NumeroPed = " & txtpedido.Text
+    adoCNLoja.Execute Sql
     
-    SQL = ""
+    Sql = ""
     
     Call LimpaTR
     rsComplementoVenda.Close
