@@ -1754,6 +1754,19 @@ Private Sub Form_Activate()
  tmrTroca.Interval = 1
  validaDados wNumeroClientePedido
  
+    If txt_cnpj <> "" Then
+        txtCnpj.Text = txt_cnpj
+        txt_cnpj = ""
+    End If
+    If txt_razaosocial <> "" Then
+        txtRazaoSocial.Text = txt_razaosocial
+        txt_razaosocial = ""
+    End If
+    If txt_inscricaoestadual <> "" Then
+        txtInscricaoEstadual.Text = txt_inscricaoestadual
+        txt_inscricaoestadual = ""
+    End If
+ 
 End Sub
 
 Private Sub Form_Load()
@@ -1844,6 +1857,8 @@ End If
 
     
        adoCliente.Close
+       
+       
         
     
 End Sub
@@ -3504,6 +3519,16 @@ Function AtualizaCliente(ByVal codigo As Double) As Boolean
     End If
 
     If Trim(txtCnpj.Text) <> "" Then
+    
+         If Len(txtCnpj.Text) <> 11 And Len(txtCnpj.Text) <> 14 Then
+              lblClite(4).ForeColor = vbRed
+              'txtCnpj.Locked = True
+              txtCnpj.SetFocus
+              txtCnpj.SelStart = 0
+              txtCnpj.SelLength = Len(txtCnpj.Text)
+              Screen.MousePointer = 0
+              AtualizaCliente False
+        End If
 
         If Len(txtCnpj.Text) = 11 And UCase(Mid(cmbPessoa.Text, 1, 1)) <> "F" Then
               lblClite(4).ForeColor = vbRed
@@ -3687,6 +3712,16 @@ Function GravaCliente() As Boolean
 
 
     If Trim(txtCnpj.Text) <> "" Then
+    
+        If Len(txtCnpj.Text) <> 11 And Len(txtCnpj.Text) <> 14 Then
+              lblClite(4).ForeColor = vbRed
+              'txtCnpj.Locked = True
+              txtCnpj.SetFocus
+              txtCnpj.SelStart = 0
+              txtCnpj.SelLength = Len(txtCnpj.Text)
+              Screen.MousePointer = 0
+              AtualizaCliente False
+        End If
 
         If Len(txtCnpj.Text) = 11 And UCase(Mid(cmbPessoa.Text, 1, 1)) <> "F" Then
               lblClite(4).ForeColor = vbRed

@@ -150,3 +150,6 @@ Global wLiberaBloqueioPreco As Boolean
 Global wCodigoCliente As String
 
 Global txt_url As String
+Global txt_razaosocial As String
+Global txt_inscricaoestadual As String
+Global txt_cnpj As String

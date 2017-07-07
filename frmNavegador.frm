@@ -210,8 +210,13 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 
 Private Sub cmdRetornar_Click()
-TerminateProcess ("iexplore.exe")
-Unload Me
+    If fmrDadosCliente.Visible = True Then
+        txt_cnpj = txtCnpj.Text
+        txt_razaosocial = txtRazaoSocial.Text
+        txt_inscricaoestadual = txtInscricaoEstadual.Text
+    End If
+    TerminateProcess ("iexplore.exe")
+    Unload Me
 End Sub
 
 Private Sub Form_Load()
