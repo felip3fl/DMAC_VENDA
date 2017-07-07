@@ -276,7 +276,7 @@ Begin VB.Form frmPedido
          NoFolders       =   0   'False
          Transparent     =   0   'False
          ViewID          =   "{0057D0E0-3573-11CF-AE69-08002B2E1262}"
-         Location        =   ""
+         Location        =   "http:///"
       End
    End
    Begin VB.Frame fraCondicao 
@@ -554,7 +554,7 @@ Begin VB.Form frmPedido
          NoFolders       =   0   'False
          Transparent     =   0   'False
          ViewID          =   "{0057D0E0-3573-11CF-AE69-08002B2E1262}"
-         Location        =   ""
+         Location        =   "http:///"
       End
    End
    Begin VB.Timer tmrRefresh 
@@ -2090,7 +2090,7 @@ End Sub
 
 Private Sub Form_Load()
 
-Timer4.Enabled = True
+Timer4.Enabled = False
 
 cmdVersao.Height = 615
 cmdBotoes(0).Height = 460
@@ -2706,7 +2706,7 @@ End Sub
 Private Sub txtPedido_GotFocus()
 
    tempoRestante = "00:10:00"
-   Timer4.Enabled = True
+   Timer4.Enabled = False
    
    WebBrowser1.Navigate (wBanner2)
    
@@ -3961,17 +3961,17 @@ Function CriaCapaPedido(ByVal NumeroPedido As Double)
      
 End Function
 
-Private Sub wbFichaTecnica_NavigateComplete2(ByVal pDisp As Object, URL As Variant)
+Private Sub wbFichaTecnica_NavigateComplete2(ByVal pDisp As Object, url As Variant)
     Set objDoc = wbFichaTecnica.Document
     Set objWind = objDoc.parentWindow
 End Sub
 
-Private Sub wbInternet_NavigateComplete2(ByVal pDisp As Object, URL As Variant)
+Private Sub wbInternet_NavigateComplete2(ByVal pDisp As Object, url As Variant)
     Set objDoc = wbFichaTecnica.Document
    ' Set objWind = objDoc.parentWindow
 End Sub
 
-Private Sub objWind_onerror(ByVal description As String, ByVal URL As String, ByVal line As Long)
+Private Sub objWind_onerror(ByVal description As String, ByVal url As String, ByVal line As Long)
     Set objEvent = objWind.event
     objEvent.returnValue = True
 End Sub
