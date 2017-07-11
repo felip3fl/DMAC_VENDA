@@ -6,8 +6,8 @@ Begin VB.Form frmCliente
    BorderStyle     =   0  'None
    Caption         =   "Cadastro de Cliente"
    ClientHeight    =   5895
-   ClientLeft      =   21165
-   ClientTop       =   3165
+   ClientLeft      =   3090
+   ClientTop       =   3465
    ClientWidth     =   15255
    LinkTopic       =   "Form1"
    LockControls    =   -1  'True
@@ -2758,7 +2758,7 @@ Private Sub txtMunicipio_Change()
 End Sub
 
 Private Sub txtMunicipio_GotFocus()
-If (grdMunicipio.TextMatrix(2, 1) <> "") Then
+If Mid(grdMunicipio, 2, 1) <> "" Then
     grdMunicipio.ZOrder
     grdMunicipio.Visible = True
 End If
@@ -3527,7 +3527,7 @@ Function AtualizaCliente(ByVal codigo As Double) As Boolean
               txtCnpj.SelStart = 0
               txtCnpj.SelLength = Len(txtCnpj.Text)
               Screen.MousePointer = 0
-              AtualizaCliente False
+              AtualizaCliente = False
         End If
 
         If Len(txtCnpj.Text) = 11 And UCase(Mid(cmbPessoa.Text, 1, 1)) <> "F" Then
