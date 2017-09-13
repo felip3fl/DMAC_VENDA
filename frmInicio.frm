@@ -116,7 +116,7 @@ rdoConexaoINI.Open Sql, adoCNAccess, adOpenForwardOnly, adLockPessimistic
 
   ConectaODBC
   
-  ShellExecute hwnd, "open", ("C:\Sistemas\DMAC Venda\limpaCache"), "", "", 1
+  'ShellExecute hwnd, "open", ("C:\Sistemas\DMAC Venda\limpaCache"), "", "", 1
     
 Continua:
 
