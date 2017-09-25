@@ -6,8 +6,8 @@ Begin VB.Form frmTrocaModalidadeVenda
    BorderStyle     =   0  'None
    Caption         =   "Modalidade"
    ClientHeight    =   6180
-   ClientLeft      =   6225
-   ClientTop       =   2610
+   ClientLeft      =   5520
+   ClientTop       =   2835
    ClientWidth     =   6570
    ForeColor       =   &H00FFFFFF&
    LinkTopic       =   "Form2"
@@ -326,6 +326,12 @@ Dim wdata As String
 'Dim wPagamentototal As String
 
 Private Sub cmbGravar_Click()
+
+      If grdModalidade.TextMatrix(grdModalidade.Row, 0) = "Financiado" Or grdModalidade.TextMatrix(grdModalidade.Row, 0) = "Cheque" Then
+        grdModalidade.Row = 1
+        grdPrecos.Row = 1
+      End If
+
       grdPrecos_Click
       wPagamento = grdPrecos.TextMatrix(grdPrecos.RowSel, 0)
       wPagamentototal = grdPrecos.TextMatrix(grdPrecos.RowSel, 2)
@@ -402,6 +408,7 @@ wPagamentototal = ""
  grdModalidade.AddItem "Cartão"
  grdModalidade.AddItem "Faturado"
  grdModalidade.AddItem "Financiado"
+ grdModalidade.AddItem "Cheque"
  
  grdModalidade.Row = 1
 ' grdModalidade_Click
@@ -499,6 +506,8 @@ Private Sub grdModalidade_EnterCell()
        Call MontaPrecos("FA")
     ElseIf grdModalidade.TextMatrix(grdModalidade.Row, 0) = "Financiado" Then
        Call MontaPrecos("FI")
+    ElseIf grdModalidade.TextMatrix(grdModalidade.Row, 0) = "Cheque" Then
+       Call MontaPrecos("CH")
     End If
 End Sub
 
