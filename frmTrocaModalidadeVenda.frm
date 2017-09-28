@@ -330,12 +330,13 @@ Private Sub cmbGravar_Click()
     Dim financiado As Boolean
     Dim codigo As Integer
 
-      If grdModalidade.TextMatrix(grdModalidade.Row, 0) = "Financiado" Or grdModalidade.TextMatrix(grdModalidade.Row, 0) = "Cheque" Then
+      If grdModalidade.TextMatrix(grdModalidade.Row, 0) Like "Finan*" Then
+        codigo = wCodigo
         grdModalidade.Row = 1
         grdPrecos.Row = 1
         grdPrecos_Click
         financiado = True
-        codigo = wCodigo
+        
       End If
 
       grdPrecos_Click
