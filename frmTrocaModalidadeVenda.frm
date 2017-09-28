@@ -327,9 +327,15 @@ Dim wdata As String
 
 Private Sub cmbGravar_Click()
 
+    Dim financiado As Boolean
+    Dim codigo As Integer
+
       If grdModalidade.TextMatrix(grdModalidade.Row, 0) = "Financiado" Or grdModalidade.TextMatrix(grdModalidade.Row, 0) = "Cheque" Then
         grdModalidade.Row = 1
         grdPrecos.Row = 1
+        grdPrecos_Click
+        financiado = True
+        codigo = wCodigo
       End If
 
       grdPrecos_Click
@@ -341,6 +347,11 @@ Private Sub cmbGravar_Click()
       adoCNLoja.Execute Sql
       frmPedido.cmdTotalPedido.Caption = Format(wTotalPedido, "###,###,##0.00")
       wGravaModalidade = True
+
+      If financiado Then
+            Sql = "update nfcapa set CONDPAG = '200',ModalidadeVenda = 'FI',Parcelas=(select top 1 CP_Parcelas from CondicaoPagamento where CP_Codigo = " & codigo & ") where numeroped = '" & wNroPedido & "'"
+            adoCNLoja.Execute Sql
+      End If
 
 'If Not mskDataInf.Visible Then
 If wdata <> "" Then
@@ -408,7 +419,7 @@ wPagamentototal = ""
  grdModalidade.AddItem "Cartão"
  grdModalidade.AddItem "Faturado"
  grdModalidade.AddItem "Financiado"
- grdModalidade.AddItem "Cheque"
+ grdModalidade.AddItem "Finan. / Cheque"
  
  grdModalidade.Row = 1
 ' grdModalidade_Click
