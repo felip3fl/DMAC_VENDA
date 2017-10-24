@@ -350,7 +350,7 @@ Private Sub cmbGravar_Click()
       wGravaModalidade = True
 
       If financiado Then
-            Sql = "update nfcapa set CONDPAG = '200',ModalidadeVenda = 'FI',Parcelas=(select top 1 CP_Parcelas from CondicaoPagamento where CP_Codigo = " & codigo & ") where numeroped = '" & wNroPedido & "'"
+            Sql = "update nfcapa set CONDPAG = '3', ModalidadeVenda = 'FI', Parcelas=1 where numeroped = '" & wNroPedido & "'"
             adoCNLoja.Execute Sql
       End If
 
@@ -518,7 +518,7 @@ Private Sub grdModalidade_EnterCell()
        Call MontaPrecos("FA")
     ElseIf grdModalidade.TextMatrix(grdModalidade.Row, 0) = "Financiado" Then
        Call MontaPrecos("FI")
-    ElseIf grdModalidade.TextMatrix(grdModalidade.Row, 0) = "Cheque" Then
+    ElseIf grdModalidade.TextMatrix(grdModalidade.Row, 0) = "Finan. / Cheque" Then
        Call MontaPrecos("CH")
     End If
 End Sub
