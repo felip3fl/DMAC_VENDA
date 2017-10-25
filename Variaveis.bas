@@ -24,6 +24,7 @@ Global rdoConPag As New ADODB.Recordset
 Global rsPegaNumeroPedido As New ADODB.Recordset
 Global rsVendedor As New ADODB.Recordset
 Global rsCondicaoFaturado As New ADODB.Recordset
+Global rsCondicaoFaturadoCentavos As New ADODB.Recordset
 Global rsDadosGerais As New ADODB.Recordset
 Global rsCarregaLoja As New ADODB.Recordset
 Global rsHabilitaOpcoes As New ADODB.Recordset
