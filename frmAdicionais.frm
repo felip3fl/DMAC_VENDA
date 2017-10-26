@@ -413,7 +413,7 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
-Dim Sql As String
+Dim SQL As String
 Dim wTipoFrete As Integer
 
 Private Sub chameleonButton1_Click()
@@ -467,13 +467,13 @@ Private Sub cmdGrava_Click()
      End If
 
 
-      Sql = ""
-      Sql = "Update NFCapa set pgentra = " & ConverteVirgula(Format(txtEntrada.Text, "###,##0.00")) & _
+      SQL = ""
+      SQL = "Update NFCapa set pgentra = " & ConverteVirgula(Format(txtEntrada.Text, "###,##0.00")) & _
             ", cliente = " & txtCodigoCliente.Text & ", tipofrete = " & wTipoFrete & _
             ", pesoLq = " & ConverteVirgula(txtPesoVolume.Text) & ", pesoBr = " & ConverteVirgula(txtPesoVolume.Text) & _
             ", volume = " & ConverteVirgula(txtQtdeVolume.Text) & _
             " Where Numeroped = " & frmPedido.txtpedido.Text
-      adoCNLoja.Execute (Sql)
+      adoCNLoja.Execute (SQL)
 
 Unload Me
 
@@ -509,11 +509,11 @@ Private Sub Form_Activate()
   optFreteDestinatario.Value = False
   optFreteEmitente.Value = True
   
-  Sql = ""
-  Sql = "select nfcapa.CONDPAG as condpag from nfcapa " & _
+  SQL = ""
+  SQL = "select nfcapa.CONDPAG as condpag from nfcapa " & _
         "where nfcapa.numeroped = " & frmPedido.txtpedido.Text
   rsCliente.CursorLocation = adUseClient
-  rsCliente.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+  rsCliente.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
 
   
   If Val(rsCliente("condpag")) > 1 Then
@@ -530,14 +530,14 @@ Private Sub Form_Activate()
   
   rsCliente.Close
     
-  Sql = ""
-  Sql = "select nfcapa.cliente as Codigo, fin_cliente.ce_razao as Nome, nfcapa.pesolq, nfcapa.volume, nfcapa.pgentra, " & _
+  SQL = ""
+  SQL = "select nfcapa.cliente as Codigo, fin_cliente.ce_razao as Nome, nfcapa.pesolq, nfcapa.volume, nfcapa.pgentra, " & _
         "nfcapa.garantiaEstendida as GE, nfcapa.CONDPAG " & _
         "from fin_cliente, nfcapa " & _
         "where nfcapa.cliente = fin_cliente.ce_codigocliente and nfcapa.numeroped = " & frmPedido.txtpedido.Text
         '''AQUI ERRO
             rsCliente.CursorLocation = adUseClient
-            rsCliente.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+            rsCliente.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
             
   If Not rsCliente.EOF Then
     txtQtdeVolume.Text = rsCliente("volume")
@@ -605,11 +605,11 @@ Private Sub txtCodigoCliente_KeyDown(KeyCode As Integer, Shift As Integer)
     If KeyCode = vbKeyF1 Then
         If txtCodigoCliente.Text = "999999" Then
         
-          Sql = "select nfcapa.CONDPAG as condpag, " & _
+          SQL = "select nfcapa.CONDPAG as condpag, " & _
           "nfcapa.garantiaEstendida as garantiaEstendida from nfcapa " & _
           "where nfcapa.numeroped = " & frmPedido.txtpedido.Text
           rsCliente.CursorLocation = adUseClient
-          rsCliente.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+          rsCliente.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
     
           If rsCliente("condPag") = "01" And rsCliente("garantiaEstendida") <> "S" Then
               cmdGrava_Click
@@ -656,11 +656,11 @@ Private Sub VerificaCliente()
     rsCliente.Close
  End If
  
-     Sql = ""
-  Sql = "select nfcapa.cliente as Codigo, nfcapa.CONDPAG as condpag, fin_cliente.ce_razao as Nome, nfcapa.pgentra as entrada from fin_cliente, nfcapa " & _
+     SQL = ""
+  SQL = "select nfcapa.cliente as Codigo, nfcapa.CONDPAG as condpag, fin_cliente.ce_razao as Nome, nfcapa.pgentra as entrada from fin_cliente, nfcapa " & _
         "where nfcapa.cliente = fin_cliente.ce_codigocliente and nfcapa.numeroped = " & frmPedido.txtpedido.Text
   rsCliente.CursorLocation = adUseClient
-  rsCliente.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+  rsCliente.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
   
 
   If IsNumeric(txtCodigoCliente) = False And txtCodigoCliente <> "" Then
@@ -691,7 +691,7 @@ Private Sub VerificaCliente()
          rsCliente.Close
          Exit Sub
          
-  ElseIf Val(txtCodigoCliente.Text) = 999999 Or txtCodigoCliente = "0" Or txtCodigoCliente = "900000" Then
+  ElseIf txtCodigoCliente = "999999" Or txtCodigoCliente = "0" Or txtCodigoCliente = "900000" Then
         If pedidoComGarantia(frmPedido.txtpedido) Then
             MsgBox "Não é permitido cliente consumidor para Garantia Estendida"
             txtCodigoCliente.Text = ""
@@ -702,16 +702,13 @@ Private Sub VerificaCliente()
         End If
         rsCliente.Close
          
-  ElseIf Val(txtCodigoCliente.Text) >= 900000 And Val(rsCliente("condpag")) > 3 And (Val(rsCliente("condpag")) < 199) Then
+  ElseIf txtCodigoCliente >= "900000" And Val(rsCliente("condpag")) > 3 Then
          MsgBox "Faturamento não permitido para esse cliente"
          txtCodigoCliente.Text = ""
          txtNomeCliente.Text = ""
          txtCodigoCliente.SetFocus
          rsCliente.Close
          Exit Sub
-         
-
-         
   ElseIf txtCodigoCliente = "" Then
          If rsCliente("Codigo") > 0 And rsCliente("Codigo") <= 999999 Then
                  txtCodigoCliente.Text = rsCliente("Codigo")
@@ -735,12 +732,12 @@ Private Sub VerificaCliente()
   
          rsCliente.Close
          
-         Sql = ""
-         Sql = "select ce_CodigoCliente,ce_razao from FIN_Cliente " & _
+         SQL = ""
+         SQL = "select ce_CodigoCliente,ce_razao from FIN_Cliente " & _
                "where ce_CodigoCliente = " & txtCodigoCliente
          
          rsCliente.CursorLocation = adUseClient
-         rsCliente.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+         rsCliente.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
 
          If Not rsCliente.EOF Then
                  txtCodigoCliente.Text = rsCliente("ce_CodigoCliente")
@@ -844,11 +841,11 @@ Public Function pedidoComGarantia(NumeroPedido As String) As Boolean
     Dim rsProdutoGarantiaEstendida As New ADODB.Recordset
     
     pedidoComGarantia = False
-    Sql = "select count(*) garantiaEstendida " & _
+    SQL = "select count(*) garantiaEstendida " & _
           "from nfcapa where numeroPed = " & NumeroPedido & " and garantiaEstendida = 'S'"
     
     rsProdutoGarantiaEstendida.CursorLocation = adUseClient
-    rsProdutoGarantiaEstendida.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+    rsProdutoGarantiaEstendida.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
     
     If rsProdutoGarantiaEstendida("garantiaEstendida") > 0 Then
         pedidoComGarantia = True
