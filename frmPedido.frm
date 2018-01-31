@@ -9,8 +9,8 @@ Begin VB.Form frmPedido
    BorderStyle     =   0  'None
    Caption         =   "DMAC Venda"
    ClientHeight    =   10440
-   ClientLeft      =   2250
-   ClientTop       =   465
+   ClientLeft      =   2700
+   ClientTop       =   165
    ClientWidth     =   15390
    ControlBox      =   0   'False
    FillColor       =   &H00404040&
@@ -276,7 +276,7 @@ Begin VB.Form frmPedido
          NoFolders       =   0   'False
          Transparent     =   0   'False
          ViewID          =   "{0057D0E0-3573-11CF-AE69-08002B2E1262}"
-         Location        =   ""
+         Location        =   "http:///"
       End
    End
    Begin VB.Frame fraCondicao 
@@ -554,7 +554,7 @@ Begin VB.Form frmPedido
          NoFolders       =   0   'False
          Transparent     =   0   'False
          ViewID          =   "{0057D0E0-3573-11CF-AE69-08002B2E1262}"
-         Location        =   ""
+         Location        =   "http:///"
       End
    End
    Begin VB.Timer tmrRefresh 
@@ -1630,6 +1630,26 @@ Begin VB.Form frmPedido
       CHECK           =   0   'False
       VALUE           =   0   'False
    End
+   Begin VB.Label LBLStatusTIME 
+      BackColor       =   &H80000007&
+      Caption         =   "Label5"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   18
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H00FFFFFF&
+      Height          =   1035
+      Left            =   15420
+      TabIndex        =   57
+      Top             =   5025
+      Visible         =   0   'False
+      Width           =   4065
+   End
    Begin VB.Image imgIconBandeja 
       Height          =   240
       Left            =   375
@@ -1918,11 +1938,11 @@ Private Sub cmdBotoes_Click(Index As Integer)
         
         adoCNLoja.BeginTrans
         Screen.MousePointer = vbHourglass
-        Sql = "Delete NFItens Where NumeroPed = " & txtPedido.Text & " and TipoNota = 'PD'"
+        Sql = "Delete NFItens Where NumeroPed = " & txtpedido.Text & " and TipoNota = 'PD'"
         adoCNLoja.Execute Sql
-        Sql = "Delete CarimboNotaFiscal where cnf_NumeroPed = " & txtPedido.Text
+        Sql = "Delete CarimboNotaFiscal where cnf_NumeroPed = " & txtpedido.Text
         adoCNLoja.Execute Sql
-        Sql = "Delete NFCapa Where TipoNota = 'PD' and NumeroPed = " & txtPedido.Text
+        Sql = "Delete NFCapa Where TipoNota = 'PD' and NumeroPed = " & txtpedido.Text
         adoCNLoja.Execute Sql
         Screen.MousePointer = vbNormal
         adoCNLoja.CommitTrans
@@ -1996,7 +2016,7 @@ Private Sub cmdBotoes_MouseOut(Index As Integer)
 End Sub
 
 Private Sub CmdDesfaz_Click()
-  FrmDesfazProcesso.txtPedido = txtPedido.Text
+  FrmDesfazProcesso.txtpedido = txtpedido.Text
   FrmDesfazProcesso.Show 1
   FrmDesfazProcesso.ZOrder
 End Sub
@@ -2004,7 +2024,7 @@ End Sub
 Private Sub cmdFechaPedido_Click()
 
     Dim rsCotacao As New ADODB.Recordset
-    Sql = "select cliente from nfcapa where numeroped = " & frmPedido.txtPedido.Text
+    Sql = "select cliente from nfcapa where numeroped = " & frmPedido.txtpedido.Text
     
     rsCotacao.CursorLocation = adUseClient
     rsCotacao.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
@@ -2081,20 +2101,27 @@ Private Sub Form_Activate()
 End Sub
 
 Private Sub Form_Click()
-    If txtPedido.Enabled And txtPedido.Visible Then
-        txtPedido.SetFocus
+    If txtpedido.Enabled And txtpedido.Visible Then
+        txtpedido.SetFocus
     'ElseIf txtPesquisar.Enabled And txtPesquisar.Visible Then
         'txtPesquisar.SetFocus
     End If
 End Sub
 
+Private Sub Form_KeyPress(KeyAscii As Integer)
+    tempoRestante = "00:00:10"
+    LBLStatusTIME.Caption = tempoRestante
+End Sub
+
 Private Sub Form_Load()
 
-Timer4.Enabled = False
+Timer4.Enabled = True
+LBLStatusTIME.Caption = Timer4.Enabled
 
 cmdVersao.Height = 615
 cmdBotoes(0).Height = 460
-tempoRestante = "00:10:00"
+tempoRestante = "00:00:10"
+LBLStatusTIME.Caption = tempoRestante
 lblBloqueio.Text = ""
 
 picLimitadorBanner.ZOrder 0
@@ -2402,7 +2429,7 @@ End Sub
 
 Private Sub verificaLiberacaoPreco()
     Dim rdoLiberaPedido As New ADODB.Recordset
-    Sql = "Select LiberaBloqueio from nfcapa where numeroped = " & txtPedido.Text
+    Sql = "Select LiberaBloqueio from nfcapa where numeroped = " & txtpedido.Text
 
     rdoLiberaPedido.CursorLocation = adUseClient
     rdoLiberaPedido.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
@@ -2451,7 +2478,8 @@ Private Sub grdItensProduto_RowColChange()
 
     If alterandoCORGrid = False Then
 
-tempoRestante = "00:10:00"
+tempoRestante = "00:00:10"
+LBLStatusTIME.Caption = tempoRestante
 
  txtPesquisar.Text = grdItensProduto.TextMatrix(grdItensProduto.Row, 1)
  grdDadosProduto.TextMatrix(1, 0) = grdItensProduto.TextMatrix(grdItensProduto.Row, 16)  'Fornecedor
@@ -2556,7 +2584,7 @@ Private Sub cmbPedido_Click()
 If cmdQtdeItens.Caption <> 0 Then
     frmConsultaItensdoPedido.Show 1
     frmConsultaItensdoPedido.ZOrder
-ElseIf frmPedido.txtPedido.Text = "" Then
+ElseIf frmPedido.txtpedido.Text = "" Then
     frmConsultaPedido.Show 1
     frmConsultaPedido.ZOrder
 End If
@@ -2615,12 +2643,17 @@ End Sub
 Private Sub Timer4_Timer()
     If tempoRestante <> "00:00:00" Then
         tempoRestante = DateAdd("s", -1, tempoRestante)
+        LBLStatusTIME.Caption = tempoRestante
     Else
 '        MsgBox "OI"
-'        WebBrowser1.Refresh
+        'WebBrowser1.Refresh
         'WebBrowser1.SetFocus
-        frmTrocaVersao.Show 1
-        Timer4.Enabled = False
+        WebBrowser1_GotFocus
+        'Timer4.Enabled = True
+        
+        tempoRestante = "00:00:10"
+        LBLStatusTIME.Caption = tempoRestante
+        
     End If
 End Sub
 
@@ -2697,16 +2730,18 @@ End Sub
 
 Private Sub txtPedido_Change()
     
-    If IsNumeric(txtPedido.Text) = False Then
-       txtPedido.Text = ""
+    If IsNumeric(txtpedido.Text) = False Then
+       txtpedido.Text = ""
     End If
 
 End Sub
 
 Private Sub txtPedido_GotFocus()
 
-   tempoRestante = "00:10:00"
-   Timer4.Enabled = False
+   tempoRestante = "00:00:10"
+   LBLStatusTIME.Caption = tempoRestante
+   Timer4.Enabled = True
+   LBLStatusTIME.Caption = Timer4.Enabled
    
    WebBrowser1.Navigate (wBanner2)
    
@@ -2727,36 +2762,36 @@ End Sub
 Private Sub txtPedido_KeyPress(KeyAscii As Integer)
 
 If KeyAscii = 27 Then
-   txtPedido.Text = ""
+   txtpedido.Text = ""
    sairDoSistema
    End
 End If
 
 If KeyAscii = 46 Then
-      txtPedido.Text = 0
-      txtPedido.SelStart = 0
-      txtPedido.SelLength = Len(txtPedido.Text)
-      txtPedido.SetFocus
+      txtpedido.Text = 0
+      txtpedido.SelStart = 0
+      txtpedido.SelLength = Len(txtpedido.Text)
+      txtpedido.SetFocus
       Exit Sub
    End If
    
    If KeyAscii = 44 Then
-      txtPedido.Text = 0
-      txtPedido.SelStart = 0
-      txtPedido.SelLength = Len(txtPedido.Text)
-      txtPedido.SetFocus
+      txtpedido.Text = 0
+      txtpedido.SelStart = 0
+      txtpedido.SelLength = Len(txtpedido.Text)
+      txtpedido.SetFocus
       Exit Sub
    End If
 
 If KeyAscii = vbKeyReturn Or KeyAscii = vbKeyTab Then
-   If txtPedido.Text <> "" Then
-      If IsNumeric(txtPedido.Text) = False Then
-         txtPedido.Text = ""
+   If txtpedido.Text <> "" Then
+      If IsNumeric(txtpedido.Text) = False Then
+         txtpedido.Text = ""
          Exit Sub
       End If
    End If
    
-   If txtPedido.Text = "" Then
+   If txtpedido.Text = "" Then
       Sql = "Select * from ControleSistema"
            rsPegaNumeroPedido.CursorLocation = adUseClient
            rsPegaNumeroPedido.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
@@ -2772,9 +2807,9 @@ If KeyAscii = vbKeyReturn Or KeyAscii = vbKeyTab Then
                     Screen.MousePointer = vbNormal
                     adoCNLoja.CommitTrans
             
-              txtPedido.Text = (rsPegaNumeroPedido("CTS_NumeroPedido"))
+              txtpedido.Text = (rsPegaNumeroPedido("CTS_NumeroPedido"))
               auxPedido = (rsPegaNumeroPedido("CTS_NumeroPedido"))
-              txtPedido.Enabled = False
+              txtpedido.Enabled = False
               txtVendedor.Enabled = True
               'txtPesquisar.Enabled = True
               txtVendedor.SetFocus
@@ -2789,7 +2824,7 @@ If KeyAscii = vbKeyReturn Or KeyAscii = vbKeyTab Then
       Call VerificaItensVendas
       SomaItensVenda
       If cmdLimpar.Caption = "Pedido não cadastrado ou encerrado" Then
-         txtPedido.SetFocus
+         txtpedido.SetFocus
          txtVendedor.Enabled = False
          txtPesquisar.Enabled = False
          txtQuantidade.Enabled = False
@@ -2808,7 +2843,7 @@ If KeyAscii = vbKeyReturn Or KeyAscii = vbKeyTab Then
       
       fradados.Enabled = True
       txtVendedor.Enabled = True
-      txtPedido.Enabled = False
+      txtpedido.Enabled = False
       cmbPedido.Visible = True
       cmdBotoes(1).Visible = True
       cmdBotoes(2).Visible = True
@@ -2822,7 +2857,7 @@ If KeyAscii = vbKeyReturn Or KeyAscii = vbKeyTab Then
 '      rsPegaNumeroPedido.Close
 
       wPesquisaCodigo = 1
-      inibebotoes (frmPedido.txtPedido)
+      inibebotoes (frmPedido.txtpedido)
      
       Exit Sub
    End If
@@ -2840,10 +2875,11 @@ End Sub
 Private Sub txtPedido_LostFocus()
 
     Timer4.Enabled = False
+    LBLStatusTIME.Caption = Timer4.Enabled
     
-    If frmPedido.txtPedido.Text = "" And frmPedido.txtPedido.Enabled = False Then
+    If frmPedido.txtpedido.Text = "" And frmPedido.txtpedido.Enabled = False Then
         If tempoRestante <> "00:00:00" Then
-            frmPedido.txtPedido.SetFocus
+            frmPedido.txtpedido.SetFocus
        End If
     End If
 
@@ -2851,7 +2887,8 @@ End Sub
 
 Private Sub txtPesquisar_Change()
 
-tempoRestante = "00:10:00"
+tempoRestante = "00:00:10"
+LBLStatusTIME.Caption = tempoRestante
 
  If txtPesquisar.Text = "'" Then
      MsgBox "Este campo não permite caracteres especiais!", vbCritical, "ATENÇÃO"
@@ -2891,7 +2928,7 @@ tempoRestante = "00:10:00"
     
     GBL_Frete = 0
     
-    Sql = "Select sum(vltotitem) as vltotitem From Nfitens Where NumeroPed = " & frmPedido.txtPedido.Text
+    Sql = "Select sum(vltotitem) as vltotitem From Nfitens Where NumeroPed = " & frmPedido.txtpedido.Text
     rsComplementoVenda.CursorLocation = adUseClient
     rsComplementoVenda.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
     
@@ -2909,6 +2946,7 @@ End Sub
 Private Sub txtPesquisar_GotFocus()
    lblBloqueio.Visible = False
    Timer4.Enabled = False
+   LBLStatusTIME.Caption = Timer4.Enabled
    txtPesquisar.SelStart = 0
    txtPesquisar.SelLength = Len(txtPesquisar.Text)
    'PicBanner.Picture = LoadPicture("C:\Sistemas\DMAC Venda\Imagens\BannerChamada\BannerChamada.jpg")
@@ -2924,18 +2962,18 @@ Private Sub atualizaDataEmissao()
 On Error GoTo TrataErro
 
     Sql = "Update nfcapa Set DATAEMI = '" & Format(Date, "yyyy/mm/dd") & "'" & _
-          " Where NumeroPed = " & (txtPedido.Text)
+          " Where NumeroPed = " & (txtpedido.Text)
     adoCNLoja.Execute Sql
     
     Sql = "Update nfitens Set DATAEMI = '" & Format(Date, "yyyy/mm/dd") & "'" & _
-          " Where NumeroPed = " & (txtPedido.Text)
+          " Where NumeroPed = " & (txtpedido.Text)
     
     adoCNLoja.Execute Sql
 
 Exit Sub
 
 TrataErro:
-    MsgBox "Erro ao atualizar a Data de Emissão do pedido " & (txtPedido.Text) & " ", vbCritical, "atualizaDataEmissao"
+    MsgBox "Erro ao atualizar a Data de Emissão do pedido " & (txtpedido.Text) & " ", vbCritical, "atualizaDataEmissao"
 
 End Sub
 
@@ -2982,7 +3020,7 @@ If KeyCode = vbKeyF2 Then
          frmDesconto.Show 1
          frmDesconto.ZOrder
          frmDesconto.txtTotalPedido.Text = Trim(frmPedido.cmdTotalPedido.Caption)
-         frmDesconto.txtPedido = frmPedido.txtPedido.Text
+         frmDesconto.txtpedido = frmPedido.txtpedido.Text
       Else
          txtPesquisar.SetFocus
       End If
@@ -2994,7 +3032,7 @@ If KeyCode = vbKeyF4 Then
             Exit Sub
          End If
          frmFrete.txtTotalPedido.Text = Trim(cmdTotalPedido.Caption)
-         frmFrete.txtPedido = txtPedido.Text
+         frmFrete.txtpedido = txtpedido.Text
          frmFrete.Show 1
          frmFrete.ZOrder
     Else
@@ -3033,7 +3071,7 @@ If KeyCode = vbKeyF6 Then
             Exit Sub
          End If
          
-         frmCarimbos.txtPedido = txtPedido.Text
+         frmCarimbos.txtpedido = txtpedido.Text
          frmCarimbos.Show 1
          frmCarimbos.ZOrder
      Else
@@ -3056,13 +3094,13 @@ If KeyCode = vbKeyF12 Then
        On Error GoTo ErronaDelecao
           adoCNLoja.BeginTrans
           Screen.MousePointer = vbHourglass
-          Sql = "Delete NFItens Where NumeroPed = " & txtPedido.Text & " and TipoNota = 'PD'"
+          Sql = "Delete NFItens Where NumeroPed = " & txtpedido.Text & " and TipoNota = 'PD'"
           adoCNLoja.Execute Sql
           
-          Sql = "Delete NFCapa Where TipoNota = 'PD' and NumeroPed = " & txtPedido.Text
+          Sql = "Delete NFCapa Where TipoNota = 'PD' and NumeroPed = " & txtpedido.Text
           adoCNLoja.Execute Sql
           
-          Sql = "Delete CarimboNotaFiscal Where CNF_NumeroPed = " & txtPedido.Text
+          Sql = "Delete CarimboNotaFiscal Where CNF_NumeroPed = " & txtpedido.Text
           adoCNLoja.Execute Sql
           
           Screen.MousePointer = vbNormal
@@ -3152,7 +3190,7 @@ If KeyAscii = 13 Then
             
             If cmdQtdeItens.Caption > 0 Then
                 Sql = ""
-                Sql = "Select ModalidadeVenda, Parcelas From NFCapa Where Numeroped = " & txtPedido.Text
+                Sql = "Select ModalidadeVenda, Parcelas From NFCapa Where Numeroped = " & txtpedido.Text
            
                 rdoControle.CursorLocation = adUseClient
                 rdoControle.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
@@ -3230,7 +3268,7 @@ ElseIf KeyAscii = 27 Then
 On Error GoTo ErroDeletaNFCapa
          If auxQtdeItens = 0 Then
             adoCNLoja.BeginTrans
-            Sql = "Delete NFCapa Where TipoNota = 'PD' and NumeroPed = " & txtPedido.Text
+            Sql = "Delete NFCapa Where TipoNota = 'PD' and NumeroPed = " & txtpedido.Text
             adoCNLoja.Execute Sql
             adoCNLoja.CommitTrans
             
@@ -3442,7 +3480,7 @@ Dim wDesconto As Double
 'On Error GoTo erronaInclusao
 
 Sql = ""
-Sql = "Select Referencia, Qtde From NFItens Where NumeroPed = " & txtPedido.Text & " and " _
+Sql = "Select Referencia, Qtde From NFItens Where NumeroPed = " & txtpedido.Text & " and " _
       & "Referencia = '" & grdItensProduto.TextMatrix(grdItensProduto.Row, 0) & "' and TipoNota = 'PD'"
 
 rsItensVenda.CursorLocation = adUseClient
@@ -3451,7 +3489,7 @@ rsItensVenda.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
     
     If rsItensVenda.EOF = True Then
 
-      Sql = "Select max(item) as MaxItens from NFItens Where NumeroPed = " & txtPedido.Text
+      Sql = "Select max(item) as MaxItens from NFItens Where NumeroPed = " & txtpedido.Text
       rsComplementoVenda.CursorLocation = adUseClient
       rsComplementoVenda.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
 
@@ -3475,11 +3513,11 @@ rsItensVenda.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
        Screen.MousePointer = vbHourglass
 '**************************** Insert na Tabela NFItens
         Sql = "Insert into NFItens (NF,NUMEROPED,SERIE,DATAEMI,REFERENCIA,QTDE,VLUNIT,PrecoUnitAlternativa, " _
-            & "VLTOTITEM,ICMS,DESCONTO,PLISTA,LOJAORIGEM,TIPONOTA,Item,SITUACAOPROCESSO,DATAPROCESSO,ICMSAplicado) Values (0," _
-            & txtPedido.Text & ",'','" & Format(Date, "yyyy/mm/dd") & "','" & grdItensProduto.TextMatrix(grdItensProduto.Row, 0) & "'," _
+            & "VLTOTITEM,ICMS,DESCONTO,PLISTA,LOJAORIGEM,TIPONOTA,Item,SITUACAOPROCESSO,DATAPROCESSO,ICMSAplicado,Cest) Values (0," _
+            & txtpedido.Text & ",'','" & Format(Date, "yyyy/mm/dd") & "','" & grdItensProduto.TextMatrix(grdItensProduto.Row, 0) & "'," _
             & txtQuantidade.Text & "," & ConverteVirgula(wPreco) & "," & ConverteVirgula(wPreco) & "," & ConverteVirgula(wVltotitem) & "," _
             & ConverteVirgula(wIcms) & "," & ConverteVirgula(wDesconto) & "," & ConverteVirgula(wPreco) & ",'" & Trim(wLoja) & "'," _
-            & "'PD'," & auxItens & ",'A','" & Format(Date, "yyyy/mm/dd") & "',0)"
+            & "'PD'," & auxItens & ",'A','" & Format(Date, "yyyy/mm/dd") & "',0,'')"
 '''        SQL = "Insert into NFItens (NF,NUMEROPED,SERIE,DATAEMI,REFERENCIA,QTDE,VLUNIT, " _
 '''            & "VLTOTITEM,icmpdv,ICMS,DESCONTO,PLISTA,LOJAORIGEM,TIPONOTA,Item,SITUACAOPROCESSO,DATAPROCESSO,ICMSAplicado,tipomovimentacao) Values (0," _
 '''            & txtpedido.Text & ",'','" & Format(Date, "yyyy/mm/dd") & "','" & grdItensProduto.TextMatrix(grdItensProduto.Row, 0) & "'," _
@@ -3495,7 +3533,7 @@ rsItensVenda.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
         If MsgBox("Referência já cadastrada. Deseja somar a quantidade?", vbQuestion + vbYesNo, "Pedido") = vbYes Then
            Sql = ""
            Sql = "UPDATE NFItens set Qtde = (Qtde + " & txtQuantidade.Text & "), VLTOTITEM = ((vlunit - desconto) * (" & rsItensVenda("Qtde") & " + " & txtQuantidade.Text & ")) " _
-                 & "Where NumeroPed = " & txtPedido.Text & " and Referencia = '" & grdItensProduto.TextMatrix(grdItensProduto.Row, 0) & "' and TipoNota = 'PD'"
+                 & "Where NumeroPed = " & txtpedido.Text & " and Referencia = '" & grdItensProduto.TextMatrix(grdItensProduto.Row, 0) & "' and TipoNota = 'PD'"
 '           adoCNLoja.BeginTrans
            adoCNLoja.Execute Sql
 '           adoCNLoja.CommitTrans
@@ -3605,12 +3643,12 @@ Private Sub txtQuantidade_KeyPress(KeyAscii As Integer)
         
         'SQL = ""
         Sql = "Update NFCapa Set ModalidadeVenda = '" & "A Vista" & "'" & _
-              " Where NumeroPed = " & (txtPedido.Text)
+              " Where NumeroPed = " & (txtpedido.Text)
         adoCNLoja.Execute Sql
         
         
         'SQL = ""
-         Sql = "Update NFCapa set condpag = '1' where NumeroPed = " & txtPedido.Text
+         Sql = "Update NFCapa set condpag = '1' where NumeroPed = " & txtpedido.Text
                 adoCNLoja.Execute Sql
           
         Sql = ""
@@ -3636,7 +3674,7 @@ Private Sub txtQuantidade_KeyPress(KeyAscii As Integer)
 '            End If
         'End If
            
-        Sql = "Update NFCapa Set Parcelas = 0  Where ModalidadeVenda = 'A Vista' and NumeroPed = " & Val(txtPedido.Text)
+        Sql = "Update NFCapa Set Parcelas = 0  Where ModalidadeVenda = 'A Vista' and NumeroPed = " & Val(txtpedido.Text)
         adoCNLoja.Execute Sql
         
         'grdPrecos.Enabled = False
@@ -3702,7 +3740,7 @@ End If
 End Sub
 Private Sub VerificaItensVendas()
 '********************* NFItens
-  Sql = "Select Count(*) as NroItens from NFItens Where NumeroPed = " & txtPedido.Text
+  Sql = "Select Count(*) as NroItens from NFItens Where NumeroPed = " & txtpedido.Text
 
   rsItensVenda.CursorLocation = adUseClient
   rsItensVenda.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
@@ -3725,6 +3763,7 @@ End Sub
 
 Private Sub txtVendedor_GotFocus()
     Timer4.Enabled = False
+    LBLStatusTIME.Caption = Timer4.Enabled
 End Sub
 
 Private Sub txtVendedor_KeyPress(KeyAscii As Integer)
@@ -3756,7 +3795,7 @@ If KeyAscii = vbKeyReturn Then
   Else
   
   Sql = ""
-    Sql = "Select numeroped,vendedor From nfcapa Where numeroped = " & txtPedido.Text
+    Sql = "Select numeroped,vendedor From nfcapa Where numeroped = " & txtpedido.Text
     rsVendedor.CursorLocation = adUseClient
     
     
@@ -3769,7 +3808,7 @@ If KeyAscii = vbKeyReturn Then
                 Call LimpaForm
                 Exit Sub
             Else
-                txtPedido.Enabled = True
+                txtpedido.Enabled = True
                 txtVendedor.Width = 8000
                 fradados.Enabled = False
                 fradados.Width = 12640
@@ -3806,11 +3845,11 @@ If KeyAscii = vbKeyReturn Then
                Exit Sub
             End If
             
-            txtPedido.Enabled = True
+            txtpedido.Enabled = True
             txtVendedor.Width = 7820
             fradados.Enabled = False
             fradados.Width = 8685
-            Call CriaCapaPedido(txtPedido.Text)
+            Call CriaCapaPedido(txtpedido.Text)
             cmdBotoes(3).Visible = True
             cmdBotoes(11).Visible = True
             cmdBotoes(13).Visible = True
@@ -3856,7 +3895,7 @@ Private Sub SomaItensVenda()
   If rsItensVenda.State = 1 Then rsItensVenda.Close
 
   Sql = "Select TipoNota, sum(VLTOTITEM) as TotalVenda," _
-        & "Count(*) as TotalItens, Max(Item) as UltimoReg From NFItens Where NumeroPed = " & txtPedido.Text & " and " _
+        & "Count(*) as TotalItens, Max(Item) as UltimoReg From NFItens Where NumeroPed = " & txtpedido.Text & " and " _
         & "TipoNota = 'PD' Group By TipoNota"
       
       
@@ -3882,8 +3921,8 @@ Private Sub SomaItensVenda()
      cmdLimpar.Caption = ""
         
   Else
-     txtPedido.Text = ""
-     txtPedido.SetFocus
+     txtpedido.Text = ""
+     txtpedido.SetFocus
      cmdLimpar.Caption = "Pedido não cadastrado ou encerrado"
      rsItensVenda.Close
      Exit Sub
@@ -4027,7 +4066,7 @@ End Sub
     
  
     Sql = ""
-    Sql = "Select Referencia From NFItens Where NumeroPed = " & frmPedido.txtPedido.Text
+    Sql = "Select Referencia From NFItens Where NumeroPed = " & frmPedido.txtpedido.Text
  
     rsItensVenda.CursorLocation = adUseClient
     rsItensVenda.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
@@ -4038,7 +4077,7 @@ End Sub
 '************************ Verificando se Nota é Eletrônica
 
 
-    Sql = "select cliente from nfcapa where numeroped = " & frmPedido.txtPedido.Text
+    Sql = "select cliente from nfcapa where numeroped = " & frmPedido.txtpedido.Text
     
     rsComplementoVenda.CursorLocation = adUseClient
     rsComplementoVenda.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
@@ -4062,11 +4101,11 @@ End Sub
         rsControle.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
         
         If rsControle("CTS_SerieNota") = "NE" Then
-            Sql = "Update NfCapa set Serie = 'NE' where NumeroPed = " & frmPedido.txtPedido.Text
+            Sql = "Update NfCapa set Serie = 'NE' where NumeroPed = " & frmPedido.txtpedido.Text
             adoCNLoja.Execute (Sql)
         Else
             Sql = "select ce_Estado,ce_tipopessoa,cliente from fin_cliente,nfcapa where ce_CodigoCliente = Cliente and " & _
-            "NumeroPed = " & frmPedido.txtPedido.Text
+            "NumeroPed = " & frmPedido.txtpedido.Text
             rsComplementoVenda.CursorLocation = adUseClient
             rsComplementoVenda.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
             
@@ -4075,7 +4114,7 @@ End Sub
                  
                    MsgBox "ESTE PEDIDO IRÁ GERAR UMA NOTA FISCAL ELETRÔNICA, AVISE O CLIENTE.", vbInformation, "Atenção"
                    
-                   Sql = "Update NfCapa set Serie = 'NE' where NumeroPed = " & frmPedido.txtPedido.Text
+                   Sql = "Update NfCapa set Serie = 'NE' where NumeroPed = " & frmPedido.txtpedido.Text
                    adoCNLoja.Execute (Sql)
                    
             End If
@@ -4090,13 +4129,13 @@ End Sub
 
 '************************ Gravando Valores NFCapa
        Sql = ""
-       Sql = "Exec SP_Totaliza_Capa_Nota_Fiscal_Loja " & frmPedido.txtPedido.Text
+       Sql = "Exec SP_Totaliza_Capa_Nota_Fiscal_Loja " & frmPedido.txtpedido.Text
        adoCNLoja.Execute Sql
        
                   
        Sql = ""
        Sql = "Select count(referencia) as NumeroItem from NFItens " _
-           & "where NumeroPed=" & frmPedido.txtPedido.Text & ""
+           & "where NumeroPed=" & frmPedido.txtpedido.Text & ""
           
             rsComplementoVenda.CursorLocation = adUseClient
             rsComplementoVenda.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
@@ -4104,14 +4143,14 @@ End Sub
        Sql = ""
        Sql = "Update NFCapa set TipoNota = 'PA', qtditem = " & rsComplementoVenda("NumeroItem") & "," _
              & " cepcli = '" & txtCEP.Text & "'" _
-             & " Where NumeroPed = " & frmPedido.txtPedido.Text
+             & " Where NumeroPed = " & frmPedido.txtpedido.Text
        adoCNLoja.Execute Sql
        
        rsComplementoVenda.Close
        
        
 '************************ Gravando TipoNota NFItens
-       Sql = "Update NFItens Set TipoNota = 'PA' Where NumeroPed = " & frmPedido.txtPedido.Text
+       Sql = "Update NFItens Set TipoNota = 'PA' Where NumeroPed = " & frmPedido.txtpedido.Text
        
        adoCNLoja.Execute Sql
        adoCNLoja.CommitTrans
@@ -4191,7 +4230,7 @@ Private Sub carregaProdutoGarantia()
         
         Sql = "select count(*) itensGarantia " & _
         "from produtoLoja as p, nfitens as i, nfcapa as c " & _
-        "where i.numeroPed = " & frmPedido.txtPedido & " and  " & _
+        "where i.numeroPed = " & frmPedido.txtpedido & " and  " & _
         "p.pr_referencia = i.referencia and " & _
         "p.pr_garantiaEstendida = 'S' and i.numeroPed = c.numeroPed and " & _
         "c.vendedor not in (999,888,777)"
@@ -4210,7 +4249,8 @@ End Sub
 Private Sub Form_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
 
   Dim MSG As Long
-  tempoRestante = "00:10:00"
+  tempoRestante = "00:00:10"
+  LBLStatusTIME.Caption = tempoRestante
   
 If (Button + Shift + Y) = 0 Then
     MSG = X / Screen.TwipsPerPixelX
@@ -4271,12 +4311,13 @@ End Sub
 Private Sub WebBrowser1_LostFocus()
     picLimitadorBanner.Height = 2025
     WebBrowser1.Navigate (wBanner2)
-    tempoRestante = "00:10:00"
+    tempoRestante = "00:00:10"
+    LBLStatusTIME.Caption = tempoRestante
 End Sub
 
 Private Sub webInternet3_Click()
-    If txtPedido.Enabled And txtPedido.Visible Then
-        txtPedido.SetFocus
+    If txtpedido.Enabled And txtpedido.Visible Then
+        txtpedido.SetFocus
     ElseIf txtVendedor.Enabled And txtVendedor.Visible Then
         txtVendedor.SetFocus
     ElseIf txtPesquisar.Enabled And txtPesquisar.Visible Then

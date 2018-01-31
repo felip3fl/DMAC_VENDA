@@ -5,17 +5,17 @@ Begin VB.Form frmDesconto
    BackColor       =   &H00505050&
    BorderStyle     =   0  'None
    Caption         =   "Desconto"
-   ClientHeight    =   7260
-   ClientLeft      =   2985
+   ClientHeight    =   5850
+   ClientLeft      =   6795
    ClientTop       =   2190
-   ClientWidth     =   13260
+   ClientWidth     =   6855
    ControlBox      =   0   'False
    LinkTopic       =   "Form2"
    LockControls    =   -1  'True
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   7260
-   ScaleWidth      =   13260
+   ScaleHeight     =   5850
+   ScaleWidth      =   6855
    ShowInTaskbar   =   0   'False
    Begin VB.Frame fraFormaDesconto 
       Appearance      =   0  'Flat
@@ -421,6 +421,44 @@ Begin VB.Form frmDesconto
       ForeColorFrozen =   4210752
       WallPaperAlignment=   9
    End
+   Begin Project1.chameleonButton cmdRetirarCentavos 
+      Height          =   405
+      Left            =   4125
+      TabIndex        =   24
+      Top             =   5040
+      Width           =   1095
+      _ExtentX        =   1931
+      _ExtentY        =   714
+      BTYPE           =   14
+      TX              =   "0 0"
+      ENAB            =   -1  'True
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      COLTYPE         =   2
+      FOCUSR          =   -1  'True
+      BCOL            =   5263440
+      BCOLO           =   0
+      FCOL            =   16777215
+      FCOLO           =   16777215
+      MCOL            =   5263440
+      MPTR            =   1
+      MICON           =   "frmDesconto.frx":040E
+      UMCOL           =   -1  'True
+      SOFT            =   0   'False
+      PICPOS          =   0
+      NGREY           =   0   'False
+      FX              =   0
+      HAND            =   0   'False
+      CHECK           =   0   'False
+      VALUE           =   0   'False
+   End
    Begin VB.Label lblMagenLinha 
       BackStyle       =   0  'Transparent
       BeginProperty Font 
@@ -546,7 +584,7 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 
-Dim i As Integer
+Dim I As Integer
 Dim wCodigo As Integer
 Dim wSequencia As Double
 Dim wValorDados As String
@@ -556,7 +594,7 @@ Dim wDescontoRat As Double
 Dim wTotal As Double
 Dim wDesconto As Double
 
-Dim SQL As String
+Dim Sql As String
 Dim resposta As String
 Dim GLB_Senha As String
 Dim wReferencia As String
@@ -578,6 +616,8 @@ Private Sub ChcSimula_Click()
 margemB = ""
 lblMagenLinha.Visible = False
 lblMagenTotal.Visible = False
+cmdRetirarCentavos.Enabled = False
+cmdRetirarCentavos.Visible = False
 cmdGrava.Enabled = False
 txtDesconto.Text = ""
 optPedido.Value = True
@@ -589,26 +629,26 @@ optPedido.Value = True
         optPedido_Click
         ChcSimula.Enabled = False
         
-          SQL = "Select CTS_MostraMgSimulador from controlesistema"
+          Sql = "Select CTS_MostraMgSimulador from controlesistema"
         rsMargem.CursorLocation = adUseClient
-        rsMargem.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+        rsMargem.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
         margemB = Trim(rsMargem("CTS_MostraMgSimulador"))
         rsMargem.Close
         
     Else
     Call CarregaItensPedido
     optItem_Click
-    i = 0
-        For i = 1 To grdItensPedido.Rows - 1
-            If grdItensPedido.TextMatrix(i, 0) = "P" Then
+    I = 0
+        For I = 1 To grdItensPedido.Rows - 1
+            If grdItensPedido.TextMatrix(I, 0) = "P" Then
                 wProdutoPromocao = True
              End If
               optItem.Value = True
-              If ChcSimula.Value = 0 And i <> grdItensPedido.Rows Then
-          grdItensPedido.TextMatrix(i, 5) = Format(0, "###,###,###,##0.00")
-      grdItensPedido.TextMatrix(i, 6) = Format(0, "###,###,###,##0.00")
+              If ChcSimula.Value = 0 And I <> grdItensPedido.Rows Then
+          grdItensPedido.TextMatrix(I, 5) = Format(0, "###,###,###,##0.00")
+      grdItensPedido.TextMatrix(I, 6) = Format(0, "###,###,###,##0.00")
       End If
-        Next i
+        Next I
         
       
   
@@ -669,22 +709,22 @@ Private Sub cmdGrava_Click()
  
   Screen.MousePointer = vbHourglass
   
-  SQL = ""
+  Sql = ""
   wReferencia = ""
-        For i = 1 To grdItensPedido.Rows - 1
-          SQL = " UPDATE NFItens Set Desconto = " & ConverteVirgula(Format(grdItensPedido.TextMatrix(i, 5), "#0.00")) & _
-                " Where NumeroPed = " & txtpedido.Text & " And referencia = " & grdItensPedido.TextMatrix(i, 1)
+        For I = 1 To grdItensPedido.Rows - 1
+          Sql = " UPDATE NFItens Set Desconto = " & ConverteVirgula(Format(grdItensPedido.TextMatrix(I, 5), "#0.00")) & _
+                " Where NumeroPed = " & txtpedido.Text & " And referencia = " & grdItensPedido.TextMatrix(I, 1)
 '          adoCNLoja.BeginTrans
-          adoCNLoja.Execute SQL
+          adoCNLoja.Execute Sql
 '          adoCNLoja.CommitTrans
-        Next i
+        Next I
   
     
-  SQL = ""
+  Sql = ""
     
-   SQL = " UPDATE NFCapa Set Desconto = " & ConverteVirgula(wDesconto) & _
+   Sql = " UPDATE NFCapa Set Desconto = " & ConverteVirgula(wDesconto) & _
          " Where NumeroPed = " & txtpedido.Text
-          adoCNLoja.Execute SQL
+          adoCNLoja.Execute Sql
     
   Screen.MousePointer = vbNormal
   
@@ -738,6 +778,24 @@ If KeyAscii = 27 Then
 End If
 End Sub
 
+
+
+Private Sub cmdRetirarCentavos_Click()
+    cmdGrava_Click
+    
+    Sql = "exec [SP_VDA_Retirar_Centavos] '" & frmPedido.txtpedido.Text & "'"
+    adoCNLoja.Execute Sql
+    
+    frmPedido.cmdTotalPedido.Caption = Format(Val(Replace(frmPedido.cmdTotalPedido.Caption, ".", "")), "###,###,###,##0.00")
+    
+End Sub
+
+Private Sub arredondamento()
+    
+    
+    
+End Sub
+
 Private Sub Form_Activate()
   Dim rsDesconto As New ADODB.Recordset
 
@@ -745,9 +803,9 @@ Private Sub Form_Activate()
   cmdGrava.Enabled = False
   wProdutoPromocao = False
   
-  SQL = "Select sum(vltotitem) as vltotitem From Nfitens Where NumeroPed = " & frmPedido.txtpedido.Text
+  Sql = "Select sum(vltotitem) as vltotitem From Nfitens Where NumeroPed = " & frmPedido.txtpedido.Text
   rsDesconto.CursorLocation = adUseClient
-  rsDesconto.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+  rsDesconto.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
   frmPedido.cmdTotalPedido.Caption = Format(rsDesconto("vltotitem") + GBL_Frete, "###,###,###,##0.00")
   
   'Do While Len(frmPedido.cmdTotalPedido.Caption) <= 12
@@ -761,12 +819,12 @@ Private Sub Form_Activate()
 
   
 
-  SQL = "Update Nfcapa set desconto = 0 Where NumeroPed = " & frmPedido.txtpedido.Text
-  adoCNLoja.Execute SQL
+  Sql = "Update Nfcapa set desconto = 0 Where NumeroPed = " & frmPedido.txtpedido.Text
+  adoCNLoja.Execute Sql
 
 
-  SQL = "Update Nfitens set desconto = 0 Where NumeroPed = " & frmPedido.txtpedido.Text
-  adoCNLoja.Execute SQL
+  Sql = "Update Nfitens set desconto = 0 Where NumeroPed = " & frmPedido.txtpedido.Text
+  adoCNLoja.Execute Sql
   
   
 
@@ -778,30 +836,30 @@ Private Sub Form_Activate()
 ''        & "where pr_referencia = i.referencia and i.numeroped = " & frmPedido.txtpedido.Text & " " _
 ''        & "and i.numeroped = c.numeroped"
 ''   '''CONTINENTAL
-  SQL = "Select pr_classe, liberabloqueio from nfitens as i, nfcapa as c, produtoloja " _
+  Sql = "Select pr_classe, liberabloqueio from nfitens as i, nfcapa as c, produtoloja " _
         & "where pr_referencia = i.referencia and i.numeroped = " & frmPedido.txtpedido.Text & " " _
         & "and i.numeroped = c.numeroped"
         
   rsDesconto.CursorLocation = adUseClient
-  rsDesconto.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+  rsDesconto.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
   
   If Not rsDesconto.EOF Then
      Do While Not rsDesconto.EOF
             If rsDesconto("pr_classe") = "P" And (rsDesconto("liberabloqueio") <> "S" Or rsDesconto("liberabloqueio") <> "T") And ChcSimula.Value = 0 Then
                  wProdutoPromocao = True
                  optItem.Value = True
-                 For i = 1 To grdItensPedido.Rows - 1
-                    If (grdItensPedido.TextMatrix(i, 0) = "S" Or grdItensPedido.TextMatrix(i, 0) = "T") Then
-                      grdItensPedido.TextMatrix(i, 0) = "N"
+                 For I = 1 To grdItensPedido.Rows - 1
+                    If (grdItensPedido.TextMatrix(I, 0) = "S" Or grdItensPedido.TextMatrix(I, 0) = "T") Then
+                      grdItensPedido.TextMatrix(I, 0) = "N"
                     End If
-                 Next i
+                 Next I
             Else
                  optPedido.Value = True
-                 For i = 1 To grdItensPedido.Rows - 1
-                    If grdItensPedido.TextMatrix(i, 0) = "N" And grdItensPedido.TextMatrix(i, 12) = "S" Then
-                      grdItensPedido.TextMatrix(i, 0) = "S"
+                 For I = 1 To grdItensPedido.Rows - 1
+                    If grdItensPedido.TextMatrix(I, 0) = "N" And grdItensPedido.TextMatrix(I, 12) = "S" Then
+                      grdItensPedido.TextMatrix(I, 0) = "S"
                     End If
-                 Next i
+                 Next I
             End If
             rsDesconto.MoveNext
      Loop
@@ -905,19 +963,19 @@ lblMagenTotal.Caption = ""
 '    Next i
 
 If ChcSimula.Value = 1 Then
-For i = 1 To grdItensPedido.Rows - 1
-       If grdItensPedido.TextMatrix(i, 0) = "P" Then
-        grdItensPedido.TextMatrix(i, 0) = "N"
+For I = 1 To grdItensPedido.Rows - 1
+       If grdItensPedido.TextMatrix(I, 0) = "P" Then
+        grdItensPedido.TextMatrix(I, 0) = "N"
        End If
-       Next i
+       Next I
 End If
 
 
-    For i = 1 To grdItensPedido.Rows - 1
-       If (grdItensPedido.TextMatrix(i, 0) = "S" Or grdItensPedido.TextMatrix(i, 0) = "T") Then
-        grdItensPedido.TextMatrix(i, 0) = "N"
+    For I = 1 To grdItensPedido.Rows - 1
+       If (grdItensPedido.TextMatrix(I, 0) = "S" Or grdItensPedido.TextMatrix(I, 0) = "T") Then
+        grdItensPedido.TextMatrix(I, 0) = "N"
        End If
-    Next i
+    Next I
     grdItensPedido.Enabled = True
     grdItensPedido.Row = 1
     txtDesconto.Text = ""
@@ -937,19 +995,19 @@ Private Sub optPedido_Click()
 '        grdItensPedido.Cell(flexcpChecked, i, 0) = 1
 '    Next i
 If ChcSimula.Value = 1 Then
-For i = 1 To grdItensPedido.Rows - 1
-       If grdItensPedido.TextMatrix(i, 0) = "P" Then
-        grdItensPedido.TextMatrix(i, 0) = "S"
+For I = 1 To grdItensPedido.Rows - 1
+       If grdItensPedido.TextMatrix(I, 0) = "P" Then
+        grdItensPedido.TextMatrix(I, 0) = "S"
        End If
-       Next i
+       Next I
 End If
 
 
-    For i = 1 To grdItensPedido.Rows - 1
-       If grdItensPedido.TextMatrix(i, 0) = "N" Then
-          grdItensPedido.TextMatrix(i, 0) = "S"
+    For I = 1 To grdItensPedido.Rows - 1
+       If grdItensPedido.TextMatrix(I, 0) = "N" Then
+          grdItensPedido.TextMatrix(I, 0) = "S"
        End If
-    Next i
+    Next I
 
     txtDesconto.Visible = True
     txtDesconto.Text = ""
@@ -1085,32 +1143,32 @@ If rsComplementoVenda.State = 1 Then
     
     
     
-    SQL = ""
-    SQL = "Select Referencia, PR_Descricao, VLUNIT, desconto,vltotitem, Qtde, PR_classe From NFItens, ProdutoLoja " _
+    Sql = ""
+    Sql = "Select Referencia, PR_Descricao, VLUNIT, desconto,vltotitem, Qtde, PR_classe From NFItens, ProdutoLoja " _
           & "Where PR_Referencia = Referencia and TipoNota = 'PD' and " _
           & "NumeroPed = " & txtpedido.Text & " Order By Referencia"
 
     rsComplementoVenda.CursorLocation = adUseClient
-    rsComplementoVenda.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+    rsComplementoVenda.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
     
-    For i = 1 To grdItensPedido.Rows - 1
-      grdItensPedido.TextMatrix(i, 5) = Format(0, "###,###,###,##0.00")
-      grdItensPedido.TextMatrix(i, 6) = Format(0, "###,###,###,##0.00")
-    Next i
+    For I = 1 To grdItensPedido.Rows - 1
+      grdItensPedido.TextMatrix(I, 5) = Format(0, "###,###,###,##0.00")
+      grdItensPedido.TextMatrix(I, 6) = Format(0, "###,###,###,##0.00")
+    Next I
    ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
    
    If optItem.Value = True Then    '**************** DESCONTO POR ITEM
 
      If optValor.Value = True Then    '************ DESCONTO POR VALOR
         wTotalPedido = 0
-        For i = 1 To grdItensPedido.Rows - 1
+        For I = 1 To grdItensPedido.Rows - 1
 '          If grdItensPedido.Cell(flexcpChecked, i, 0) = 1 Then
-          If (grdItensPedido.TextMatrix(i, 0) = "S" Or grdItensPedido.TextMatrix(i, 0) = "T") Then
-             wTotalPedido = Format(wTotalPedido + grdItensPedido.TextMatrix(i, 3), "###,###,###,##0.00")
+          If (grdItensPedido.TextMatrix(I, 0) = "S" Or grdItensPedido.TextMatrix(I, 0) = "T") Then
+             wTotalPedido = Format(wTotalPedido + grdItensPedido.TextMatrix(I, 3), "###,###,###,##0.00")
           Else
-             grdItensPedido.TextMatrix(i, 5) = "0,00"
+             grdItensPedido.TextMatrix(I, 5) = "0,00"
           End If
-        Next i
+        Next I
         
         If wTotalPedido = 0 Then
            MsgBox "Selecione um produto para aplicar o desconto.", vbInformation, "Atenção"
@@ -1126,24 +1184,24 @@ If rsComplementoVenda.State = 1 Then
         wDesconto = Format((wDesconto / wTotalPedido) * 100, "##0.0000")
         
             
-        For i = 1 To grdItensPedido.Rows - 1
+        For I = 1 To grdItensPedido.Rows - 1
  '         If grdItensPedido.Cell(flexcpChecked, i, 0) = 1 Then
           
-          If (grdItensPedido.TextMatrix(i, 0) = "S" Or grdItensPedido.TextMatrix(i, 0) = "T") Then
-             grdItensPedido.TextMatrix(i, 6) = Format((grdItensPedido.TextMatrix(i, 3) - ((grdItensPedido.TextMatrix(i, 3) * wDesconto) / 100)), "###,###,###,##0.00")
-             grdItensPedido.TextMatrix(i, 5) = Format(((grdItensPedido.TextMatrix(i, 3) * wDesconto) / 100), "##0.00")
-            Linha = i
+          If (grdItensPedido.TextMatrix(I, 0) = "S" Or grdItensPedido.TextMatrix(I, 0) = "T") Then
+             grdItensPedido.TextMatrix(I, 6) = Format((grdItensPedido.TextMatrix(I, 3) - ((grdItensPedido.TextMatrix(I, 3) * wDesconto) / 100)), "###,###,###,##0.00")
+             grdItensPedido.TextMatrix(I, 5) = Format(((grdItensPedido.TextMatrix(I, 3) * wDesconto) / 100), "##0.00")
+            Linha = I
           Else
-             grdItensPedido.TextMatrix(i, 6) = Format(grdItensPedido.TextMatrix(i, 3), "###,###,###,##0.00")
-             grdItensPedido.TextMatrix(i, 5) = Format(0, "###,###,###,##0.00")
+             grdItensPedido.TextMatrix(I, 6) = Format(grdItensPedido.TextMatrix(I, 3), "###,###,###,##0.00")
+             grdItensPedido.TextMatrix(I, 5) = Format(0, "###,###,###,##0.00")
           End If
-        Next i
+        Next I
         
         wDif = 0
         wValorAuxDesc = 0
-        For i = 1 To grdItensPedido.Rows - 1
-            wValorAuxDesc = wValorAuxDesc + grdItensPedido.TextMatrix(i, 5)
-        Next i
+        For I = 1 To grdItensPedido.Rows - 1
+            wValorAuxDesc = wValorAuxDesc + grdItensPedido.TextMatrix(I, 5)
+        Next I
        
         wDesconto = Format(txtDesconto.Text, "##0.00")
         wDif = Format(wDesconto - wValorAuxDesc, "#0.00")
@@ -1159,17 +1217,17 @@ If rsComplementoVenda.State = 1 Then
         
      Else     '************ DESCONTO POR PERCENTUAL
         wValorAuxDesc = 0
-        For i = 1 To grdItensPedido.Rows - 1
+        For I = 1 To grdItensPedido.Rows - 1
 '          If grdItensPedido.Cell(flexcpChecked, i, 0) = 1 Then
-          If (grdItensPedido.TextMatrix(i, 0) = "S" Or grdItensPedido.TextMatrix(i, 0) = "T") Then
-             grdItensPedido.TextMatrix(i, 6) = Format((grdItensPedido.TextMatrix(i, 3) - ((grdItensPedido.TextMatrix(i, 3) * txtDesconto) / 100)), "###,###,###,##0.00")
-             grdItensPedido.TextMatrix(i, 5) = Format(((grdItensPedido.TextMatrix(i, 3) * txtDesconto) / 100), "##0.00")
-             wValorAuxDesc = wValorAuxDesc + Format(grdItensPedido.TextMatrix(i, 5), "##0.00")
+          If (grdItensPedido.TextMatrix(I, 0) = "S" Or grdItensPedido.TextMatrix(I, 0) = "T") Then
+             grdItensPedido.TextMatrix(I, 6) = Format((grdItensPedido.TextMatrix(I, 3) - ((grdItensPedido.TextMatrix(I, 3) * txtDesconto) / 100)), "###,###,###,##0.00")
+             grdItensPedido.TextMatrix(I, 5) = Format(((grdItensPedido.TextMatrix(I, 3) * txtDesconto) / 100), "##0.00")
+             wValorAuxDesc = wValorAuxDesc + Format(grdItensPedido.TextMatrix(I, 5), "##0.00")
           Else
-             grdItensPedido.TextMatrix(i, 5) = "0,00"
-             grdItensPedido.TextMatrix(i, 6) = grdItensPedido.TextMatrix(i, 3)
+             grdItensPedido.TextMatrix(I, 5) = "0,00"
+             grdItensPedido.TextMatrix(I, 6) = grdItensPedido.TextMatrix(I, 3)
           End If
-        Next i
+        Next I
 
         If wValorAuxDesc = 0 Then
            MsgBox "Selecione um produto para aplicar o desconto.", vbInformation, "Atenção"
@@ -1200,22 +1258,22 @@ If rsComplementoVenda.State = 1 Then
         wDesconto = txtDesconto.Text
         wDesconto = Format(((wDesconto / wTotal) * 100), "###,###,###,##0.000000")
         
-        For i = 1 To grdItensPedido.Rows - 1
+        For I = 1 To grdItensPedido.Rows - 1
             'If wDesconto >= (grdItensPedido.TextMatrix(i, 3) / grdItensPedido.TextMatrix(i, 4)) * 100 Then
                 'wLimiteDescontoAtingido = True
                 'pintaLinhaGrid grdItensPedido, i
                 'grdItensPedido.TextMatrix(i, 7) = Format((grdItensPedido.TextMatrix(i, 4) - ((grdItensPedido.TextMatrix(i, 4) * wDesconto) / 100)), "##0.00")
                 'grdItensPedido.TextMatrix(i, 6) = Format(((grdItensPedido.TextMatrix(i, 4) * wDesconto) / 100), "##0.00")
             'Else
-                grdItensPedido.TextMatrix(i, 6) = Format((grdItensPedido.TextMatrix(i, 3) - ((grdItensPedido.TextMatrix(i, 3) * wDesconto) / 100)), "##0.00")
-                grdItensPedido.TextMatrix(i, 5) = Format(((grdItensPedido.TextMatrix(i, 3) * wDesconto) / 100), "##0.00")
-                Linha = i
+                grdItensPedido.TextMatrix(I, 6) = Format((grdItensPedido.TextMatrix(I, 3) - ((grdItensPedido.TextMatrix(I, 3) * wDesconto) / 100)), "##0.00")
+                grdItensPedido.TextMatrix(I, 5) = Format(((grdItensPedido.TextMatrix(I, 3) * wDesconto) / 100), "##0.00")
+                Linha = I
                 
-                If grdItensPedido.TextMatrix(i, 12) = "N" Or (wTipoBloqueio <> "E" And wTipoBloqueio <> "S") Then
+                If grdItensPedido.TextMatrix(I, 12) = "N" Or (wTipoBloqueio <> "E" And wTipoBloqueio <> "S") Then
                     bloqueioID = True
                 End If
             'End If
-        Next i
+        Next I
         'If wLimiteDescontoAtingido Then
             'MsgBox "Esse pedido possui item(s) que excedeu o limite máximo do desconto", vbCritical, "Atenção"
             'CarregaItensPedido
@@ -1227,23 +1285,23 @@ If rsComplementoVenda.State = 1 Then
         
         wDif = 0
         wValorAuxDesc = 0
-        For i = 1 To grdItensPedido.Rows - 1
-           wValorAuxDesc = wValorAuxDesc + grdItensPedido.TextMatrix(i, 5)
-        Next i
+        For I = 1 To grdItensPedido.Rows - 1
+           wValorAuxDesc = wValorAuxDesc + grdItensPedido.TextMatrix(I, 5)
+        Next I
         wDesconto = Format(txtDesconto.Text, "##0.00")
         wDif = Format(wDesconto - wValorAuxDesc, "#0.00")
         
     Else
         wValorAuxDesc = 0
-        For i = 1 To grdItensPedido.Rows - 1
-             grdItensPedido.TextMatrix(i, 6) = Format((grdItensPedido.TextMatrix(i, 3) - ((grdItensPedido.TextMatrix(i, 3) * txtDesconto.Text) / 100)), "##0.00")
-             grdItensPedido.TextMatrix(i, 5) = Format(((grdItensPedido.TextMatrix(i, 3) * txtDesconto) / 100), "##0.00")
-             wValorAuxDesc = wValorAuxDesc + grdItensPedido.TextMatrix(i, 5)
-             Linha = i
-             If grdItensPedido.TextMatrix(i, 12) = "N" Or (wTipoBloqueio <> "E" And wTipoBloqueio <> "S") Then
+        For I = 1 To grdItensPedido.Rows - 1
+             grdItensPedido.TextMatrix(I, 6) = Format((grdItensPedido.TextMatrix(I, 3) - ((grdItensPedido.TextMatrix(I, 3) * txtDesconto.Text) / 100)), "##0.00")
+             grdItensPedido.TextMatrix(I, 5) = Format(((grdItensPedido.TextMatrix(I, 3) * txtDesconto) / 100), "##0.00")
+             wValorAuxDesc = wValorAuxDesc + grdItensPedido.TextMatrix(I, 5)
+             Linha = I
+             If grdItensPedido.TextMatrix(I, 12) = "N" Or (wTipoBloqueio <> "E" And wTipoBloqueio <> "S") Then
                   bloqueioID = True
              End If
-        Next i
+        Next I
         
         wDesconto = wValorAuxDesc
     End If
@@ -1323,9 +1381,9 @@ If KeyAscii = 13 Then
       fraTipoDesconto.Enabled = False
       'fraFormaDesconto.Enabled = False
       grdItensPedido.Enabled = False
-      For i = 1 To grdItensPedido.Rows - 1
-         wTotal = wTotal + grdItensPedido.TextMatrix(i, 6)
-      Next i
+      For I = 1 To grdItensPedido.Rows - 1
+         wTotal = wTotal + grdItensPedido.TextMatrix(I, 6)
+      Next I
       
    Else
       txtSenha.SetFocus
@@ -1347,10 +1405,10 @@ ElseIf KeyAscii = 27 Then
    txtDesconto.Text = ""
    txtDesconto.SetFocus
     
-   For i = 1 To grdItensPedido.Rows - 1
-      grdItensPedido.TextMatrix(i, 6) = grdItensPedido.TextMatrix(i, 3)
-      grdItensPedido.TextMatrix(i, 4) = "0,00"
-   Next i
+   For I = 1 To grdItensPedido.Rows - 1
+      grdItensPedido.TextMatrix(I, 6) = grdItensPedido.TextMatrix(I, 3)
+      grdItensPedido.TextMatrix(I, 4) = "0,00"
+   Next I
    txtTotalGeral.Text = txtTotalPedido.Text
    Exit Sub
 End If
@@ -1380,9 +1438,9 @@ End Sub
 ' cmdGrava.SetFocus
 ' End Sub
 Private Sub LerControle()
-SQL = "Select * from ControleSistema"
+Sql = "Select * from ControleSistema"
       rdoControle.CursorLocation = adUseClient
-      rdoControle.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+      rdoControle.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
 
 End Sub
 
@@ -1392,7 +1450,7 @@ Private Sub CarregaItensPedido()
  
     grdItensPedido.Rows = 1
     
-    SQL = "Select i.Referencia, PR_Descricao, i.VLUNIT,pr_customedioliquido1,pr_precovendaliquido1, i.desconto, i.vltotitem, i.Qtde, " _
+    Sql = "Select i.Referencia, PR_Descricao, i.VLUNIT,pr_customedioliquido1,pr_precovendaliquido1, i.desconto, i.vltotitem, i.Qtde, " _
           & "pr_classe, c.liberabloqueio, i.DESCRAT AS CP_DESCONTO, CP_PermitirDesconto as PermitirDesconto " _
           & "From NFItens as i, NFCapa as c, ProdutoLoja, CondicaoPagamento " _
           & "Where PR_Referencia = i.Referencia and i.TipoNota = 'PD' and " _
@@ -1410,7 +1468,7 @@ Private Sub CarregaItensPedido()
 ''          & "Order By Referencia"
 
     rsComplementoVenda.CursorLocation = adUseClient
-    rsComplementoVenda.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+    rsComplementoVenda.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
 
     If rsComplementoVenda.EOF = False Then
         
@@ -1479,37 +1537,37 @@ Private Sub CarregaItensPedido()
 End Sub
 
 Private Sub pintaLinhaGrid(grid, linhaGrid As Integer)
-    Dim i As Integer
+    Dim I As Integer
     
     grid.Row = linhaGrid
-    For i = 0 To grid.Cols - 1
-        grid.Col = i
+    For I = 0 To grid.Cols - 1
+        grid.Col = I
         grid.CellForeColor = vbRed
-    Next i
+    Next I
     grid.Row = 0
     grid.Col = 0
     
 End Sub
 
 Private Function validaDesconto(grid) As Boolean
-    Dim i As Integer
+    Dim I As Integer
     Dim wValorMaximo As Double
     Dim wValorAplicado As Double
     
     validaDesconto = True
     
-    For i = 1 To grid.Rows - 1
+    For I = 1 To grid.Rows - 1
     
-        wValorMaximo = (grid.TextMatrix(i, 10) * grid.TextMatrix(i, 3)) / 100
-        wValorAplicado = grid.TextMatrix(i, 5)
+        wValorMaximo = (grid.TextMatrix(I, 10) * grid.TextMatrix(I, 3)) / 100
+        wValorAplicado = grid.TextMatrix(I, 5)
     
         If wValorAplicado > wValorMaximo Then
             validaDesconto = False
-            pintaLinhaGrid grid, i
+            pintaLinhaGrid grid, I
             'grid.TextMatrix(i, 7) = Format((grid.TextMatrix(i, 4) - ((grid.TextMatrix(i, 4) * wDesconto) / 100)), "##0.00")
             'grid.TextMatrix(i, 6) = Format(((grid.TextMatrix(i, 4) * wDesconto) / 100), "##0.00")
         End If
-    Next i
+    Next I
     
     If validaDesconto = False Then
         MsgBox "Esse pedido possui item(s) que excedeu o limite máximo do desconto", vbCritical, "Atenção"
@@ -1554,15 +1612,15 @@ Private Function senhaGerenteItem() As Boolean
     senhaGerenteItem = False
     'rdoControle ("CTS_DescontoVendedor")
     
-    For i = 1 To grdItensPedido.Rows - 1
-        wMaximoDesconto = ((grdItensPedido.TextMatrix(i, 3) * rdoControle("CTS_DescontoVendedor")) / 100)
-        wTotalLiquido = grdItensPedido.TextMatrix(i, 5)
+    For I = 1 To grdItensPedido.Rows - 1
+        wMaximoDesconto = ((grdItensPedido.TextMatrix(I, 3) * rdoControle("CTS_DescontoVendedor")) / 100)
+        wTotalLiquido = grdItensPedido.TextMatrix(I, 5)
         
         If wTotalLiquido > wMaximoDesconto Then
             senhaGerenteItem = True
             'pintaLinhaGrid grdItensPedido, i
         End If
-    Next i
+    Next I
     
 '    If senhaGerenteItem = False Then
 '        MsgBox "Esse pedido possui item(s) que excedeu o limite máximo do desconto", vbCritical, "Atenção"
@@ -1580,19 +1638,19 @@ End Function
 
 
 Private Function validaTotal(grid) As Boolean
-    Dim i As Integer
+    Dim I As Integer
     Dim wTotalLiquido As Double
     
     validaTotal = True
     
-    For i = 1 To grid.Rows - 1
-        wTotalLiquido = grid.TextMatrix(i, 6)
+    For I = 1 To grid.Rows - 1
+        wTotalLiquido = grid.TextMatrix(I, 6)
         
         If wTotalLiquido < 0 Then
             validaTotal = False
-            pintaLinhaGrid grid, i
+            pintaLinhaGrid grid, I
         End If
-    Next i
+    Next I
     
     If validaTotal = False Then
         MsgBox "Esse pedido possui item(s) que excedeu o limite máximo do desconto", vbCritical, "Atenção"
@@ -1672,41 +1730,41 @@ prcusto = 0
     Linhas = grdItensPedido.Rows - 1
     
     'Loop  Para  ler todas as Linha  o  Grid
-    i = 1
-    Do While (i <= Linhas)
+    I = 1
+    Do While (I <= Linhas)
                 
                  'Quantidade  de  Itens  Total  da  linha
-                qtde = CInt(grdItensPedido.TextMatrix(i, 2))
+                qtde = CInt(grdItensPedido.TextMatrix(I, 2))
         
                 'Preço Liquido do  Iten  tirado  do  Grid/Tabela-Protudoloja bd-DmaC_lOJA
-                If grdItensPedido.TextMatrix(i, 8) <> "" Then
-                     prliquido = CDbl(grdItensPedido.TextMatrix(i, 8))
+                If grdItensPedido.TextMatrix(I, 8) <> "" Then
+                     prliquido = CDbl(grdItensPedido.TextMatrix(I, 8))
                 End If
                 
                 'Custo Liquido do  Iten  tirado  do  Grid/Tabela-Protudoloja bd-DmaC_lOJA
-                If grdItensPedido.TextMatrix(i, 9) <> "" Then
-                    prcusto = CDbl(grdItensPedido.TextMatrix(i, 9))
+                If grdItensPedido.TextMatrix(I, 9) <> "" Then
+                    prcusto = CDbl(grdItensPedido.TextMatrix(I, 9))
                 End If
                     
                   'Preço  Total  da venda por  Linha
-                  totaliq = CDbl(grdItensPedido.TextMatrix(i, 6))
+                  totaliq = CDbl(grdItensPedido.TextMatrix(I, 6))
             
                     
-                If txtDesconto.Text <> "" And optPercentual.Value = True And (grdItensPedido.TextMatrix(i, 0) = "S" Or grdItensPedido.TextMatrix(i, 0) = "T") Then 'verefica  se o  campo não  está vizio e o Option do  Prescentual  esta  true
+                If txtDesconto.Text <> "" And optPercentual.Value = True And (grdItensPedido.TextMatrix(I, 0) = "S" Or grdItensPedido.TextMatrix(I, 0) = "T") Then 'verefica  se o  campo não  está vizio e o Option do  Prescentual  esta  true
                         desc = (prliquido * txtDesconto.Text) / 100
                         prliquido = prliquido - desc
 
-                    ElseIf optValor.Value = True And txtDesconto.Text <> "" And (grdItensPedido.TextMatrix(i, 0) = "S" Or grdItensPedido.TextMatrix(i, 0) = "T") Then 'verefica  se o  campo não  está vizio e o Option dovalor  está  true
+                    ElseIf optValor.Value = True And txtDesconto.Text <> "" And (grdItensPedido.TextMatrix(I, 0) = "S" Or grdItensPedido.TextMatrix(I, 0) = "T") Then 'verefica  se o  campo não  está vizio e o Option dovalor  está  true
                             
-                           desc = (grdItensPedido.TextMatrix(i, 5) * 100) / grdItensPedido.TextMatrix(i, 3)
+                           desc = (grdItensPedido.TextMatrix(I, 5) * 100) / grdItensPedido.TextMatrix(I, 3)
                            desc = (prliquido * desc) / 100
                            prliquido = prliquido - desc
                     End If
                    
-              grdItensPedido.TextMatrix(i, 13) = Format((((qtde * prliquido) - (qtde * prcusto)) * 100) / totaliq, "###,###,###,##0.00")
+              grdItensPedido.TextMatrix(I, 13) = Format((((qtde * prliquido) - (qtde * prcusto)) * 100) / totaliq, "###,###,###,##0.00")
               Tliqpre = (Tliqpre + (qtde * prliquido))
               Tliqcus = (Tliqcus + (qtde * prcusto))
-    i = i + 1
+    I = I + 1
     Loop
     
     

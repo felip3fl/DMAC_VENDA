@@ -350,7 +350,7 @@ Private Sub cmbGravar_Click()
       wGravaModalidade = True
 
       If financiado Then
-            Sql = "update nfcapa set CONDPAG = '200',ModalidadeVenda = 'FI',Parcelas=(select top 1 CP_Parcelas from CondicaoPagamento where CP_Codigo = " & codigo & ") where numeroped = '" & wNroPedido & "'"
+            Sql = "update nfcapa set CONDPAG = '200', ModalidadeVenda = 'FI', Parcelas=1 where numeroped = '" & wNroPedido & "'"
             adoCNLoja.Execute Sql
       End If
 
@@ -442,73 +442,34 @@ Private Sub MontaPrecos(CodigoCrediario As String)
 
      grdPrecos.Rows = 1
      
-     Sql = "select pr_indicePreco from produtoloja, nfitens where numeroped = '" & wNroPedido & "' and pr_referencia = referencia and pr_indicePreco = 8"
-     rsCondicaoFaturadoCentavos.CursorLocation = adUseClient
-     rsCondicaoFaturadoCentavos.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
-     
      If wLiberaBloqueioPreco Then
      
-         If Not rsCondicaoFaturadoCentavos.EOF Then
-     
-            Sql = "Select cp_tipo,CP_Codigo,CP_Condicao,CP_TipoCondicao,cp_parcelas,Floor(SUM(PrecoUnitAlternativa * qtde), 1)," _
-                & " Floor (sum(((PrecoUnitAlternativa * qtde) * cp_coeficiente)), 1) as PrecoID," _
-                & " Floor (sum((((PrecoUnitAlternativa * qtde) * cp_coeficiente)/cp_parcelas)),1) as ValorParcela " _
-                & " From produtoloja, CondicaoPagamento, nfitens " _
-                & " where PR_IndicePreco=CP_ID and CP_Tipo='" & CodigoCrediario _
-                & "' and PR_Referencia = REFERENCIA and NUMEROPED =" & wNroPedido _
-                & " group by cp_tipo,CP_Codigo,CP_TipoCondicao,cp_parcelas,CP_Condicao"
-          
-         Else
-         
-            Sql = "Select cp_tipo,CP_Codigo,CP_Condicao,CP_TipoCondicao,cp_parcelas,round(SUM(PrecoUnitAlternativa * qtde), 1)," _
-                & " round (sum(((PrecoUnitAlternativa * qtde) * cp_coeficiente)), 1) as PrecoID," _
-                & " round (sum((((PrecoUnitAlternativa * qtde) * cp_coeficiente)/cp_parcelas)),1) as ValorParcela " _
-                & " From produtoloja, CondicaoPagamento, nfitens " _
-                & " where PR_IndicePreco=CP_ID and CP_Tipo='" & CodigoCrediario _
-                & "' and PR_Referencia = REFERENCIA and NUMEROPED =" & wNroPedido _
-                & " group by cp_tipo,CP_Codigo,CP_TipoCondicao,cp_parcelas,CP_Condicao"
-         
-         End If
-          
+         Sql = "Select cp_tipo,CP_Codigo,CP_Condicao,CP_TipoCondicao,cp_parcelas,round(SUM(PrecoUnitAlternativa * qtde), 1)," _
+             & " round (sum(((PrecoUnitAlternativa * qtde) * cp_coeficiente)), 1) as PrecoID," _
+             & " round (sum((((PrecoUnitAlternativa * qtde) * cp_coeficiente)/cp_parcelas)),1) as ValorParcela " _
+             & " From produtoloja, CondicaoPagamento, nfitens " _
+             & " where PR_IndicePreco=CP_ID and CP_Tipo='" & CodigoCrediario _
+             & "' and PR_Referencia = REFERENCIA and NUMEROPED =" & wNroPedido _
+             & "group by cp_tipo,CP_Codigo,CP_TipoCondicao,cp_parcelas,CP_Condicao"
+        
          rsCondicaoFaturado.CursorLocation = adUseClient
          rsCondicaoFaturado.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
      
      
      Else
-          
-             If Not rsCondicaoFaturadoCentavos.EOF Then
-                
-                 Sql = "Select cp_tipo,CP_Codigo,CP_Condicao,CP_TipoCondicao,cp_parcelas," & vbNewLine _
-                 & " Floor (SUM(pr_precovenda1 * qtde))," & vbNewLine _
-                 & " Floor (sum(((pr_precovenda1 * qtde) * cp_coeficiente))) as PrecoID," & vbNewLine _
-                 & " Floor (sum((((pr_precovenda1 * qtde) * cp_coeficiente)/cp_parcelas))) as ValorParcela " & vbNewLine _
-                 & " From produtoloja, CondicaoPagamento, nfitens " & vbNewLine _
-                 & " where PR_IndicePreco=CP_ID and CP_Tipo='" & CodigoCrediario _
-                 & "' and PR_Referencia = REFERENCIA and NUMEROPED =" & wNroPedido _
-                 & " group by cp_tipo,CP_Codigo,CP_TipoCondicao,cp_parcelas,CP_Condicao"
-            
-             Else
-                 Sql = "Select cp_tipo,CP_Codigo,CP_Condicao,CP_TipoCondicao,cp_parcelas," & vbNewLine _
-                     & " round (SUM(pr_precovenda1 * qtde), 1)," & vbNewLine _
-                     & " round (sum(((pr_precovenda1 * qtde) * cp_coeficiente)), 1) as PrecoID," & vbNewLine _
-                     & " round (sum((((pr_precovenda1 * qtde) * cp_coeficiente)/cp_parcelas)),1) as ValorParcela " & vbNewLine _
-                     & " From produtoloja, CondicaoPagamento, nfitens " & vbNewLine _
-                     & " where PR_IndicePreco=CP_ID and CP_Tipo='" & CodigoCrediario _
-                     & "' and PR_Referencia = REFERENCIA and NUMEROPED =" & wNroPedido _
-                     & " group by cp_tipo,CP_Codigo,CP_TipoCondicao,cp_parcelas,CP_Condicao"
-                
-                    
-             End If
-            rsCondicaoFaturado.CursorLocation = adUseClient
-            rsCondicaoFaturado.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
-          
+     
+         Sql = "Select cp_tipo,CP_Codigo,CP_Condicao,CP_TipoCondicao,cp_parcelas,round(SUM(pr_precovenda1 * qtde), 1)," _
+             & " round (sum(((pr_precovenda1 * qtde) * cp_coeficiente)), 1) as PrecoID," _
+             & " round (sum((((pr_precovenda1 * qtde) * cp_coeficiente)/cp_parcelas)),1) as ValorParcela " _
+             & " From produtoloja, CondicaoPagamento, nfitens " _
+             & " where PR_IndicePreco=CP_ID and CP_Tipo='" & CodigoCrediario _
+             & "' and PR_Referencia = REFERENCIA and NUMEROPED =" & wNroPedido _
+             & "group by cp_tipo,CP_Codigo,CP_TipoCondicao,cp_parcelas,CP_Condicao"
         
+         rsCondicaoFaturado.CursorLocation = adUseClient
+         rsCondicaoFaturado.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
      
      End If
-     
-     rsCondicaoFaturadoCentavos.Close
-     
-     
     
      Do While Not rsCondicaoFaturado.EOF
         If rsCondicaoFaturado("CP_Tipo") = "FA" Then
@@ -557,7 +518,7 @@ Private Sub grdModalidade_EnterCell()
        Call MontaPrecos("FA")
     ElseIf grdModalidade.TextMatrix(grdModalidade.Row, 0) = "Financiado" Then
        Call MontaPrecos("FI")
-    ElseIf grdModalidade.TextMatrix(grdModalidade.Row, 0) = "Cheque" Then
+    ElseIf grdModalidade.TextMatrix(grdModalidade.Row, 0) = "Finan. / Cheque" Then
        Call MontaPrecos("CH")
     End If
 End Sub
