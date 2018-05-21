@@ -190,7 +190,7 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 'Dim rsDadosGerais As rdoResultset
-Dim SQL As String
+Dim Sql As String
 
 Private Sub cmdGravar_Click()
   Call GravaDadosGerais
@@ -220,9 +220,9 @@ Private Sub GravaDadosGerais()
 On Error GoTo erronaInclusao
   adoCNLoja.BeginTrans
   Screen.MousePointer = vbHourglass
-  SQL = "Insert Into DadosGerais (DAG_Codigo,DAG_Sequencia,DAG_NomeCampo)" _
+  Sql = "Insert Into DadosGerais (DAG_Codigo,DAG_Sequencia,DAG_NomeCampo)" _
       & "Values (" & txtCodigo.Text & "," & txtSequencia.Text & ",'" & txtDescricao.Text & "')"
-  adoCNLoja.Execute (SQL)
+  adoCNLoja.Execute (Sql)
   Screen.MousePointer = vbNormal
   adoCNLoja.CommitTrans
   Exit Sub
@@ -236,10 +236,10 @@ End Sub
 Private Sub CarregaGride()
 
   grdItens.Rows = 1
-  SQL = "Select * from DadosGerais"
+  Sql = "Select * from DadosGerais"
  
   rsDadosGerais.CursorLocation = adUseClient
-  rsDadosGerais.Open SQL, adoCNLoja, adOpenForwardOnly, adLockPessimistic
+  rsDadosGerais.Open Sql, adoCNLoja, adOpenForwardOnly, adLockPessimistic
   If Not rsDadosGerais.EOF Then
      Do While Not rsDadosGerais.EOF
         grdItens.AddItem rsDadosGerais("DAG_Codigo") & Chr(9) _
@@ -256,9 +256,9 @@ Private Sub grdItens_DblClick()
     On Error GoTo ErronaDelecao
     adoCNLoja.BeginTrans
     Screen.MousePointer = vbHourglass
-    SQL = "Delete DadosGerais Where DAG_Codigo = " & grdItens.TextMatrix(grdItens.Row, 0) _
+    Sql = "Delete DadosGerais Where DAG_Codigo = " & grdItens.TextMatrix(grdItens.Row, 0) _
         & " and DAG_Sequencia = " & grdItens.TextMatrix(grdItens.Row, 1)
-    adoCNLoja.Execute (SQL)
+    adoCNLoja.Execute (Sql)
     Screen.MousePointer = vbNormal
     adoCNLoja.CommitTrans
     Call CarregaGride
