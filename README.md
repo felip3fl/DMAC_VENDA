@@ -1,7 +1,8 @@
 <h3 align="center"> <img src="https://user-images.githubusercontent.com/20684484/211394469-42e0ba5f-961c-4093-a3ab-be28cd57d702.png" width="250px" align="center" ><BR>VENDA<BR><BR>
 
-<img src="https://img.shields.io/badge/STATUS-FINALIZADO-blue">
-<img src="https://img.shields.io/badge/PROJECT%20VERSION-1.0.0-yellow">
+<img src="https://img.shields.io/badge/STATUS-FINALIZADO-0000d9">
+<img src="https://img.shields.io/badge/PROJECT%20VERSION-1.0.0-dbae01">
+<BR><BR>
 </h3>
 
 ## 📃 Descrição do projeto
